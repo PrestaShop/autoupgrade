@@ -61,7 +61,23 @@ class CheckModulesCommand extends AbstractCommand
     {
         try {
             $this->setupEnvironment($input, $output);
-            $config[UpgradeConfiguration::CHANNEL] = $input->getOption('channel') ?? UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED;
+
+            $zip = $input->getOption('zip');
+            $channel = $input->getOption('channel');
+
+            if (!$channel) {
+                if ($zip) {
+                    $config[UpgradeConfiguration::CHANNEL] = UpgradeConfiguration::CHANNEL_LOCAL;
+                } else {
+                    $config[UpgradeConfiguration::CHANNEL] = UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED;
+                }
+            } else {
+                $config[UpgradeConfiguration::CHANNEL] = $channel;
+            }
+
+            if ($zip) {
+                $config[UpgradeConfiguration::ARCHIVE_ZIP] = $zip;
+            }
 
             $this->upgradeContainer->getConfigurationValidator()->validate($config);
             $this->upgradeContainer->initPrestaShopAutoloader();
@@ -71,8 +87,6 @@ class CheckModulesCommand extends AbstractCommand
             if ($channel === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED || $channel === UpgradeConfiguration::CHANNEL_ONLINE) {
                 $targetPsVersion = $this->upgradeContainer->getUpgrader()->getOnlineDestinationVersionForChannel($channel);
             } else {
-                $zip = $input->getOption('zip');
-
                 if (empty($zip)) {
                     $output->writeln('<error> ✗ Please specify the destination zip file using the zip option..</error>');
 
