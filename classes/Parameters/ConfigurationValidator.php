@@ -70,7 +70,7 @@ class ConfigurationValidator
             }
         }
 
-        $channelLocalError = $this->validateChannelLocal($array, $isLocal);
+        $channelLocalError = $this->validateArchivesOnlyForLocalChannel($array, $isLocal);
         if ($channelLocalError !== null) {
             $errors[] = $channelLocalError;
         }
@@ -126,7 +126,7 @@ class ConfigurationValidator
      *
      * @return array{'message': string, 'target': string}|null
      */
-    private function validateChannelLocal(array $array, bool $isLocal): ?array
+    private function validateArchivesOnlyForLocalChannel(array $array, bool $isLocal): ?array
     {
         // We didn't want to return an error if the customer hadn't entered a channel.
         if (!isset($array[UpgradeConfiguration::CHANNEL]) || $isLocal) {
@@ -135,11 +135,9 @@ class ConfigurationValidator
 
         if (!empty($array[UpgradeConfiguration::ARCHIVE_ZIP] ?? null) || !empty($array[UpgradeConfiguration::ARCHIVE_XML] ?? null)) {
             return [
-            'message' => $this->translator->trans(
-                'Zip or XML archives are only allowed with the local channel'
-            ),
-            'target' => UpgradeConfiguration::CHANNEL,
-        ];
+                'message' => $this->translator->trans('Zip or XML archives are only allowed with the local channel'),
+                'target' => UpgradeConfiguration::CHANNEL,
+            ];
         }
 
         return null;
