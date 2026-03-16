@@ -79,7 +79,14 @@ class CheckModulesCommand extends AbstractCommand
                 $config[UpgradeConfiguration::ARCHIVE_ZIP] = $zip;
             }
 
-            $this->upgradeContainer->getConfigurationValidator()->validate($config);
+            $errors = $this->upgradeContainer->getConfigurationValidator()->validate($config);
+
+            if (!empty($errors)) {
+                $output->writeln('<error> ✗ ' . reset($errors)['message'] . '</error>');
+
+                return ExitCode::FAIL;
+            }
+
             $this->upgradeContainer->initPrestaShopAutoloader();
             $this->upgradeContainer->initPrestaShopCore();
             $channel = $config[UpgradeConfiguration::CHANNEL];
