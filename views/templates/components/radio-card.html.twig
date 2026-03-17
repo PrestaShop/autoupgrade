@@ -93,8 +93,8 @@
       {% endif %}
         <p class="radio-card__message-bottom">
           {{ "Need a hand? Check [1]Update Assistant GitHub repository[/1]."|trans({
-            '[1]' : '<a class="link" href="' ~ known_issues_discussions_url ~ '" target="_blank">',
-            '[/1]' : '</a>',
+            '[1]' : '<a class="link link--external" href="' ~ known_issues_discussions_url ~ '" target="_blank">',
+            '[/1]' : '<i class="material-icons">open_in_new</i></a>',
           })|raw }}
         </p>
       {% endif %}

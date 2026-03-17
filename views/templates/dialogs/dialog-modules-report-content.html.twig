@@ -29,8 +29,8 @@
   {% include "@ModuleAutoUpgrade/components/scrollable-list.html.twig" with {
     'title': 'Uncertain modules'|trans({}),
     'description': 'The compatibility of the following modules with the destination version of PrestaShop cannot be checked. It could be because they are homemade or have been unlisted from the Marketplace. Please review them via the [1]Module Manager[/1].'|trans({
-      '[1]' : '<a class="link" href="' ~ module_manager_url ~'" target="_blank">',
-      '[/1]' : '</a>',
+      '[1]' : '<a class="link link--external" href="' ~ module_manager_url ~'" target="_blank">',
+      '[/1]' : '<i class="material-icons">open_in_new</i></a>',
     }),
     'items': uncertain_modules,
     'status': 'warning',

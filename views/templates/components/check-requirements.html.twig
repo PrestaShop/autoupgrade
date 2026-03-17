@@ -25,13 +25,13 @@
     <p class="check-requirements__message">
         {% if requirements.errors|length > 0 %}
             {{ 'Once all the following conditions are met, you can continue with the update. Read more in the [1]developer documentation[/1].'|trans({
-                '[1]' : '<a class="link" href="' ~ dev_doc_upgrade_web_url ~'" target="_blank">',
-                '[/1]' : '</a>',
+                '[1]' : '<a class="link link--external" href="' ~ dev_doc_upgrade_web_url ~'" target="_blank">',
+                '[/1]' : '<i class="material-icons">open_in_new</i></a>',
             })|raw }}
         {% else %}
             {{ 'Please consider these warnings before continuing with the update. Read more in the [1]developer documentation[/1].'|trans({
-                '[1]' : '<a class="link" href="' ~ dev_doc_upgrade_web_url ~'" target="_blank">',
-                '[/1]' : '</a>',
+                '[1]' : '<a class="link link--external" href="' ~ dev_doc_upgrade_web_url ~'" target="_blank">',
+                '[/1]' : '<i class="material-icons">open_in_new</i></a>',
             })|raw }}
         {% endif %}
     </p>

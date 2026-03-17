@@ -36,7 +36,7 @@ $e: ".privacy-link";
     // Disable text decoration for the link to maintain v9 compatibility
     // stylelint-disable-next-line
     text-decoration: none !important;
-    transition: border-color 0.15s;
+    transition: border-color var(--#{$ua-prefix}default-transition-duration);
 
     &:hover {
       border-color: var(--#{$ua-prefix}privacy-link-border-color-hover);

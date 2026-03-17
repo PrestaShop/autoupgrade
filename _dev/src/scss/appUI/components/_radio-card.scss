@@ -54,7 +54,7 @@ $e: ".radio-card";
     background-color: var(--#{$ua-prefix}radio-card-background-color);
     border: 0.0625rem solid var(--#{$ua-prefix}radio-card-border-color);
     border-radius: var(--#{$ua-prefix}radio-card-border-radius);
-    transition: border-color 0.15s;
+    transition: border-color var(--#{$ua-prefix}default-transition-duration);
 
     &:not(#{$e}--disabled) {
       &:hover {
@@ -202,7 +202,7 @@ $e: ".radio-card";
       // Disable text decoration for the link to maintain v9 compatibility
       // stylelint-disable-next-line
       text-decoration: none !important;
-      transition: border-color 0.15s;
+      transition: border-color var(--#{$ua-prefix}default-transition-duration);
 
       &:hover {
         border-color: var(--#{$ua-prefix}radio-card-release-border-color-hover);

@@ -292,8 +292,8 @@ class UpgradeSelfCheck
                     }
 
                     $params = [
-                        '[1]' => '<a class="link" href=' . $maintenanceLink . ' target="_blank">',
-                        '[/1]' => '</a>',
+                        '[1]' => '<a class="link link--external" href=' . $maintenanceLink . ' target="_blank">',
+                        '[/1]' => '<i class="material-icons">open_in_new</i></a>',
                     ];
                 } else {
                     $params = [
@@ -310,8 +310,8 @@ class UpgradeSelfCheck
                 if ($isWebVersion) {
                     $cacheLink = Context::getContext()->link->getAdminLink('AdminPerformance');
                     $params = [
-                        '[1]' => '<a class="link" href=' . $cacheLink . ' target="_blank">',
-                        '[/1]' => '</a>',
+                        '[1]' => '<a class="link link--external" href=' . $cacheLink . ' target="_blank">',
+                        '[/1]' => '<i class="material-icons">open_in_new</i></a>',
                     ];
                 } else {
                     $params = [
@@ -384,8 +384,8 @@ class UpgradeSelfCheck
                 if ($isWebVersion) {
                     $moduleUpdateLink = Context::getContext()->link->getAdminLink('AdminModulesUpdates');
                     $params = [
-                        '[1]' => '<a class="link" href=' . $moduleUpdateLink . ' target="_blank">',
-                        '[/1]' => '</a>',
+                        '[1]' => '<a class="link link--external" href=' . $moduleUpdateLink . ' target="_blank">',
+                        '[/1]' => '<i class="material-icons">open_in_new</i></a>',
                     ];
                 } else {
                     $params = [

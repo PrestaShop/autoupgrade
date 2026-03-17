@@ -139,6 +139,21 @@ $media-query-mobile: 992px;
       &:focus-visible {
         outline-offset: 2px;
       }
+
+      .material-icons {
+        display: inline;
+        vertical-align: middle;
+        font-size: 1em;
+        line-height: inherit;
+      }
+
+      &--external {      
+        .material-icons {
+          &::before {
+            content: " ";
+          }
+        }
+      }
     }
 
     &__buttons {
