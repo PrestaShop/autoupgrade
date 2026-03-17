@@ -24,6 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\Console\Helper\ProgressIndicator;
@@ -42,6 +43,7 @@ class CheckModulesCommand extends AbstractCommand
     {
         $this
             ->setDescription('Check module compatibility and updates.')
+            ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
             ->addOption(
                 'channel',
                 null,
@@ -49,6 +51,7 @@ class CheckModulesCommand extends AbstractCommand
                 "Select which update channel to use ('" . UpgradeConfiguration::CHANNEL_LOCAL . "' / '" . UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED . "' / '" . UpgradeConfiguration::CHANNEL_ONLINE . "')"
             )
             ->addOption('zip', null, InputOption::VALUE_REQUIRED, 'Sets the archive zip file for a local channel.')
+            ->addOption('xml', null, InputOption::VALUE_REQUIRED, 'Sets the archive xml file for a local update.')
             ->setHelp('This command checks the installed modules for compatibility with the target PrestaShop version and lists available updates.')
             ->addArgument(
                 'admin-dir',
@@ -61,39 +64,36 @@ class CheckModulesCommand extends AbstractCommand
     {
         try {
             $this->setupEnvironment($input, $output);
+            $this->upgradeContainer->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
 
-            $zip = $input->getOption('zip');
-            $channel = $input->getOption('channel');
-
-            if (!$channel) {
-                if ($zip) {
-                    $config[UpgradeConfiguration::CHANNEL] = UpgradeConfiguration::CHANNEL_LOCAL;
-                } else {
-                    $config[UpgradeConfiguration::CHANNEL] = UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED;
+            $options = [
+                UpgradeConfiguration::ARCHIVE_ZIP => 'zip',
+                UpgradeConfiguration::ARCHIVE_XML => 'xml',
+                UpgradeConfiguration::CHANNEL => 'channel',
+            ];
+            foreach ($options as $configKey => $optionName) {
+                $optionValue = $input->getOption($optionName);
+                if ($optionValue !== null) {
+                    $this->consoleInputConfiguration[$configKey] = $optionValue;
                 }
-            } else {
-                $config[UpgradeConfiguration::CHANNEL] = $channel;
             }
 
-            if ($zip) {
-                $config[UpgradeConfiguration::ARCHIVE_ZIP] = $zip;
+            $configPath = $input->getOption('config-file-path');
+            $exitCode = $this->loadConfiguration($configPath);
+            if ($exitCode !== ExitCode::SUCCESS) {
+                return $exitCode;
             }
-
-            $errors = $this->upgradeContainer->getConfigurationValidator()->validate($config);
-
-            if (!empty($errors)) {
-                $output->writeln('<error> ✗ ' . reset($errors)['message'] . '</error>');
-
-                return ExitCode::FAIL;
-            }
+            $this->logger->debug('Configuration loaded successfully.');
 
             $this->upgradeContainer->initPrestaShopAutoloader();
             $this->upgradeContainer->initPrestaShopCore();
-            $channel = $config[UpgradeConfiguration::CHANNEL];
+            $config = $this->upgradeContainer->getUpdateConfiguration();
+            $channel = $config->getChannelOrDefault();
 
             if ($channel === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED || $channel === UpgradeConfiguration::CHANNEL_ONLINE) {
                 $targetPsVersion = $this->upgradeContainer->getUpgrader()->getOnlineDestinationVersionForChannel($channel);
             } else {
+                $zip = $config->getChannelZip();
                 if (empty($zip)) {
                     $output->writeln('<error> ✗ Please specify the destination zip file using the zip option..</error>');
 
