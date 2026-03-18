@@ -52,33 +52,37 @@ ALTER TABLE `PREFIX_cart_rule_product_rule` MODIFY COLUMN `type` ENUM(
 
 /* Auto generated hooks added for version 9.1.0 */
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
-  (NULL, 'actionModuleUpgradeAfter', '', '', '1'),
-  (NULL, 'actionModuleEnable', '', '', '1'),
-  (NULL, 'actionModuleDisable', '', '', '1'),
-  (NULL, 'actionConfigurationUpdateValueBefore', '', '', '1'),
-  (NULL, 'actionAdminDuplicateDiscountBefore', '', '', '1'),
-  (NULL, 'actionAdminDuplicateDiscountAfter', '', '', '1'),
-  (NULL, 'actionFacetedSearchSetSupportedControllers', '', '', '1'),
-  (NULL, 'actionFacetedSearchFilters', '', '', '1'),
-  (NULL, 'actionMainMenuModifier', '', '', '1'),
-  (NULL, 'actionTagFormBuilderModifier', 'Modify tag identifiable object form', 'This hook allows to modify tag identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
-  (NULL, 'actionTagFormDataProviderData', 'Provide tag identifiable object form data for update', 'This hook allows to provide tag identifiable object form data which will prefill the form in update/edition page', '1'),
-  (NULL, 'actionTagFormDataProviderDefaultData', 'Provide tag identifiable object default form data for creation', 'This hook allows to provide tag identifiable object form data which will prefill the form in creation page', '1'),
-  (NULL, 'actionBeforeUpdateTagFormHandler', 'Modify tag identifiable object data before updating it', 'This hook allows to modify tag identifiable object forms data before it was updated', '1'),
-  (NULL, 'actionAfterUpdateTagFormHandler', 'Modify tag identifiable object data after updating it', 'This hook allows to modify tag identifiable object forms data after it was updated', '1'),
-  (NULL, 'actionBeforeCreateTagFormHandler', 'Modify tag identifiable object data before creating it', 'This hook allows to modify tag identifiable object forms data before it was created', '1'),
-  (NULL, 'actionAfterCreateTagFormHandler', 'Modify tag identifiable object data after creating it', 'This hook allows to modify tag identifiable object forms data after it was created', '1'),
-  (NULL, 'actionDiscountGridDefinitionModifier', 'Modify discount grid definition', 'This hook allows to alter discount grid columns, actions and filters', '1'),
-  (NULL, 'actionDiscountGridQueryBuilderModifier', 'Modify discount grid query builder', 'This hook allows to alter Doctrine query builder for discount grid', '1'),
-  (NULL, 'actionDiscountGridDataModifier', 'Modify discount grid data', 'This hook allows to modify discount grid data', '1'),
-  (NULL, 'actionDiscountGridFilterFormModifier', 'Modify discount grid filters', 'This hook allows to modify filters for discount grid', '1'),
-  (NULL, 'actionDiscountGridPresenterModifier', 'Modify discount grid template data', 'This hook allows to modify data which is about to be used in template for discount grid', '1'),
-  -- https://github.com/PrestaShop/PrestaShop/pull/40720
-  (NULL, 'actionUpdateDefaultCombinationAfter', 'After default combination update', 'Allows modules to react after the default combination of a product has been updated. This hook is triggered once the default combination has been successfully changed.', '1')
+    (NULL, 'actionModuleUpgradeAfter', '', '', '1'),
+    (NULL, 'actionModuleEnable', '', '', '1'),
+    (NULL, 'actionModuleDisable', '', '', '1'),
+    (NULL, 'actionConfigurationUpdateValueBefore', '', '', '1'),
+    (NULL, 'actionAdminDuplicateDiscountBefore', '', '', '1'),
+    (NULL, 'actionAdminDuplicateDiscountAfter', '', '', '1'),
+    (NULL, 'actionTagFormBuilderModifier', 'Modify tag identifiable object form', 'This hook allows to modify tag identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+    (NULL, 'actionTagFormDataProviderData', 'Provide tag identifiable object form data for update', 'This hook allows to provide tag identifiable object form data which will prefill the form in update/edition page', '1'),
+    (NULL, 'actionTagFormDataProviderDefaultData', 'Provide tag identifiable object default form data for creation', 'This hook allows to provide tag identifiable object form data which will prefill the form in creation page', '1'),
+    (NULL, 'actionBeforeUpdateTagFormHandler', 'Modify tag identifiable object data before updating it', 'This hook allows to modify tag identifiable object forms data before it was updated', '1'),
+    (NULL, 'actionAfterUpdateTagFormHandler', 'Modify tag identifiable object data after updating it', 'This hook allows to modify tag identifiable object forms data after it was updated', '1'),
+    (NULL, 'actionBeforeCreateTagFormHandler', 'Modify tag identifiable object data before creating it', 'This hook allows to modify tag identifiable object forms data before it was created', '1'),
+    (NULL, 'actionAfterCreateTagFormHandler', 'Modify tag identifiable object data after creating it', 'This hook allows to modify tag identifiable object forms data after it was created', '1'),
+    (NULL, 'actionDiscountGridDefinitionModifier', 'Modify discount grid definition', 'This hook allows to alter discount grid columns, actions and filters', '1'),
+    (NULL, 'actionDiscountGridQueryBuilderModifier', 'Modify discount grid query builder', 'This hook allows to alter Doctrine query builder for discount grid', '1'),
+    (NULL, 'actionDiscountGridDataModifier', 'Modify discount grid data', 'This hook allows to modify discount grid data', '1'),
+    (NULL, 'actionDiscountGridFilterFormModifier', 'Modify discount grid filters', 'This hook allows to modify filters for discount grid', '1'),
+    (NULL, 'actionDiscountGridPresenterModifier', 'Modify discount grid template data', 'This hook allows to modify data which is about to be used in template for discount grid', '1'),
+    (NULL, 'actionUpdateDefaultCombinationAfter', 'After default combination update', 'Allows modules to react after the default combination of a product has been updated. This hook is triggered once the default combination has been successfully changed.', '1'),
+    (NULL, 'actionOverrideShippingFreePrice', 'Override price that determines free shipping', 'Allows modules to override the free shipping price and return their custom value, for example to specify it by zone or other criteria.', '1'),
+    (NULL, 'actionOverrideShippingFreeWeight', 'Override weight that determines free shipping', 'Allows modules to override the free shipping weight and return their custom value, for example to specify it by zone or other criteria.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
-/* Remove obsolete hooks from old removed cart rule migration */
-DELETE FROM `PREFIX_hook` WHERE `name` IN ('actionCartRuleFormDataProviderData', 'actionCartRuleFormDataProviderDefaultData');
+/* Auto generated hooks removed for version 9.1.0 */
+DELETE FROM `PREFIX_hook` WHERE `name` IN (
+    'actionCartRuleFormDataProviderData',
+    'actionCartRuleFormDataProviderDefaultData'
+);
+/* Clean hook registrations related to removed hooks */
+DELETE FROM `PREFIX_hook_module` WHERE `id_hook` NOT IN (SELECT id_hook FROM `PREFIX_hook`);
+DELETE FROM `PREFIX_hook_module_exceptions` WHERE `id_hook` NOT IN (SELECT id_hook FROM `PREFIX_hook`);
 
 /* Discount types for compatibility */
 CREATE TABLE IF NOT EXISTS `PREFIX_cart_rule_type` (
