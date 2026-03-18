@@ -29,6 +29,7 @@ use PrestaShop\Module\AutoUpgrade\Commands\CheckModulesCommand;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
+use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Services\MarketplaceService;
@@ -786,19 +787,21 @@ class UpgradeSelfCheck
     /**
      * @param self::*_SEARCH $mode
      *
-     * @return array{incompatible_modules: string[], uncertain_modules: string[]}
+     * @return array{incompatible_modules: string[], uncertain_modules: string[], compatibility: array<string, ?ModuleUpgradeCompatibility>}
      */
     public function getModulesRequiringAttention($mode = self::COMPLETE_SEARCH): array
     {
         $result = [
             'incompatible_modules' => [],
             'uncertain_modules' => [],
+            'compatibility_details' => [],
         ];
         $modulesInstalled = $this->moduleAdapter->listModulesPresentInFolderAndInstalled();
 
         foreach ($modulesInstalled as $localModule) {
             $localModuleName = $localModule['name'];
             $localVersion = $localModule['currentVersion'];
+            $result['compatibility'][$localModuleName] = null;
 
             try {
                 $moduleDetails = $this->marketplaceService->getModuleDetail($localModuleName);
@@ -815,6 +818,8 @@ class UpgradeSelfCheck
                 $this->destinationVersion,
                 $localVersion
             );
+
+            $result['compatibility'][$localModuleName] = $moduleCompatibility;
 
             if (!$moduleCompatibility->isCompatible()) {
                 $result['incompatible_modules'][] = $localModule['name'];
