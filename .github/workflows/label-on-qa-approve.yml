@@ -1,0 +1,49 @@
+name: "Autolabel on QA approve"
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  update-labels:
+    if: github.event.review.state == 'approved'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Team Membership and Update Labels
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.JARVIS_TOKEN }}
+          script: |
+            const org = 'PrestaShop';
+            const team_slug = 'QA Functional';
+            const username = context.payload.review.user.login;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const prNumber = context.issue.number;
+
+            try {
+              await github.rest.teams.getMembershipInOrg({
+                org: org,
+                team_slug: team_slug,
+                username: username,
+              });
+
+              try {
+                await github.rest.issues.removeLabel({
+                  owner,
+                  repo,
+                  issue_number: prNumber,
+                  name: 'waiting for QA'
+                });
+              } catch (e) {}
+
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: prNumber,
+                labels: ['QA ✓']
+              });
+
+            } catch (error) {
+              if (error.status !== 404) throw error;
+            }
