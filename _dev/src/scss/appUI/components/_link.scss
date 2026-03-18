@@ -16,16 +16,18 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
- @use "../../variables" as *;
+@use "../../variables" as *;
 
- $e: ".link";
- 
- #{$ua-id} {
-   #{$e} {
+$e: ".link";
+
+#{$ua-id} {
+  #{$e} {
     color: var(--#{$ua-prefix}link-color);
     text-decoration: underline;
     text-underline-offset: 0.125rem;
-    transition: color var(--#{$ua-prefix}default-transition-duration), text-underline-offset var(--#{$ua-prefix}default-transition-duration);
+    transition:
+      color var(--#{$ua-prefix}default-transition-duration),
+      text-underline-offset var(--#{$ua-prefix}default-transition-duration);
 
     &:hover {
       color: var(--#{$ua-prefix}link-color-hover);
@@ -34,9 +36,9 @@
 
     .material-icons {
       display: inline;
-      vertical-align: middle;
       font-size: 1em;
       line-height: inherit;
+      vertical-align: middle;
     }
 
     &--icon-start {
@@ -55,7 +57,7 @@
       }
     }
 
-    &--external {      
+    &--external {
       .material-icons {
         &::before {
           content: " ";

@@ -142,12 +142,12 @@ $media-query-mobile: 992px;
 
       .material-icons {
         display: inline;
-        vertical-align: middle;
         font-size: 1em;
         line-height: inherit;
+        vertical-align: middle;
       }
 
-      &--external {      
+      &--external {
         .material-icons {
           &::before {
             content: " ";
