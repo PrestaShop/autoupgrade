@@ -15,7 +15,7 @@ jobs:
           github-token: ${{ secrets.JARVIS_TOKEN }}
           script: |
             const org = 'PrestaShop';
-            const team_slug = 'QA Functional';
+            const team_slug = 'qa-functional';
             const username = context.payload.review.user.login;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
