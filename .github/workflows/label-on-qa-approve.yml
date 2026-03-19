@@ -22,7 +22,7 @@ jobs:
             const prNumber = context.issue.number;
 
             try {
-              await github.rest.teams.getMembershipInOrg({
+              await github.rest.teams.getMembershipForUserInOrg({
                 org: org,
                 team_slug: team_slug,
                 username: username,
