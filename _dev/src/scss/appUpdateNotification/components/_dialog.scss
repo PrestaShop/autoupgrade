@@ -151,8 +151,8 @@ $media-query-mobile: 992px;
         .material-icons {
           &::before {
             content: " ";
-            font-size: 1em;
             font-family: sans-serif;
+            font-size: 1em;
             line-height: inherit;
           }
         }
