@@ -21,6 +21,8 @@ jobs:
             const repo = context.repo.repo;
             const prNumber = context.issue.number;
 
+            console.log(`Checking if user "${username}" belongs to the team "${team_slug}"...`);
+
             try {
               await github.rest.teams.getMembershipForUserInOrg({
                 org: org,
@@ -28,6 +30,9 @@ jobs:
                 username: username,
               });
 
+              console.log(`Success: User "${username}" is a member of @${org}/${team_slug}.`);
+
+              // Handling 'waiting for QA' label removal
               try {
                 await github.rest.issues.removeLabel({
                   owner,
@@ -35,15 +40,25 @@ jobs:
                   issue_number: prNumber,
                   name: 'waiting for QA'
                 });
-              } catch (e) {}
+                console.log(`Label "waiting for QA" has been removed.`);
+              } catch (e) {
+                console.log(`Label "waiting for QA" was not found on PR #${prNumber}. Skipping removal.`);
+              }
 
+              // Handling 'QA ✓' label addition
               await github.rest.issues.addLabels({
                 owner,
                 repo,
                 issue_number: prNumber,
                 labels: ['QA ✓']
               });
+              console.log(`Label "QA ✓" has been successfully added.`);
 
             } catch (error) {
-              if (error.status !== 404) throw error;
+              if (error.status === 404) {
+                console.log(`Notice: User "${username}" is NOT a member of @${org}/${team_slug}. No action taken.`);
+              } else {
+                console.error(`Error occurred: ${error.message}`);
+                throw error;
+              }
             }
