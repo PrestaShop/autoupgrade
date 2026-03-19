@@ -409,137 +409,137 @@
       <trans-unit id="26b9f7a72f6303211ad6d2f635ea680e">
         <source>Your current PHP version isn't compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)</source>
         <target>Your current PHP version isn't compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)</target>
-        <note>classes/UpgradeSelfCheck.php:251</note>
+        <note>classes/UpgradeSelfCheck.php:252</note>
       </trans-unit>
       <trans-unit id="1c66c3bb21f2926dee75dc54c1c6435f">
         <source><![CDATA[Your store's root directory %s isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
         <target><![CDATA[Your store's root directory %s isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>classes/UpgradeSelfCheck.php:259</note>
+        <note>classes/UpgradeSelfCheck.php:260</note>
       </trans-unit>
       <trans-unit id="75c48e6592370a40d426a3ff0a753901">
         <source><![CDATA[The %s directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></source>
         <target><![CDATA[The %s directory isn't writable. Provide write access to the user running PHP with appropriate permission & ownership.]]></target>
-        <note>classes/UpgradeSelfCheck.php:268</note>
+        <note>classes/UpgradeSelfCheck.php:269</note>
       </trans-unit>
       <trans-unit id="a4cbbaa504b6e21c9152bc783cf68aba">
         <source>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</source>
         <target>Files can't be downloaded. Enable PHP's "allow_url_fopen" option or install PHP extension "cURL".</target>
-        <note>classes/UpgradeSelfCheck.php:275</note>
+        <note>classes/UpgradeSelfCheck.php:276</note>
       </trans-unit>
       <trans-unit id="f331b3e71fc229a1cfd1aaa3241be853">
         <source>Missing PHP extension "zip".</source>
         <target>Missing PHP extension "zip".</target>
-        <note>classes/UpgradeSelfCheck.php:280</note>
+        <note>classes/UpgradeSelfCheck.php:281</note>
       </trans-unit>
       <trans-unit id="d321763467936ac779fff7e090d8f0dc">
         <source><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></source>
         <target><![CDATA[Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].]]></target>
-        <note>classes/UpgradeSelfCheck.php:306</note>
+        <note>classes/UpgradeSelfCheck.php:307</note>
       </trans-unit>
       <trans-unit id="00010e5e74d3de76b6ade544d9341832">
         <source><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></source>
         <target><![CDATA[PrestaShop's caching features needs to be disabled. Disable caching features in [1]Advanced parameters > Performance > Caching[/1].]]></target>
-        <note>classes/UpgradeSelfCheck.php:324</note>
+        <note>classes/UpgradeSelfCheck.php:325</note>
       </trans-unit>
       <trans-unit id="8ff30224a9960da38da34b6a99d20751">
         <source>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</source>
         <target>PHP's max_execution_time setting needs to have a high value or needs to be disabled entirely (current value: %s seconds).</target>
-        <note>classes/UpgradeSelfCheck.php:330</note>
+        <note>classes/UpgradeSelfCheck.php:331</note>
       </trans-unit>
       <trans-unit id="26da0df3cbdf0052c8f1205b40ad5072">
         <source>Apache mod_rewrite needs to be enabled.</source>
         <target>Apache mod_rewrite needs to be enabled.</target>
-        <note>classes/UpgradeSelfCheck.php:337</note>
+        <note>classes/UpgradeSelfCheck.php:338</note>
       </trans-unit>
       <trans-unit id="57bd2c4dc4936edbe3b9247c97e97033">
         <source>The following PHP extensions need to be installed: </source>
         <target>The following PHP extensions need to be installed:</target>
-        <note>classes/UpgradeSelfCheck.php:342</note>
+        <note>classes/UpgradeSelfCheck.php:343</note>
       </trans-unit>
       <trans-unit id="774da4dc59398b2c1dfcf9be03aaa110">
         <source>The following PHP functions need to be allowed: </source>
         <target>The following PHP functions need to be allowed:</target>
-        <note>classes/UpgradeSelfCheck.php:348</note>
+        <note>classes/UpgradeSelfCheck.php:349</note>
       </trans-unit>
       <trans-unit id="a220e0ac5c6f7fa8692c131148ed050a">
         <source>PHP memory_limit needs to be greater than 256 MB.</source>
         <target>PHP memory_limit needs to be greater than 256 MB.</target>
-        <note>classes/UpgradeSelfCheck.php:354</note>
+        <note>classes/UpgradeSelfCheck.php:355</note>
       </trans-unit>
       <trans-unit id="24b3a661ea0947d7dfddb4fe68681907">
         <source>PHP file_uploads configuration needs to be enabled.</source>
         <target>PHP file_uploads configuration needs to be enabled.</target>
-        <note>classes/UpgradeSelfCheck.php:359</note>
+        <note>classes/UpgradeSelfCheck.php:360</note>
       </trans-unit>
       <trans-unit id="cf84e48841529f3b9972825d3ffe8dec">
         <source>Failed to generate private keys using openssl_pkey_new(). Please check your PHP configuration, especially the openssl.cafile setting, and ensure that the specified file exists and is accessible.</source>
         <target>Failed to generate private keys using openssl_pkey_new(). Please check your PHP configuration, especially the openssl.cafile setting, and ensure that the specified file exists and is accessible.</target>
-        <note>classes/UpgradeSelfCheck.php:364</note>
+        <note>classes/UpgradeSelfCheck.php:365</note>
       </trans-unit>
       <trans-unit id="1f2d0f1827f406e61d44d41b8c3b9a53">
         <source><![CDATA[It's not possible to write in the following folders. Provide write access to the user running PHP with appropriate permission & ownership: ]]></source>
         <target><![CDATA[It's not possible to write in the following folders. Provide write access to the user running PHP with appropriate permission & ownership:]]></target>
-        <note>classes/UpgradeSelfCheck.php:369</note>
+        <note>classes/UpgradeSelfCheck.php:370</note>
       </trans-unit>
       <trans-unit id="a99553cd5eff17f5895d093c44b5c430">
         <source>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</source>
         <target>The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.</target>
-        <note>classes/UpgradeSelfCheck.php:375</note>
+        <note>classes/UpgradeSelfCheck.php:376</note>
       </trans-unit>
       <trans-unit id="dcdd2ee47b461e33517dd76f32aaea84">
         <source>Updates to this PrestaShop version are not officially supported by the Update Assistant module.</source>
         <target>Updates to this PrestaShop version are not officially supported by the Update Assistant module.</target>
-        <note>classes/UpgradeSelfCheck.php:380</note>
+        <note>classes/UpgradeSelfCheck.php:381</note>
       </trans-unit>
       <trans-unit id="68bb3863ee3524f0cfa0f13d5d2ee792">
         <source><![CDATA[Your current version of the module is out of date. Update now [1]Modules > Module Manager > Updates[/1]]]></source>
         <target><![CDATA[Your current version of the module is out of date. Update now [1]Modules > Module Manager > Updates[/1]]]></target>
-        <note>classes/UpgradeSelfCheck.php:398</note>
+        <note>classes/UpgradeSelfCheck.php:399</note>
       </trans-unit>
       <trans-unit id="e95e7ec14a924e726e71503f90468a66">
         <source>We were unable to check your PHP compatibility with PrestaShop %s.</source>
         <target>We were unable to check your PHP compatibility with PrestaShop %s.</target>
-        <note>classes/UpgradeSelfCheck.php:404</note>
+        <note>classes/UpgradeSelfCheck.php:405</note>
       </trans-unit>
       <trans-unit id="b931000d0edc9aa4941f7dee725bf723">
         <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</source>
         <target>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</target>
-        <note>classes/UpgradeSelfCheck.php:415</note>
+        <note>classes/UpgradeSelfCheck.php:416</note>
       </trans-unit>
       <trans-unit id="427da216e71ba0cd2ce8f0cc71fa7943">
         <source>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update.</source>
         <target>Some core files have been altered or removed. Any changes made to these files may be overwritten during the update.</target>
-        <note>classes/UpgradeSelfCheck.php:417</note>
+        <note>classes/UpgradeSelfCheck.php:418</note>
       </trans-unit>
       <trans-unit id="5b42ef8b92485316d4af646da0abf22f">
         <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</source>
         <target>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update. [1]See the list of changes[/1].</target>
-        <note>classes/UpgradeSelfCheck.php:430</note>
+        <note>classes/UpgradeSelfCheck.php:431</note>
       </trans-unit>
       <trans-unit id="77e552478a3a1c92107ccae8722476a3">
         <source>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update.</source>
         <target>Some theme files have been altered or removed. Any changes made to these files may be overwritten during the update.</target>
-        <note>classes/UpgradeSelfCheck.php:432</note>
+        <note>classes/UpgradeSelfCheck.php:433</note>
       </trans-unit>
       <trans-unit id="d56247f7a1c66e65f265b936b6d26dd9">
         <source>We were unable to fetch missing or altered files. In these conditions, your store cannot be updated to avoid any further bugs.</source>
         <target>We were unable to fetch missing or altered files. In these conditions, your store cannot be updated to avoid any further bugs.</target>
-        <note>classes/UpgradeSelfCheck.php:441</note>
+        <note>classes/UpgradeSelfCheck.php:442</note>
       </trans-unit>
       <trans-unit id="87458a22657103c3a4bc4ef1d43ff56d">
         <source>Some modules require your attention. [1]See the details[/1].</source>
         <target>Some modules require your attention. [1]See the details[/1].</target>
-        <note>classes/UpgradeSelfCheck.php:450</note>
+        <note>classes/UpgradeSelfCheck.php:451</note>
       </trans-unit>
       <trans-unit id="c4ec447315a0190bbf7f883f57e407c5">
         <source>Some modules require your attention. Run bin/console %command%</source>
         <target>Some modules require your attention. Run bin/console %command%</target>
-        <note>classes/UpgradeSelfCheck.php:452</note>
+        <note>classes/UpgradeSelfCheck.php:453</note>
       </trans-unit>
       <trans-unit id="5ae505096414401ddbb2affa6620a869">
         <source>Unknown requirement.</source>
         <target>Unknown requirement.</target>
-        <note>classes/UpgradeSelfCheck.php:461</note>
+        <note>classes/UpgradeSelfCheck.php:462</note>
       </trans-unit>
       <trans-unit id="31098a445d00d6606542c429524f464f">
         <source>Unable to add %filename% to archive %archive%: %error%</source>
