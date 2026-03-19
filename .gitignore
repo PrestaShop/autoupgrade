@@ -29,3 +29,8 @@ node_modules/
 
 ## JS Tests
 _dev/coverage
+
+## generated files on tests
+fixtures/config/*.var
+tests/autoupgrade/*.var
+tests/unit/autoupgrade/*.var

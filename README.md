@@ -114,6 +114,12 @@ The requirements can be reviewed to confirm the store is safe to update:
 $ php bin/console update:check-requirements <your-admin-dir>
 ```
 
+Modules that require an action before or during the update are listed with:
+
+```
+$ php bin/console update:check-modules <your-admin-dir>
+```
+
 To see which new versions are available for your installation use:
 
 ```
@@ -176,7 +182,7 @@ For more information on using commands, please refer to the [PrestaShop develope
 
 ## Check Modules Compatibility
 
-A command is available to verify module compatibility and detect available updates before performing a store update.
+A command helps you review module compatibility before launching an update, giving you clearer visibility on the actions needed or planned.
 
 Run the command from the root directory of the module:
 
@@ -184,7 +190,7 @@ Run the command from the root directory of the module:
 php bin/console update:check-modules <your-admin-dir>
 ```
 
-This command helps you review module compatibility before launching an update, giving you clearer visibility on potential issues or available updates.
+Running as verbose shows the compatibility details based on the Marketplace API.
 
 ## Channels
 
@@ -200,22 +206,20 @@ When using the command line interface (CLI), you can configure the module's beha
 parameters directly via CLI. Below is a detailed description of the available parameters, including their data types and
 impact.
 
-| Command                                     | Configuration file key                        | CLI option                     | Possible Values                                                                         | Description                                                                                                                                   |
-|---------------------------------------------|-----------------------------------------------|--------------------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| `update:start`                              | `channel`                                     | `--channel`                    | `online`, `online_recommended` (default), `local`                                       | Defines the update channel to use. The `local` channel requires specific files to be placed in the download folder.                           |
-| `update:start`                              | `chain`                                       | `--chain`                      | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | True by default. Allows you to chain update commands automatically. The command will continue executing subsequent tasks without requiring manual intervention to restart the process. |
-| `update:start`, `update:check-requirements` | `archive_zip`                                 | `--zip`                        | Valid file name                                                                         | Name of the `ZIP` file to use for an update via the archive channel. This file must be placed in `[your-admin-dir]/autoupgrade/download`.     |
-| `update:start`, `update:check-requirements` | `archive_xml`                                 | `--xml`                        | Valid file name                                                                         | Name of the `XML` file corresponding to the ZIP file for the archive channel. Must also be placed in `[your-admin-dir]/autoupgrade/download`. |
-| `update:start`                              | `PS_AUTOUP_CUSTOM_MOD_DESACT`                 | `--disable-non-native-modules` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all non-native modules before the update, reducing the risk of compatibility issues.                                     |
-| `update:start`                              | (DEPRECATED) `PS_AUTOUP_CHANGE_DEFAULT_THEME` | no option available            | `true`, `false` (default), `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, forces the use of the default PrestaShop theme after the update. If disabled, retains the current theme.                          |
-| `update:start`                              | `PS_AUTOUP_REGEN_EMAIL`                       | `--regenerate-email-templates` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, keeps the store's customized email templates. Otherwise, the templates are replaced with the default ones.                        |
-| `update:start`                              | `PS_DISABLE_OVERRIDES`                        | `--disable-all-overrides`      | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all PHP overrides in PrestaShop, ensuring better compatibility during the update process.                                |
-| `backup:create`                             | `PS_AUTOUP_KEEP_IMAGES`                       | `--include-images`             | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, retains all images in the backup. This operation can take a long time depending on the storage of your images                     |
-| `backup:restore`                            | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to restore. The allowed values can be found with backup:list command)                                                 |
-| `backup:delete`                             | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to delete. The allowed values can be found with backup:list command)                                                  |
-| `update:check-modules`                      | no option available                           | `--channel`                    | `online`, `online_recommended` (default), `local`                                       | Selects the update channel for module compatibility checks. The `local` channel requires specific files to be placed in the download folder.  |
-| `update:check-modules`                      | no option available                           | `--zip`                        | Valid file name                                                                         | Sets the ZIP archive in local mode for module checking.                                                                                       |
-|                                             |                                               |                                |                                                                                         |                                                                                                                                               |
+| Command                                                             | Configuration file key                        | CLI option                     | Possible Values                                                                         | Description                                                                                                                                   |
+|---------------------------------------------------------------------|-----------------------------------------------|--------------------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| `update:start`, `update:check-requirements`, `update:check-modules` | `channel`                                     | `--channel`                    | `online`, `online_recommended` (default), `local`                                       | Defines the update channel to use. The `local` channel requires specific files to be placed in the download folder.                           |
+| `update:start`                                                      | `chain`                                       | `--chain`                      | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | True by default. Allows you to chain update commands automatically. The command will continue executing subsequent tasks without requiring manual intervention to restart the process. |
+| `update:start`, `update:check-requirements`, `update:check-modules` | `archive_zip`                                 | `--zip`                        | Valid file name                                                                         | Name of the `ZIP` file to use for an update via the archive channel. This file must be placed in `[your-admin-dir]/autoupgrade/download`.     |
+| `update:start`, `update:check-requirements`, `update:check-modules` | `archive_xml`                                 | `--xml`                        | Valid file name                                                                         | Name of the `XML` file corresponding to the ZIP file for the archive channel. Must also be placed in `[your-admin-dir]/autoupgrade/download`. |
+| `update:start`                                                      | `PS_AUTOUP_CUSTOM_MOD_DESACT`                 | `--disable-non-native-modules` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all non-native modules before the update, reducing the risk of compatibility issues.                                     |
+| `update:start`                                                      | (DEPRECATED) `PS_AUTOUP_CHANGE_DEFAULT_THEME` | no option available            | `true`, `false` (default), `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, forces the use of the default PrestaShop theme after the update. If disabled, retains the current theme.                          |
+| `update:start`                                                      | `PS_AUTOUP_REGEN_EMAIL`                       | `--regenerate-email-templates` | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, keeps the store's customized email templates. Otherwise, the templates are replaced with the default ones.                        |
+| `update:start`                                                      | `PS_DISABLE_OVERRIDES`                        | `--disable-all-overrides`      | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, disables all PHP overrides in PrestaShop, ensuring better compatibility during the update process.                                |
+| `backup:create`                                                     | `PS_AUTOUP_KEEP_IMAGES`                       | `--include-images`             | `true` (default), `false`, `'true'`, `'false'`, `'1'`, `'0'`, `1`, `0`, `'on'`, `'off'` | If enabled, retains all images in the backup. This operation can take a long time depending on the storage of your images                     |
+| `backup:restore`                                                    | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to restore. The allowed values can be found with backup:list command)                                                 |
+| `backup:delete`                                                     | no option available                           | `--backup`                     | Valid file name                                                                         | Specify the backup name to delete. The allowed values can be found with backup:list command)                                                  |
+|                                                                     |                                               |                                |                                                                                         |                                                                                                                                               |
 
 ### Back Office Environment Variables
 
@@ -263,7 +267,9 @@ graph
     UpdateInitialization -->|Channel Online| Download
     UpdateInitialization -->|Channel Local| Unzip
     Download --> Unzip
-    Unzip --> UpdateFiles
+    Unzip --> DownloadModules
+    DownloadModules --> UninstallModules
+    UninstallModules --> UpdateFiles
     UpdateFiles --> UpdateDatabase
     UpdateDatabase --> UpdateModules
     UpdateModules --> CleanDatabase
@@ -275,11 +281,13 @@ The following steps will be executed during the update:
 1. **UpdateInitialization**: Start of the whole process, clear potential leftover temporary files from a previous process. The next step will be chosen depending on the configuration.
 2. **Download**: Download the appropriate archive for your PHP version.
 3. **Unzip**: Unzip the downloaded archive.
-4. **UpdateFiles**: Now the current content is saved, it can alter the store content. This step will run several time. The first call will initialize the files list, then the next ones will copy a part of this list.
-5. **UpdateDatabase**: This step runs all the update SQL files available for the destination version. Then, it will run some additional steps, such as cache deletion, language update…
-6. **UpdateModules**: This step updates the modules and executes potential migrations from local sources, composer or from the Prestashop marketplace.
-7. **CleanDatabase**: This step run some SQL queries in order to remove obsolete or wrong data. Note the concerned data is not coming from the update itself, but from the use of PrestaShop.
-8. **UpdateComplete**: This step will display a success message, clear temporary files and will end the process.
+4. **DownloadModules**: Find and download the most up-to-date release available for each installed modules from local sources, composer or from the Prestashop marketplace. They will be applied after the store update.
+5. **UninstallModules**: Uninstall all modules that are not compatible with the updated version of PrestaShop. 
+6. **UpdateFiles**: Now the current content is saved, it can alter the store content. This step will run several time. The first call will initialize the files list, then the next ones will copy a part of this list.
+7. **UpdateDatabase**: This step runs all the update SQL files available for the destination version. Then, it will run some additional steps, such as cache deletion, language update…
+8. **UpdateModules**: This step updates the modules files and executes potential migrations.
+9. **CleanDatabase**: This step run some SQL queries in order to remove obsolete or wrong data. Note the concerned data is not coming from the update itself, but from the use of PrestaShop.
+10. **UpdateComplete**: This step will display a success message, clear temporary files and will end the process.
 
 ### Backup steps
 
