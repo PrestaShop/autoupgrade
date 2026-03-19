@@ -50,7 +50,7 @@ jobs:
                 owner,
                 repo,
                 issue_number: prNumber,
-                labels: ['QA ✓']
+                labels: ['QA ✔️']
               });
               console.log(`Label "QA ✓" has been successfully added.`);
 
