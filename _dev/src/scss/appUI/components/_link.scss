@@ -45,6 +45,8 @@ $e: ".link";
       .material-icons {
         &::after {
           content: " ";
+          font-family: sans-serif;
+          line-height: inherit;
         }
       }
     }
@@ -53,6 +55,8 @@ $e: ".link";
       .material-icons {
         &::before {
           content: " ";
+          font-family: sans-serif;
+          line-height: inherit;
         }
       }
     }
@@ -61,6 +65,8 @@ $e: ".link";
       .material-icons {
         &::before {
           content: " ";
+          font-family: sans-serif;
+          line-height: inherit;
         }
       }
     }
