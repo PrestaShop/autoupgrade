@@ -138,24 +138,27 @@ class UninstallModules extends AbstractTask
 
             $marketPlaceService = $this->container->getMarketplaceService();
 
+            $moduleNames = array_column($modulesList, 'name');
+            $moduleDetailsMap = $marketPlaceService->getModuleDetails($moduleNames);
+
             $modulesToUninstallList = [];
 
             foreach ($modulesList as $module) {
-                try {
-                    $moduleDetails = $marketPlaceService->getModuleDetail($module['name']);
-
-                    $moduleCompatibility = $marketPlaceService->findCompatibleModuleUpgrade(
-                        $moduleDetails,
-                        $targetVersion,
-                        $module['currentVersion']
-                    );
-
-                    if (!$moduleCompatibility->isCompatible()) {
-                        $modulesToUninstallList[] = $module['name'];
-                    }
-                } catch (MarketplaceApiException $e) {
-                    $this->logger->warning($e);
+                $moduleDetails = $moduleDetailsMap[$module['name']];
+                if ($moduleDetails instanceof MarketplaceApiException) {
+                    $this->logger->warning($moduleDetails);
                     $this->container->getUpdateState()->setWarningDetected(true);
+                    continue;
+                }
+
+                $moduleCompatibility = $marketPlaceService->findCompatibleModuleUpgrade(
+                    $moduleDetails,
+                    $targetVersion,
+                    $module['currentVersion']
+                );
+
+                if (!$moduleCompatibility->isCompatible()) {
+                    $modulesToUninstallList[] = $module['name'];
                 }
             }
 
