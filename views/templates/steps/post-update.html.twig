@@ -45,9 +45,11 @@
           })|raw }}
         </li>
         <li>
-          {{ '%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.'|trans({
+          {{ '%startbold%Check the %startlink%Module Manager%endlink%%endbold% and re-enable the modules%endbold% that have been disabled to prevent any compatibility issue.'|trans({
             '%startbold%': '<b>',
-            '%endbold%': '</b>'
+            '%endbold%': '</b>',
+            '%startlink%': '<a id="dialog-confirm-module-manager-link" class="link" href="#' ~ form_route_to_confirm_module_manager_dialog ~ '">',
+            '%endlink%': '</a>'
           })|raw }}
         </li>
         <li>
@@ -63,11 +65,10 @@
           })|raw }}
         </li>
         <li>
-          {{ '%startbold%Check the %startlink%Module Manager%endlink%%endbold% to discover and install the modules extracted on your server during the update process.'|trans({
+          {{ '%startbold%Review the state of your modules:%endbold% compatible modules have been updated automatically, while incompatible ones with PrestaShop %version% have been uninstalled.'|trans({
             '%startbold%': '<b>',
             '%endbold%': '</b>',
-            '%startlink%': '<a id="dialog-confirm-module-manager-link" class="link" href="#' ~ form_route_to_confirm_module_manager_dialog ~ '">',
-            '%endlink%': '</a>'
+            '%version%': ps_version
           })|raw }}
         </li>
       </ul>
