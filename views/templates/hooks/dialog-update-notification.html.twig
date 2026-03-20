@@ -50,7 +50,7 @@
               {{ 'Major releases introduce new features that may break backward compatibility, as well as new backward-compatible features and bug fixes.'|trans({}) }}
             {% endif %}
             {% if release_note is not empty %}
-              <a class="dialog-notification__link" href="{{ release_note }}" target="_blank">{{ 'See the update'|trans({}) }}</a>
+              <a class="dialog-notification__link dialog-notification__link--external" href="{{ release_note }}" target="_blank">{{ 'See the update'|trans({}) }}<i class="material-icons">open_in_new</i></a>
             {% endif %}
           </p>
         </div>
@@ -88,7 +88,7 @@
 
           <p class="dialog-notification__section-content">
             {{ 'If you\'re having trouble performing the update, consider seeking help from the community or a qualified developer.'|trans({}) }}
-            <a class="dialog-notification__link" href="{{ find_support_url }}" target="_blank">{{ 'Find Support'|trans({}) }}</a>
+            <a class="dialog-notification__link dialog-notification__link--external" href="{{ find_support_url }}" target="_blank">{{ 'Find Support'|trans({}) }}<i class="material-icons">open_in_new</i></a>
           </p>
         </div>
       </div>

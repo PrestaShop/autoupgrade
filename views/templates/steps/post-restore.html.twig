@@ -67,9 +67,8 @@
 
     {% if download_logs is defined %}
       <div class="content__section">
-        <a class="link" href="{{ download_logs.download_path }}" download="{{ download_logs.filename }}" data-au-tracking="{{ download_logs.button_tracking_event }}">
-          {{ download_logs.button_label }}
-          <i class="material-icons">file_upload</i>
+        <a class="link link--icon-end" href="{{ download_logs.download_path }}" download="{{ download_logs.filename }}" data-au-tracking="{{ download_logs.button_tracking_event }}">
+          {{ download_logs.button_label }}<i class="material-icons">file_upload</i>
         </a>
       </div>
     {% endif %}
