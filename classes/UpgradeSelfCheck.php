@@ -798,21 +798,24 @@ class UpgradeSelfCheck
         ];
         $modulesInstalled = $this->moduleAdapter->listModulesPresentInFolderAndInstalled();
 
+        $moduleNames = array_column($modulesInstalled, 'name');
+        $moduleDetailsMap = $this->marketplaceService->getModuleDetails($moduleNames);
+
         foreach ($modulesInstalled as $localModule) {
             $localModuleName = $localModule['name'];
             $localVersion = $localModule['currentVersion'];
             $result['compatibility'][$localModuleName] = null;
 
-            try {
-                $moduleDetails = $this->marketplaceService->getModuleDetail($localModuleName);
-            } catch (MarketplaceApiException $e) {
-                $result['uncertain_modules'][] = $localModule['name'];
+            $moduleDetails = $moduleDetailsMap[$localModuleName];
+            if ($moduleDetails instanceof MarketplaceApiException) {
+                $result['uncertain_modules'][] = $localModuleName;
 
                 if ($mode === self::QUICK_SEARCH) {
                     return $result;
                 }
                 continue;
             }
+
             $moduleCompatibility = $this->marketplaceService->findCompatibleModuleUpgrade(
                 $moduleDetails,
                 $this->destinationVersion,
@@ -822,7 +825,7 @@ class UpgradeSelfCheck
             $result['compatibility'][$localModuleName] = $moduleCompatibility;
 
             if (!$moduleCompatibility->isCompatible()) {
-                $result['incompatible_modules'][] = $localModule['name'];
+                $result['incompatible_modules'][] = $localModuleName;
 
                 if ($mode === self::QUICK_SEARCH) {
                     return $result;
