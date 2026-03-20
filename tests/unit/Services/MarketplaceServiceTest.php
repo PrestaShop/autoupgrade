@@ -29,9 +29,10 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 class TestableMarketplaceService extends MarketplaceService
 {
     /** @var array<string, string|false> */
-    public array $stubResponses = [];
+    public $stubResponses = [];
 
-    public int $fetchCallCount = 0;
+    /** @var int */
+    public $fetchCallCount = 0;
 
     /**
      * @param string[] $toFetch
@@ -48,7 +49,8 @@ class TestableMarketplaceService extends MarketplaceService
 
 class MarketplaceServiceTest extends TestCase
 {
-    private TestableMarketplaceService $service;
+    /** @var TestableMarketplaceService */
+    private $service;
 
     protected function setUp(): void
     {

@@ -32,7 +32,7 @@ class MarketplaceService
     private $translator;
 
     /** @var array<string, Module|MarketplaceApiException> */
-    private array $cache = [];
+    private $cache = [];
 
     const ADDONS_API_URL = 'https://api.addons.prestashop.com';
 
