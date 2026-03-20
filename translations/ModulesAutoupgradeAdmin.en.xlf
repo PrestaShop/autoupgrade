@@ -1549,7 +1549,7 @@
       <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d">
         <source>Exit</source>
         <target>Exit</target>
-        <note>views/templates/steps/post-update.html.twig:108</note>
+        <note>views/templates/steps/post-update.html.twig:107</note>
       </trans-unit>
       <trans-unit id="754e7de2554f7664a9ccacff4791b8cc">
         <source>Deactivate non-native modules</source>
@@ -1709,7 +1709,7 @@
       <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
         <source>Open developer documentation</source>
         <target>Open developer documentation</target>
-        <note>views/templates/steps/post-update.html.twig:113</note>
+        <note>views/templates/steps/post-update.html.twig:112</note>
       </trans-unit>
       <trans-unit id="d7f31683c24e4c4b7f0c7f376fe3a8fe">
         <source>Backup failed</source>
