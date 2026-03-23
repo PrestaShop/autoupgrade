@@ -25,6 +25,7 @@ use Exception;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
+use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\Console\Helper\ProgressIndicator;
@@ -119,6 +120,12 @@ class CheckModulesCommand extends AbstractCommand
             $modulesInstalled = $this->upgradeContainer->getModuleAdapter()->listModulesPresentInFolderAndInstalled();
             $updateSelfCheck = $this->upgradeContainer->getUpgradeSelfCheck();
 
+            if ($config->isChannelLocal() && $updateSelfCheck->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_UNKNOWN) {
+                $output->writeln('<error> ✗ The compatibility of the modules can\'t be checked with a version of PrestaShop that is not released yet.</error>');
+
+                return ExitCode::FAIL;
+            }
+
             if (!empty($modulesInstalled)) {
                 $progressIndicator = new ProgressIndicator($output);
                 $output->writeln(sprintf('Prestashop version: %s', $targetPsVersion));
@@ -201,6 +208,10 @@ class CheckModulesCommand extends AbstractCommand
             foreach ($checkResults['uncertain_modules'] as $module) {
                 $output->writeln("\t\t" . $module);
             }
+        }
+
+        if (empty($checkResults['incompatible_modules']) && empty($checkResults['uncertain_modules'])) {
+            $output->writeln('<success>✔</success> There is no action needed on the installed modules for this update.');
         }
     }
 }
