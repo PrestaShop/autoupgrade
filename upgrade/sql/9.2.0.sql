@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `PREFIX_b2b_role_authorization_role` (
 -- https://github.com/PrestaShop/PrestaShop/pull/41028
 /* PHP:ps_920_business_entities_tabs(); */;
 
-/* https://github.com/PrestaShop/PrestaShop/pull/41047 */
+-- https://github.com/PrestaShop/PrestaShop/pull/41047 */
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'actionCheckoutBuildProcess', 'Build checkout process', 'This hook is called before rendering checkout. Only the module configured in PS_CHECKOUT_PROCESS_PROVIDER_MODULE is executed and can return a CheckoutProcess instance.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
