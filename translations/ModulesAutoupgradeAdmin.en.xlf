@@ -1549,7 +1549,7 @@
       <trans-unit id="fef46e5063ce3dc78b8ae64fa474241d">
         <source>Exit</source>
         <target>Exit</target>
-        <note>views/templates/steps/post-update.html.twig:107</note>
+        <note>views/templates/steps/post-update.html.twig:108</note>
       </trans-unit>
       <trans-unit id="754e7de2554f7664a9ccacff4791b8cc">
         <source>Deactivate non-native modules</source>
@@ -1694,12 +1694,12 @@
       <trans-unit id="289390be5b219643de2f47be7d8b9c53">
         <source><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></source>
         <target><![CDATA[%startbold%Disable the maintenance mode%endbold% in General settings > Maintenance.]]></target>
-        <note>views/templates/steps/post-update.html.twig:60</note>
+        <note>views/templates/steps/post-update.html.twig:62</note>
       </trans-unit>
       <trans-unit id="231cf4c70d866b616c21baddaeed0696">
         <source>Troubleshooting</source>
         <target>Troubleshooting</target>
-        <note>views/templates/steps/post-update.html.twig:78</note>
+        <note>views/templates/steps/post-update.html.twig:79</note>
       </trans-unit>
       <trans-unit id="6d7d6c549fa8457fb326a8ec0c1bfa4f">
         <source>If you can't access your back office, try emptying the cache.</source>
@@ -1709,7 +1709,7 @@
       <trans-unit id="4ba42d4d681d17d9bee2f6228c326069">
         <source>Open developer documentation</source>
         <target>Open developer documentation</target>
-        <note>views/templates/steps/post-update.html.twig:112</note>
+        <note>views/templates/steps/post-update.html.twig:113</note>
       </trans-unit>
       <trans-unit id="d7f31683c24e4c4b7f0c7f376fe3a8fe">
         <source>Backup failed</source>
@@ -1771,35 +1771,35 @@
         <target>Before continuing with your tasks, please review the following checklist to ensure smooth operation after recent updates.</target>
         <note>views/templates/steps/post-update.html.twig:31</note>
       </trans-unit>
-      <trans-unit id="8d964175f80bfdf13131bec74401ba00">
-        <source>%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.</source>
-        <target>%startbold%Re-enable and check your modules%endbold% one by one to prevent any compatibility issue.</target>
+      <trans-unit id="c53354f44647cdaa50456809f355fb17">
+        <source>%startbold%Check the %startlink%Module Manager%endlink%%endbold% and re-enable any modules disabled due to migration issues.</source>
+        <target>%startbold%Check the %startlink%Module Manager%endlink%%endbold% and re-enable any modules disabled due to migration issues.</target>
         <note>views/templates/steps/post-update.html.twig:48</note>
       </trans-unit>
       <trans-unit id="e02d13d319c57ef97c30eb990d857ba5">
         <source>%startbold%Make sure your store's front office is working properly:%endbold% try to create an account, place an order, add a product, etc.</source>
         <target>%startbold%Make sure your store's front office is working properly:%endbold% try to create an account, place an order, add a product, etc.</target>
-        <note>views/templates/steps/post-update.html.twig:54</note>
+        <note>views/templates/steps/post-update.html.twig:56</note>
       </trans-unit>
-      <trans-unit id="0ffd8c518061d780545d966155ac9b97">
-        <source>%startbold%Check the %startlink%Module Manager%endlink%%endbold% to discover and install the modules extracted on your server during the update process.</source>
-        <target>%startbold%Check the %startlink%Module Manager%endlink%%endbold% to discover and install the modules extracted on your server during the update process.</target>
-        <note>views/templates/steps/post-update.html.twig:66</note>
+      <trans-unit id="4c19cc2f8a6319262ba4288e4e318f80">
+        <source>%startbold%Review the state of your modules:%endbold% compatible modules have been updated automatically, while incompatible ones with PrestaShop %version% have been uninstalled.</source>
+        <target>%startbold%Review the state of your modules:%endbold% compatible modules have been updated automatically, while incompatible ones with PrestaShop %version% have been uninstalled.</target>
+        <note>views/templates/steps/post-update.html.twig:68</note>
       </trans-unit>
       <trans-unit id="605f8e6688fdd2a7616a3614d741202d">
         <source><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></source>
         <target><![CDATA[If some images don't appear in the front office, try regenerating thumbnails in Preferences > Images.]]></target>
-        <note>views/templates/steps/post-update.html.twig:83</note>
+        <note>views/templates/steps/post-update.html.twig:84</note>
       </trans-unit>
       <trans-unit id="b6e8290a312769f4d3919f3dd42a21a7">
         <source>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</source>
         <target>If something's wrong, you can restore a backup with this module. Your backup is available at {admin}/autoupgrade/backup.</target>
-        <note>views/templates/steps/post-update.html.twig:86</note>
+        <note>views/templates/steps/post-update.html.twig:87</note>
       </trans-unit>
       <trans-unit id="3cdf2387430d70296aec1dbe3d6772ad">
         <source>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</source>
         <target>If you can't access your back office, try enabling the debug mode manually in config/defines.inc.php by setting _PS_MODE_DEV_ to true.</target>
-        <note>views/templates/steps/post-update.html.twig:89</note>
+        <note>views/templates/steps/post-update.html.twig:90</note>
       </trans-unit>
       <trans-unit id="c940aa73d021ae9e13f265237b0e4f96">
         <source>Welcome to PrestaShop Update Assistant</source>
