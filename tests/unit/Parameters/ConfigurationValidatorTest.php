@@ -161,14 +161,14 @@ class ConfigurationValidatorTest extends TestCase
     public function testValidateChannelOnlineWithZip()
     {
         $result = $this->validator->validate([
-            UpgradeConfiguration::CHANNEL => UpgradeConfiguration::CHANNEL_ONLINE,
-            UpgradeConfiguration::ARCHIVE_ZIP => 'toto.zip',
+            UpdateConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_ONLINE,
+            UpdateConfiguration::ARCHIVE_ZIP => 'toto.zip',
         ]);
 
         $this->assertEquals([
             [
                 'message' => 'Zip or XML archives are only allowed with the local channel',
-                'target' => UpgradeConfiguration::CHANNEL,
+                'target' => UpdateConfiguration::CHANNEL,
             ],
         ], $result);
     }
@@ -176,14 +176,14 @@ class ConfigurationValidatorTest extends TestCase
     public function testValidateChannelOnlineRecommendedWithZip()
     {
         $result = $this->validator->validate([
-            UpgradeConfiguration::CHANNEL => UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED,
-            UpgradeConfiguration::ARCHIVE_ZIP => 'toto.zip',
+            UpdateConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED,
+            UpdateConfiguration::ARCHIVE_ZIP => 'toto.zip',
         ]);
 
         $this->assertEquals([
             [
                 'message' => 'Zip or XML archives are only allowed with the local channel',
-                'target' => UpgradeConfiguration::CHANNEL,
+                'target' => UpdateConfiguration::CHANNEL,
             ],
         ], $result);
     }
@@ -191,14 +191,14 @@ class ConfigurationValidatorTest extends TestCase
     public function testValidateChannelOnlineRecommendedWithXml()
     {
         $result = $this->validator->validate([
-            UpgradeConfiguration::CHANNEL => UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED,
-            UpgradeConfiguration::ARCHIVE_XML => 'toto.xml',
+            UpdateConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED,
+            UpdateConfiguration::ARCHIVE_XML => 'toto.xml',
         ]);
 
         $this->assertEquals([
             [
                 'message' => 'Zip or XML archives are only allowed with the local channel',
-                'target' => UpgradeConfiguration::CHANNEL,
+                'target' => UpdateConfiguration::CHANNEL,
             ],
         ], $result);
     }
@@ -206,15 +206,15 @@ class ConfigurationValidatorTest extends TestCase
     public function testValidateChannelOnlineRecommendedWithZipAndXml()
     {
         $result = $this->validator->validate([
-            UpgradeConfiguration::CHANNEL => UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED,
-            UpgradeConfiguration::ARCHIVE_ZIP => 'toto.zip',
-            UpgradeConfiguration::ARCHIVE_XML => 'toto.xml',
+            UpdateConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED,
+            UpdateConfiguration::ARCHIVE_ZIP => 'toto.zip',
+            UpdateConfiguration::ARCHIVE_XML => 'toto.xml',
         ]);
 
         $this->assertEquals([
             [
                 'message' => 'Zip or XML archives are only allowed with the local channel',
-                'target' => UpgradeConfiguration::CHANNEL,
+                'target' => UpdateConfiguration::CHANNEL,
             ],
         ], $result);
     }
