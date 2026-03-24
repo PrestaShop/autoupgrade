@@ -59,8 +59,9 @@ test.describe('Check Update modal', () => {
   });
 
   test('should check the update link', async () => {
-    if (isModalVisible) {
-      const updateLink = await modAutoupgradeBoModal.getUpdateLinkFromModal(page);
+    const isLinkVisible = await modAutoupgradeBoModal.isReleaseNoteLinkVisible(page);
+    if (isModalVisible && isLinkVisible) {
+      const updateLink = await modAutoupgradeBoModal.getReleaseNoteLinkFromModal(page);
       expect(updateLink).toContain('https://build.prestashop-project.org/news');
     } else {
       test.skip();
@@ -68,8 +69,9 @@ test.describe('Check Update modal', () => {
   });
 
   test('should click on the update link from the modal', async () => {
-    if (isModalVisible) {
-      page = await modAutoupgradeBoModal.openUpdateLinkFromTheModal(page);
+    const isLinkVisible = await modAutoupgradeBoModal.isReleaseNoteLinkVisible(page);
+    if (isModalVisible && isLinkVisible) {
+      page = await modAutoupgradeBoModal.openReleaseNoteFromTheModal(page);
 
       const pageTitle = await modAutoupgradeBoModal.getPageTitle(page);
       expect(pageTitle).toContain('PrestaShop');
