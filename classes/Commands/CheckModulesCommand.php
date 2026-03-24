@@ -81,7 +81,8 @@ class CheckModulesCommand extends AbstractCommand
             }
 
             $configPath = $input->getOption('config-file-path');
-            $exitCode = $this->loadConfiguration($configPath);
+            $loader = $this->upgradeContainer->getUpdateConfigurationLoader();
+            $exitCode = $this->loadConfiguration($loader, $configPath);
             if ($exitCode !== ExitCode::SUCCESS) {
                 return $exitCode;
             }
