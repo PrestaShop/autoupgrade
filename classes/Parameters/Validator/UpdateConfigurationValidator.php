@@ -105,14 +105,14 @@ class UpdateConfigurationValidator extends AbstractConfigurationValidator
     private function validateArchivesOnlyForLocalChannel(array $array, bool $isLocal): ?array
     {
         // We didn't want to return an error if the customer hadn't entered a channel.
-        if (!isset($array[UpgradeConfiguration::CHANNEL]) || $isLocal) {
+        if (!isset($array[UpdateConfiguration::CHANNEL]) || $isLocal) {
             return null;
         }
 
-        if (!empty($array[UpgradeConfiguration::ARCHIVE_ZIP] ?? null) || !empty($array[UpgradeConfiguration::ARCHIVE_XML] ?? null)) {
+        if (!empty($array[UpdateConfiguration::ARCHIVE_ZIP] ?? null) || !empty($array[UpdateConfiguration::ARCHIVE_XML] ?? null)) {
             return [
                 'message' => $this->translator->trans('Zip or XML archives are only allowed with the local channel'),
-                'target' => UpgradeConfiguration::CHANNEL,
+                'target' => UpdateConfiguration::CHANNEL,
             ];
         }
 

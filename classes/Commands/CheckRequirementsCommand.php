@@ -48,7 +48,7 @@ class CheckRequirementsCommand extends AbstractCommand
             ->setDescription('Check all prerequisites for an update.')
             ->setHelp('This command allows you to check the prerequisites necessary for the proper functioning of an update.')
             ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
-            ->addOption('channel', null, InputOption::VALUE_REQUIRED, "Selects what update to run ('" . UpdateConfiguration::CHANNEL_LOCAL . "' / '" . UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED . "' / '" . UpgradeConfiguration::CHANNEL_ONLINE . "')")
+            ->addOption('channel', null, InputOption::VALUE_REQUIRED, "Selects what update to run ('" . UpdateConfiguration::CHANNEL_LOCAL . "' / '" . UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED . "' / '" . UpdateConfiguration::CHANNEL_ONLINE . "')")
             ->addOption('zip', null, InputOption::VALUE_REQUIRED, 'Sets the archive zip file for a local update.')
             ->addOption('xml', null, InputOption::VALUE_REQUIRED, 'Sets the archive xml file for a local update.')
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.');
