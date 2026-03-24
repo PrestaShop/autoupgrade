@@ -53,7 +53,11 @@ The latest versions of the module are compatible with all PrestaShop 1.7 and hig
 |-------------------------------------------------------------------|-------------------|-----------------------------------------|--------------------|
 | [master](https://github.com/PrestaShop/autoupgrade/tree/master)   | Latest (Stable)   | [Developer documentation][devdocs]      | >=1.7              |
 | [dev](https://github.com/PrestaShop/autoupgrade/tree/dev)         | Latest (Unstable) | [Developer documentation][devdocs]      | >=1.7              |
-| [7.0.x](https://github.com/PrestaShop/autoupgrade/tree/7.0.x)     | Bug fix only      | [Developer documentation][devdocs]      | >=1.7              |
+| [7.6.x](https://github.com/PrestaShop/autoupgrade/tree/7.6.x)     | Supported         | [Developer documentation][devdocs]      | >=1.7              |
+| [7.5.x](https://github.com/PrestaShop/autoupgrade/tree/7.5.x)     | Unmaintained      | [Developer documentation][devdocs]      | >=1.7              |
+| [7.4.x](https://github.com/PrestaShop/autoupgrade/tree/7.4.x)     | Unmaintained      | [Developer documentation][devdocs]      | >=1.7              |
+| [7.1.x](https://github.com/PrestaShop/autoupgrade/tree/7.1.x)     | Unmaintained      | [Developer documentation][devdocs]      | >=1.7              |
+| [7.0.x](https://github.com/PrestaShop/autoupgrade/tree/7.0.x)     | Unmaintained      | [Developer documentation][devdocs]      | >=1.7              |
 | [6.x](https://github.com/PrestaShop/autoupgrade/tree/6.x)         | Unmaintained      | [Developer documentation][devdocs]      | >=1.7              |
 | [5.x](https://github.com/PrestaShop/autoupgrade/tree/5.x)         | Unmaintained      | [Developer documentation][devdocs]      | >=1.7              |
 | [4.14.x](https://github.com/PrestaShop/autoupgrade/tree/4.14.x)   | Unmaintained      | [PrestaShop 1.6 documentation][doc-1.6] | >=1.6              |
