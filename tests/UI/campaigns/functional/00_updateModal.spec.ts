@@ -60,6 +60,7 @@ test.describe('Check Update modal', () => {
 
   test('should check the update link', async () => {
     const isLinkVisible = await modAutoupgradeBoModal.isReleaseNoteLinkVisible(page);
+
     if (isModalVisible && isLinkVisible) {
       const updateLink = await modAutoupgradeBoModal.getReleaseNoteLinkFromModal(page);
       expect(updateLink).toContain('https://build.prestashop-project.org/news');
@@ -70,6 +71,7 @@ test.describe('Check Update modal', () => {
 
   test('should click on the update link from the modal', async () => {
     const isLinkVisible = await modAutoupgradeBoModal.isReleaseNoteLinkVisible(page);
+
     if (isModalVisible && isLinkVisible) {
       page = await modAutoupgradeBoModal.openReleaseNoteFromTheModal(page);
 
