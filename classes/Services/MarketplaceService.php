@@ -116,11 +116,7 @@ class MarketplaceService
         $raw = $this->fetchModulesRaw($toFetch);
 
         // Ensure every requested name gets a result, even if fetchModulesRaw omits it.
-        foreach ($toFetch as $name) {
-            if (!array_key_exists($name, $raw)) {
-                $raw[$name] = false;
-            }
-        }
+        $raw += array_fill_keys($toFetch, false);
 
         foreach ($raw as $name => $body) {
             if (!$body) {
