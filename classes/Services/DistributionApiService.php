@@ -240,7 +240,7 @@ class DistributionApiService
         $modules = [];
 
         foreach ($data as $moduleInfoName => $moduleInfo) {
-            $modules[] = new Module(
+            $modules[$moduleInfoName] = new Module(
                 $moduleInfoName,
                 $moduleInfo['version'],
                 $moduleInfo['download_url'],

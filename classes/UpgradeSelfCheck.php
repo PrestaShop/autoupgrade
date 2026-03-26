@@ -32,6 +32,7 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
+use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\MarketplaceService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
@@ -101,6 +102,8 @@ class UpgradeSelfCheck
     private $moduleAdapter;
     /** @var MarketplaceService */
     private $marketplaceService;
+    /** @var DistributionApiService */
+    private $distributionApiService;
 
     // Some compatibility checks may return quickly to display a message in the list
     const COMPLETE_SEARCH = 'complete';
@@ -142,6 +145,7 @@ class UpgradeSelfCheck
         ChecksumCompare $checksumCompare,
         ModuleAdapter $moduleAdapter,
         MarketplaceService $marketplaceService,
+        DistributionApiService $distributionApiService,
         string $prodRootPath,
         string $adminPath,
         string $autoUpgradePath,
@@ -155,6 +159,7 @@ class UpgradeSelfCheck
         $this->checksumCompare = $checksumCompare;
         $this->moduleAdapter = $moduleAdapter;
         $this->marketplaceService = $marketplaceService;
+        $this->distributionApiService = $distributionApiService;
         $this->prodRootPath = $prodRootPath;
         $this->adminPath = $adminPath;
         $this->autoUpgradePath = $autoUpgradePath;
@@ -798,8 +803,16 @@ class UpgradeSelfCheck
         ];
         $modulesInstalled = $this->moduleAdapter->listModulesPresentInFolderAndInstalled();
 
+        $modulesFromDistribApi = array_keys($this->distributionApiService->getModules($this->destinationVersion));
+
         foreach ($modulesInstalled as $localModule) {
             $localModuleName = $localModule['name'];
+
+            // Do not check on Marketplace API if known on Distribution API
+            if (in_array($localModuleName, $modulesFromDistribApi)) {
+                continue;
+            }
+
             $localVersion = $localModule['currentVersion'];
             $result['compatibility'][$localModuleName] = null;
 
