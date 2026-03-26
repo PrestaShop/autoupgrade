@@ -132,4 +132,3 @@ function add_new_tab_17($className, $name, $id_parent, $returnId = false, $paren
 
     return get_new_tab_id($className, $returnId);
 }
-
