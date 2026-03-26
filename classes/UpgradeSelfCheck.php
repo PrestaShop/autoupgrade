@@ -29,6 +29,7 @@ use PrestaShop\Module\AutoUpgrade\Commands\CheckModulesCommand;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
+use PrestaShop\Module\AutoUpgrade\Models\Module\DistributionApi\Module;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
@@ -803,13 +804,16 @@ class UpgradeSelfCheck
         ];
         $modulesInstalled = $this->moduleAdapter->listModulesPresentInFolderAndInstalled();
 
-        $modulesFromDistribApi = array_keys($this->distributionApiService->getModules($this->destinationVersion));
+        $modulesNamesFromDistributionApi = array_map(
+            function (Module $module) { return $module->getName(); },
+            $this->distributionApiService->getModules($this->destinationVersion)
+        );
 
         foreach ($modulesInstalled as $localModule) {
             $localModuleName = $localModule['name'];
 
             // Do not check on Marketplace API if known on Distribution API
-            if (in_array($localModuleName, $modulesFromDistribApi)) {
+            if (in_array($localModuleName, $modulesNamesFromDistributionApi)) {
                 continue;
             }
 
