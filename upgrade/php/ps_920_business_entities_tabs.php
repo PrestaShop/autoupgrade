@@ -30,7 +30,7 @@ function ps_920_business_entities_tabs()
         2,
         true
     );
-    update_module_tab($adminBusinessEntityId, 'Business Entity');
+    update_module_tab($adminBusinessEntityId, 'Business Entity', 'Admin.Navigation.Menu', 'business_center');
 
     $adminBusinessEntitiesId = add_new_tab_17(
         'AdminBusinessEntities',
@@ -50,7 +50,7 @@ function ps_920_business_entities_tabs()
 
 }
 
-function update_module_tab($id_tab, $wording = '', $wording_domain = 'Admin.Navigation.Menu', $active = 0, $enabled = 1, $icon = '')
+function update_module_tab($id_tab, $wording = '', $wording_domain = 'Admin.Navigation.Menu', $icon = '', $active = 0, $enabled = 1)
 {
     $sql = sprintf(
         'UPDATE `' . _DB_PREFIX_ . 'tab` SET `active`=%d, `enabled`=%d, `wording`="%s", `wording_domain`="%s", `icon`="%s" WHERE `id_tab` = %d',
