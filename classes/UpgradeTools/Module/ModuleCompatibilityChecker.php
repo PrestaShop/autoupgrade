@@ -29,7 +29,11 @@ use PrestaShop\Module\AutoUpgrade\Services\MarketplaceService;
 
 class ModuleCompatibilityChecker
 {
+    // Check all modules and return details from the marketplace
+    const DETAILED_SEARCH = 'detailed';
+    // Check all modules
     const COMPLETE_SEARCH = 'complete';
+    // Return on the first module with issue
     const QUICK_SEARCH = 'quick';
 
     /** @var DistributionApiService */
@@ -68,7 +72,8 @@ class ModuleCompatibilityChecker
             $localModuleName = $localModule['name'];
 
             // Do not check on Marketplace API if known on Distribution API
-            if (in_array($localModuleName, $modulesNamesFromDistributionApi)) {
+            $moduleIsNative = in_array($localModuleName, $modulesNamesFromDistributionApi);
+            if ($mode !== self::DETAILED_SEARCH && $moduleIsNative) {
                 continue;
             }
 
@@ -78,7 +83,9 @@ class ModuleCompatibilityChecker
             try {
                 $moduleDetails = $this->marketplaceService->getModuleDetail($localModuleName);
             } catch (MarketplaceApiException $e) {
-                $result['uncertain_modules'][] = $localModuleName;
+                if (!$moduleIsNative) {
+                    $result['uncertain_modules'][] = $localModuleName;
+                }
 
                 if ($mode === self::QUICK_SEARCH) {
                     return $result;
@@ -95,7 +102,9 @@ class ModuleCompatibilityChecker
             $result['compatibility'][$localModuleName] = $moduleCompatibility;
 
             if (!$moduleCompatibility->isCompatible()) {
-                $result['incompatible_modules'][] = $localModuleName;
+                if (!$moduleIsNative) {
+                    $result['incompatible_modules'][] = $localModuleName;
+                }
 
                 if ($mode === self::QUICK_SEARCH) {
                     return $result;

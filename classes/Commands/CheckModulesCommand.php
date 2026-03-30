@@ -28,6 +28,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleCompatibilityChecker;
 use Symfony\Component\Console\Helper\ProgressIndicator;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -131,7 +132,8 @@ class CheckModulesCommand extends AbstractCommand
                 $output->writeln(sprintf('Prestashop version: %s', $targetPsVersion));
 
                 $progressIndicator->start('Retrieving modules informations, please wait...');
-                $checkResults = $updateSelfCheck->getModulesRequiringAttention();
+                $mode = $output->isVerbose() ? ModuleCompatibilityChecker::DETAILED_SEARCH : ModuleCompatibilityChecker::COMPLETE_SEARCH;
+                $checkResults = $updateSelfCheck->getModulesRequiringAttention($mode);
                 $progressIndicator->finish('Retrieving modules informations: Done.');
 
                 if ($output->isVerbose()) {
