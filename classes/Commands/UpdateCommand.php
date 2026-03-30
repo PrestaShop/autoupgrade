@@ -84,7 +84,7 @@ class UpdateCommand extends AbstractCommand
             $action = $input->getOption('action');
 
             // if we are in the 1st step of the update, we update the configuration
-            if ($action === null || $action === TaskName::TASK_UPDATE_INITIALIZATION) {
+            if ($action === null || $action === TaskName::TASK_UPDATE_INITIALIZATION || $noChainMode) {
                 $this->logger->debug('Cleaning previous configuration file.');
                 $this->upgradeContainer->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
 
