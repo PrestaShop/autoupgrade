@@ -221,7 +221,7 @@ class UpgradeSelfCheck
             $warnings[self::PHP_COMPATIBILITY_UNKNOWN] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_UNKNOWN;
         }
 
-        if (!$warnings[self::PHP_COMPATIBILITY_UNKNOWN]) {
+        if (!isset($warnings[self::PHP_COMPATIBILITY_UNKNOWN])) {
             $warnings[self::MODULES_REQUIRE_ATTENTION] = $this->checkModuleRequiresAttention();
         }
 
