@@ -83,23 +83,36 @@ class UpdateCommand extends AbstractCommand
 
             $action = $input->getOption('action');
 
+            $isInitializationStep = $action === null || $action === TaskName::TASK_UPDATE_INITIALIZATION || $noChainMode;
+
             // if we are in the 1st step of the update, we update the configuration
-            if ($action === null || $action === TaskName::TASK_UPDATE_INITIALIZATION || $noChainMode) {
+            if ($isInitializationStep) {
                 $this->logger->debug('Cleaning previous configuration file.');
-                $this->upgradeContainer->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
+                $this->upgradeContainer
+                    ->getFileStorage()
+                    ->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
 
                 $this->processConsoleInputConfiguration($input);
+
                 $configPath = $input->getOption('config-file-path');
                 $exitCode = $this->loadConfiguration($configPath);
+
                 if ($exitCode !== ExitCode::SUCCESS) {
                     return $exitCode;
                 }
-            } else {
-                $updateState = $this->upgradeContainer->getUpdateState();
+            }
+
+            if (!$isInitializationStep || ($noChainMode && $action !== null && $action !== TaskName::TASK_UPDATE_INITIALIZATION)) {
                 // In the special case the user inits the process from a specific task that is not the initialization,
                 // we need to initialize the state manually.
+                $updateState = $this->upgradeContainer->getUpdateState();
+
                 if (!$updateState->isInitialized()) {
-                    $updateState->initDefault($this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION), $this->upgradeContainer->getUpgrader(), $this->upgradeContainer->getUpdateConfiguration());
+                    $updateState->initDefault(
+                        $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION),
+                        $this->upgradeContainer->getUpgrader(),
+                        $this->upgradeContainer->getUpdateConfiguration()
+                    );
                 }
             }
 
