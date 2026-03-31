@@ -27,14 +27,13 @@ use Context;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Commands\CheckModulesCommand;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
-use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
-use PrestaShop\Module\AutoUpgrade\Services\MarketplaceService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleCompatibilityChecker;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use PrestaShop\Module\AutoUpgrade\Xml\ChecksumCompare;
 use Shop;
@@ -99,12 +98,8 @@ class UpgradeSelfCheck
     private $checksumCompare;
     /** @var ModuleAdapter */
     private $moduleAdapter;
-    /** @var MarketplaceService */
-    private $marketplaceService;
-
-    // Some compatibility checks may return quickly to display a message in the list
-    const COMPLETE_SEARCH = 'complete';
-    const QUICK_SEARCH = 'quick';
+    /** @var ModuleCompatibilityChecker */
+    private $moduleCompatibilityChecker;
 
     // Errors const
     const PHP_COMPATIBILITY_INVALID = 0;
@@ -141,7 +136,7 @@ class UpgradeSelfCheck
         PhpVersionResolverService $phpRequirementService,
         ChecksumCompare $checksumCompare,
         ModuleAdapter $moduleAdapter,
-        MarketplaceService $marketplaceService,
+        ModuleCompatibilityChecker $moduleCompatibilityChecker,
         string $prodRootPath,
         string $adminPath,
         string $autoUpgradePath,
@@ -154,7 +149,7 @@ class UpgradeSelfCheck
         $this->phpRequirementService = $phpRequirementService;
         $this->checksumCompare = $checksumCompare;
         $this->moduleAdapter = $moduleAdapter;
-        $this->marketplaceService = $marketplaceService;
+        $this->moduleCompatibilityChecker = $moduleCompatibilityChecker;
         $this->prodRootPath = $prodRootPath;
         $this->adminPath = $adminPath;
         $this->autoUpgradePath = $autoUpgradePath;
@@ -785,52 +780,15 @@ class UpgradeSelfCheck
     }
 
     /**
-     * @param self::*_SEARCH $mode
+     * @param ModuleCompatibilityChecker::*_SEARCH $mode
      *
      * @return array{incompatible_modules: string[], uncertain_modules: string[], compatibility: array<string, ?ModuleUpgradeCompatibility>}
      */
-    public function getModulesRequiringAttention($mode = self::COMPLETE_SEARCH): array
+    public function getModulesRequiringAttention($mode = ModuleCompatibilityChecker::COMPLETE_SEARCH): array
     {
-        $result = [
-            'incompatible_modules' => [],
-            'uncertain_modules' => [],
-            'compatibility_details' => [],
-        ];
         $modulesInstalled = $this->moduleAdapter->listModulesPresentInFolderAndInstalled();
 
-        foreach ($modulesInstalled as $localModule) {
-            $localModuleName = $localModule['name'];
-            $localVersion = $localModule['currentVersion'];
-            $result['compatibility'][$localModuleName] = null;
-
-            try {
-                $moduleDetails = $this->marketplaceService->getModuleDetail($localModuleName);
-            } catch (MarketplaceApiException $e) {
-                $result['uncertain_modules'][] = $localModule['name'];
-
-                if ($mode === self::QUICK_SEARCH) {
-                    return $result;
-                }
-                continue;
-            }
-            $moduleCompatibility = $this->marketplaceService->findCompatibleModuleUpgrade(
-                $moduleDetails,
-                $this->destinationVersion,
-                $localVersion
-            );
-
-            $result['compatibility'][$localModuleName] = $moduleCompatibility;
-
-            if (!$moduleCompatibility->isCompatible()) {
-                $result['incompatible_modules'][] = $localModule['name'];
-
-                if ($mode === self::QUICK_SEARCH) {
-                    return $result;
-                }
-            }
-        }
-
-        return $result;
+        return $this->moduleCompatibilityChecker->getModulesRequiringAttention($modulesInstalled, $this->destinationVersion, $mode);
     }
 
     /**
@@ -838,7 +796,7 @@ class UpgradeSelfCheck
      */
     public function checkModuleRequiresAttention(): bool
     {
-        $moduleRequiringAttention = $this->getModulesRequiringAttention(self::QUICK_SEARCH);
+        $moduleRequiringAttention = $this->getModulesRequiringAttention(ModuleCompatibilityChecker::QUICK_SEARCH);
 
         return !empty($moduleRequiringAttention['uncertain_modules']) || !empty($moduleRequiringAttention['incompatible_modules']);
     }
