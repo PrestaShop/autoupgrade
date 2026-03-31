@@ -22,7 +22,6 @@
 namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Progress\Backlog;
@@ -136,29 +135,17 @@ class UninstallModules extends AbstractTask
                 return !in_array($module['name'], $moduleToUpgradeNames);
             });
 
-            $marketPlaceService = $this->container->getMarketplaceService();
+            $checkResult = $this->container->getModuleCompatibilityChecker()->getModulesRequiringAttention(
+                $modulesList,
+                $targetVersion
+            );
 
-            $modulesToUninstallList = [];
-
-            foreach ($modulesList as $module) {
-                try {
-                    $moduleDetails = $marketPlaceService->getModuleDetail($module['name']);
-
-                    $moduleCompatibility = $marketPlaceService->findCompatibleModuleUpgrade(
-                        $moduleDetails,
-                        $targetVersion,
-                        $module['currentVersion']
-                    );
-
-                    if (!$moduleCompatibility->isCompatible()) {
-                        $modulesToUninstallList[] = $module['name'];
-                    }
-                } catch (MarketplaceApiException $e) {
-                    $this->logger->warning($e);
-                    $this->container->getUpdateState()->setWarningDetected(true);
-                }
+            foreach ($checkResult['uncertain_modules'] as $moduleName) {
+                $this->logger->warning($this->translator->trans('Could not check compatibility of module %s with the Marketplace API.', [$moduleName]));
+                $this->container->getUpdateState()->setWarningDetected(true);
             }
 
+            $modulesToUninstallList = $checkResult['incompatible_modules'];
             $totalModulesToUninstall = count($modulesToUninstallList);
 
             $this->container->getFileStorage()->save(

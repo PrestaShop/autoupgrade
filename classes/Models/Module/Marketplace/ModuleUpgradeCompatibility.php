@@ -29,7 +29,7 @@ class ModuleUpgradeCompatibility
     /** @var bool */
     private $hasUpdateAvailable;
 
-    /** @var Release */
+    /** @var Release|null */
     private $latestRelease;
 
     /** @var Release|null */
@@ -38,7 +38,7 @@ class ModuleUpgradeCompatibility
     public function __construct(
         bool $isCompatible,
         bool $hasUpdateAvailable,
-        Release $latestRelease,
+        ?Release $latestRelease = null,
         ?Release $compatibleRelease = null
     ) {
         $this->isCompatible = $isCompatible;
@@ -62,7 +62,7 @@ class ModuleUpgradeCompatibility
         return $this->compatibleRelease;
     }
 
-    public function getLatestRelease(): Release
+    public function getLatestRelease(): ?Release
     {
         return $this->latestRelease;
     }

@@ -60,6 +60,7 @@ use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleCompatibilityChecker;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\QuarantineZone;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\AbstractModuleSourceProvider;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\Source\Provider\ComposerSourceProvider;
@@ -254,6 +255,9 @@ class UpgradeContainer
 
     /** @var MarketplaceService */
     private $marketplaceService;
+
+    /** @var ModuleCompatibilityChecker */
+    private $moduleCompatibilityChecker;
 
     /** @var UrlGenerator */
     private $urlGenerator;
@@ -886,7 +890,7 @@ class UpgradeContainer
                 $this->getPhpVersionResolverService(),
                 $this->getChecksumCompare(),
                 $this->getModuleAdapter(),
-                $this->getMarketplaceService(),
+                $this->getModuleCompatibilityChecker(),
                 $this->psRootDir,
                 $this->adminDir,
                 $this->getProperty(UpgradeContainer::WORKSPACE_PATH),
@@ -895,6 +899,18 @@ class UpgradeContainer
         }
 
         return $this->upgradeSelfCheck;
+    }
+
+    public function getModuleCompatibilityChecker(): ModuleCompatibilityChecker
+    {
+        if (null === $this->moduleCompatibilityChecker) {
+            $this->moduleCompatibilityChecker = new ModuleCompatibilityChecker(
+                $this->getDistributionApiService(),
+                $this->getMarketplaceService()
+            );
+        }
+
+        return $this->moduleCompatibilityChecker;
     }
 
     /**
