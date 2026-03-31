@@ -101,7 +101,15 @@ class ModuleCompatibilityChecker
 
             $result['compatibility'][$localModuleName] = $moduleCompatibility;
 
-            if (!$moduleCompatibility->isCompatible()) {
+            if (!$moduleCompatibility->getLatestRelease()) {
+                if (!$moduleIsNative) {
+                    $result['uncertain_modules'][] = $localModuleName;
+                }
+
+                if ($mode === self::QUICK_SEARCH) {
+                    return $result;
+                }
+            } elseif (!$moduleCompatibility->isCompatible()) {
                 if (!$moduleIsNative) {
                     $result['incompatible_modules'][] = $localModuleName;
                 }

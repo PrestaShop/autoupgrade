@@ -24,6 +24,7 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
 use PrestaShop\Module\AutoUpgrade\Models\Module\DistributionApi\Module as DistributionApiModule;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\Module as MarketplaceModule;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
+use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\Release;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\MarketplaceService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleCompatibilityChecker;
@@ -196,6 +197,37 @@ class ModuleCompatibilityCheckerTest extends TestCase
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
     }
 
+    public function testModuleWithNoReleaseNoMarketplaceIsUncertain()
+    {
+        $installedModules = [
+            ['name' => 'wololo', 'currentVersion' => '1.0.0'],
+        ];
+
+        /** @var array{incompatible_modules: string[], uncertain_modules: string[], compatibility: array<string, ?ModuleUpgradeCompatibility>} */
+        $expected = [
+            'incompatible_modules' => [],
+            'uncertain_modules' => ['wololo'],
+            'compatibility' => [
+                // Not checked
+            ],
+        ];
+
+        $marketplaceService = $this->createMock(MarketplaceService::class);
+        $marketplaceService->expects($this->once())->method('getModuleDetail')->willReturn(MarketplaceModule::fromArray(['product' => ['id_product' => 0]]));
+        $marketplaceService->method('findCompatibleModuleUpgrade')->will($this->returnCallback(function () {
+            $moduleUpgradeCompatibility = $this->createMock(ModuleUpgradeCompatibility::class);
+            $moduleUpgradeCompatibility->method('getLatestRelease')->willReturn(null);
+
+            return $moduleUpgradeCompatibility;
+        }));
+        $checker = new ModuleCompatibilityChecker($this->distributionApiService, $marketplaceService);
+
+        $actual = $checker->getModulesRequiringAttention($installedModules, '99.99.99', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+
+        $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
+        $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
+    }
+
     private function mockDistributionApiService()
     {
         $distributionApiService = $this->createMock(DistributionApiService::class);
@@ -228,10 +260,33 @@ class ModuleCompatibilityCheckerTest extends TestCase
 
             $moduleUpgradeCompatibility = $this->createMock(ModuleUpgradeCompatibility::class);
             $moduleUpgradeCompatibility->method('isCompatible')->willReturn($isCompatible);
+            $moduleUpgradeCompatibility->method('getLatestRelease')->willReturn(Release::fromArray($this->createModuleRelease()));
 
             return $moduleUpgradeCompatibility;
         }));
 
         return $marketplaceService;
+    }
+
+    private function createModuleRelease(): array
+    {
+        return [
+            'product_version' => '5.2.2',
+            'compatibility_checked' => 0,
+            'compatible_from' => '9.0.0',
+            'compatible_to' => '100.1.0',
+            'is_ps_account' => 0,
+            'is_cloudsync' => 0,
+            'is_billing' => 0,
+            'is_mcp_compliant' => 0,
+            'is_eaa_compliant' => 0,
+            'translations' => ['EN', 'DE', 'ES', 'FR', 'IT', 'NL', 'PL', 'PT', 'RO', 'RU'],
+            'release_date' => '2026-01-05',
+            'rgpd_compliant' => 1,
+            'is_security_update' => 0,
+            'has_overrides' => null,
+            'is_major_update' => 0,
+            'change_logs' => ['Bug fixes'],
+        ];
     }
 }
