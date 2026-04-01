@@ -36,11 +36,11 @@ class AjaxResponseBuilder
             'new_content' => $newContent,
         ];
 
-        if ($options['newRoute']) {
+        if (!empty($options['newRoute'])) {
             $arrayToReturn['new_route'] = $options['newRoute'];
         }
 
-        if ($options['addScript']) {
+        if (!empty($options['addScript'])) {
             $arrayToReturn['add_script'] = $options['addScript'];
         }
 
