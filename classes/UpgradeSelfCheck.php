@@ -219,10 +219,10 @@ class UpgradeSelfCheck
 
         if ($this->updateConfiguration->isChannelLocal()) {
             $warnings[self::PHP_COMPATIBILITY_UNKNOWN] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_UNKNOWN;
+        }
 
-            if ($warnings[self::PHP_COMPATIBILITY_UNKNOWN]) {
-                $warnings[self::MODULES_REQUIRE_ATTENTION] = $this->checkModuleRequiresAttention();
-            }
+        if (empty($warnings[self::PHP_COMPATIBILITY_UNKNOWN])) {
+            $warnings[self::MODULES_REQUIRE_ATTENTION] = $this->checkModuleRequiresAttention();
         }
 
         return array_filter($warnings);
