@@ -219,10 +219,10 @@ class UpgradeSelfCheck
 
         if ($this->updateConfiguration->isChannelLocal()) {
             $warnings[self::PHP_COMPATIBILITY_UNKNOWN] = $this->getPhpRequirementsState() === PhpVersionResolverService::COMPATIBILITY_UNKNOWN;
+        }
 
-            if ($warnings[self::PHP_COMPATIBILITY_UNKNOWN]) {
-                $warnings[self::MODULES_REQUIRE_ATTENTION] = $this->checkModuleRequiresAttention();
-            }
+        if (!isset($warnings[self::PHP_COMPATIBILITY_UNKNOWN])) {
+            $warnings[self::MODULES_REQUIRE_ATTENTION] = $this->checkModuleRequiresAttention();
         }
 
         return array_filter($warnings);
@@ -687,18 +687,8 @@ class UpgradeSelfCheck
         }
         $extensions = [];
         foreach ([
-            'curl',
-            'dom',
-            'fileinfo',
-            'gd',
-            'intl',
-            'json',
-            'mbstring',
-            'openssl',
-            'pdo_mysql',
-            'simplexml',
-            'zip',
-        ] as $extension) {
+                     'curl', 'dom', 'fileinfo', 'gd', 'intl', 'json', 'mbstring', 'openssl', 'pdo_mysql', 'simplexml', 'zip',
+                 ] as $extension) {
             $method = 'test_' . $extension;
             if (method_exists(ConfigurationTest::class, $method) && !ConfigurationTest::$method()) {
                 $extensions[] = $extension;
@@ -718,18 +708,8 @@ class UpgradeSelfCheck
         }
 
         $neededFunctions = [
-            'fopen',
-            'fclose',
-            'fread',
-            'fwrite',
-            'rename',
-            'file_exists',
-            'unlink',
-            'rmdir',
-            'mkdir',
-            'getcwd',
-            'chdir',
-            'chmod',
+            'fopen', 'fclose', 'fread', 'fwrite', 'rename', 'file_exists', 'unlink', 'rmdir', 'mkdir', 'getcwd',
+            'chdir', 'chmod',
         ];
 
         if ($this->destinationVersion === '9.0.0') {
@@ -787,21 +767,10 @@ class UpgradeSelfCheck
 
         $directories = [];
         foreach ([
-            'cache_dir',
-            'log_dir',
-            'img_dir',
-            'module_dir',
-            'theme_lang_dir',
-            'theme_pdf_lang_dir',
-            'theme_cache_dir',
-            'translations_dir',
-            'customizable_products_dir',
-            'virtual_products_dir',
-            'config_sf2_dir',
-            'config_dir',
-            'mails_dir',
-            'translations_sf2',
-        ] as $testKey) {
+                     'cache_dir', 'log_dir', 'img_dir', 'module_dir', 'theme_lang_dir', 'theme_pdf_lang_dir', 'theme_cache_dir',
+                     'translations_dir', 'customizable_products_dir', 'virtual_products_dir', 'config_sf2_dir', 'config_dir',
+                     'mails_dir', 'translations_sf2',
+                 ] as $testKey) {
             if (isset($tests[$testKey]) && method_exists(ConfigurationTest::class, 'test_' . $testKey) && !ConfigurationTest::{'test_' . $testKey}($tests[$testKey])) {
                 $directories[] = $tests[$testKey];
             }
@@ -849,11 +818,9 @@ class UpgradeSelfCheck
             $_SERVER['HTTP_X_FORWARDED_FOR'] = $headers['X-Forwarded-For'];
         }
 
-        if (
-            isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] && (!isset($_SERVER['REMOTE_ADDR'])
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] && (!isset($_SERVER['REMOTE_ADDR'])
                 || preg_match('/^127\..*/i', trim($_SERVER['REMOTE_ADDR'])) || preg_match('/^172\.(1[6-9]|2\d|30|31)\..*/i', trim($_SERVER['REMOTE_ADDR']))
-                || preg_match('/^192\.168\.*/i', trim($_SERVER['REMOTE_ADDR'])) || preg_match('/^10\..*/i', trim($_SERVER['REMOTE_ADDR'])))
-        ) {
+                || preg_match('/^192\.168\.*/i', trim($_SERVER['REMOTE_ADDR'])) || preg_match('/^10\..*/i', trim($_SERVER['REMOTE_ADDR'])))) {
             if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')) {
                 $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
 
