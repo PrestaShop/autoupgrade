@@ -100,6 +100,8 @@ class CheckRequirementsCommand extends AbstractCommand
         } catch (Exception $e) {
             $this->logger->error("An error occurred during the check requirements process:\n" . $e);
             throw $e;
+        } finally {
+            $this->upgradeContainer->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
         }
     }
 
