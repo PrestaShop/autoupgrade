@@ -62,9 +62,10 @@ CREATE TABLE `PREFIX_business_entity_identifier`
 
 CREATE TABLE `PREFIX_business_identifier`
 (
-    `id_business_identifier` INT UNSIGNED AUTO_INCREMENT        NOT NULL,
-    `unremovable`    TINYINT(1)                                 NOT NULL DEFAULT 0,
-    `deleted`        TINYINT(1)                                 NOT NULL DEFAULT 0,
+    `id_business_identifier` INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    `label`                  VARCHAR(255)                NOT NULL,
+    `unremovable`            TINYINT(1)                  NOT NULL DEFAULT 0,
+    `deleted`                TINYINT(1)                  NOT NULL DEFAULT 0,
     PRIMARY KEY (`id_business_identifier`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
