@@ -34,6 +34,7 @@ use UnexpectedValueException;
 class UpgradeConfiguration extends ArrayCollection
 {
     const PS_AUTOUP_CUSTOM_MOD_DESACT = 'PS_AUTOUP_CUSTOM_MOD_DESACT';
+    const PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS = 'PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS';
     const PS_AUTOUP_CHANGE_DEFAULT_THEME = 'PS_AUTOUP_CHANGE_DEFAULT_THEME';
     const PS_AUTOUP_REGEN_EMAIL = 'PS_AUTOUP_REGEN_EMAIL';
     const PS_AUTOUP_KEEP_IMAGES = 'PS_AUTOUP_KEEP_IMAGES';
@@ -52,6 +53,7 @@ class UpgradeConfiguration extends ArrayCollection
 
     const UPGRADE_CONST_KEYS = [
         self::PS_AUTOUP_CUSTOM_MOD_DESACT,
+        self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME,
         self::PS_AUTOUP_REGEN_EMAIL,
         self::PS_AUTOUP_KEEP_IMAGES,
@@ -65,6 +67,7 @@ class UpgradeConfiguration extends ArrayCollection
 
     const PS_CONST_DEFAULT_VALUE = [
         self::PS_AUTOUP_CUSTOM_MOD_DESACT => true,
+        self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME => false,
         self::PS_AUTOUP_REGEN_EMAIL => true,
         self::PS_AUTOUP_KEEP_IMAGES => true,
@@ -220,6 +223,11 @@ class UpgradeConfiguration extends ArrayCollection
     public function shouldDeactivateCustomModules(): bool
     {
         return $this->computeBooleanConfiguration(self::PS_AUTOUP_CUSTOM_MOD_DESACT);
+    }
+
+    public function shouldUninstallNonCompatibleModules(): bool
+    {
+        return $this->computeBooleanConfiguration(self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS);
     }
 
     /**
