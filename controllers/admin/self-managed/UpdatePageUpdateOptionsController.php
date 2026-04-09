@@ -59,6 +59,7 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
 
         $config = [
             UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => $this->request->request->getBoolean(UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT, false),
+            UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => $this->request->request->getBoolean(UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS, false),
             UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL => $this->request->request->getBoolean(UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL, false),
             UpgradeConfiguration::PS_DISABLE_OVERRIDES => $this->request->request->getBoolean(UpgradeConfiguration::PS_DISABLE_OVERRIDES, false),
         ];
@@ -108,6 +109,10 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
                         'visible' => version_compare('9.0.0', $this->upgradeContainer->getUpgrader()->getDestinationVersion(), '>'),
                         'field' => UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
                         'value' => $updateConfiguration->shouldDeactivateCustomModules(),
+                    ],
+                    'uninstall_incompatible_modules' => [
+                        'field' => UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS,
+                        'value' => $updateConfiguration->shouldUninstallNonCompatibleModules(),
                     ],
                     'regenerate_email_templates' => [
                         'field' => UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL,
