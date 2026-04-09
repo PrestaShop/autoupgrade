@@ -98,7 +98,7 @@ class UninstallModules extends AbstractTask
     public function init(): void
     {
         $this->container->initPrestaShopCore();
-        // Container may be needed on uninstallation if the module loads services.
+        // Container may be needed to uninstall if the module loads services.
         $this->container->getSymfonyAdapter()->initKernel();
     }
 
@@ -112,7 +112,7 @@ class UninstallModules extends AbstractTask
             $this->status = 'ok';
             $this->next = TaskName::TASK_UPDATE_FILES;
             if (!$this->container->getUpdateConfiguration()->shouldUninstallNonCompatibleModules()) {
-                $this->logger->info($this->translator->trans('Uninstallation of incompatible modules is disabled. Skipping to the next step.'));
+                $this->logger->info($this->translator->trans('Uninstalling incompatible modules is disabled. Skipping to the next step.'));
             } else {
                 $this->logger->info($this->translator->trans('Since this version of PrestaShop is not released to the public, the module compatibility check for uninstallation cannot be performed. Skipping to the next step.'));
             }
