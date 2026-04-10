@@ -443,9 +443,9 @@ class UpgradeSelfCheck
                         '[1]' => '<a class="link" href="#' . Routes::UPDATE_STEP_VERSION_CHOICE_MODULES_REPORT_DIALOG . '">',
                         '[/1]' => '</a>',
                     ];
-                    $message = $this->translator->trans('Some modules require your attention. [1]See the details[/1].', $params);
+                    $message = $this->translator->trans('Some installed modules are incompatible or have uncertain compatibility with the target version. Incompatible ones will be uninstalled. [1]See the details[/1].', $params);
                 } else {
-                    $message = $this->translator->trans('Some modules require your attention. Run bin/console %command%', ['%command%' => CheckModulesCommand::getDefaultName()]);
+                    $message = $this->translator->trans('Some installed modules are incompatible or have uncertain compatibility with the target version. Incompatible ones will be uninstalled. Run bin/console %command%', ['%command%' => CheckModulesCommand::getDefaultName()]);
                 }
 
                 return [
