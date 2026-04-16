@@ -4,6 +4,7 @@
       "comment": "1.7.0.6 -> 1.7.8.11 PHP 7.1 online"
     },
     {
+      "comment": "Cannot connect to the BO",
       "PS_VERSION_START": "1.7.0.6",
       "PHP_VERSION": "7.1",
       "UPGRADE_CHANNEL": "online"
@@ -12,6 +13,7 @@
       "comment": "1.7.1.2 -> 1.7.8.11 PHP 7.1 online"
     },
     {
+      "comment": "Problem when create docker image",
       "PS_VERSION_START": "1.7.1.2",
       "PHP_VERSION": "7.1",
       "UPGRADE_CHANNEL": "online"
@@ -20,6 +22,7 @@
       "comment": "1.7.2.5 -> 1.7.8.11 PHP 7.1 online"
     },
     {
+      "comment": "Problem when create docker image",
       "PS_VERSION_START": "1.7.2.5",
       "PHP_VERSION": "7.1",
       "UPGRADE_CHANNEL": "online"
@@ -28,6 +31,7 @@
       "comment": "1.7.3.4 -> 1.7.8.11 PHP 7.1 online"
     },
     {
+      "comment": "Problem when create docker image",
       "PS_VERSION_START": "1.7.3.4",
       "PHP_VERSION": "7.1",
       "UPGRADE_CHANNEL": "online"
@@ -36,6 +40,7 @@
       "comment": "1.7.4.4 -> 1.7.8.11 PHP 7.1 online"
     },
     {
+      "comment": "Problem when create docker image",
       "PS_VERSION_START": "1.7.4.4",
       "PHP_VERSION": "7.1",
       "UPGRADE_CHANNEL": "online"
@@ -44,6 +49,7 @@
       "comment": "1.7.5.2 -> 1.7.8.11 PHP 7.1 online"
     },
     {
+      "comment": "Problem when create docker image",
       "PS_VERSION_START": "1.7.5.2",
       "PHP_VERSION": "7.1",
       "UPGRADE_CHANNEL": "online"
@@ -52,6 +58,7 @@
       "comment": "1.7.5.2 -> 8.2.1 PHP 7.2 online"
     },
     {
+      "comment": "Problem when create docker image",
       "PS_VERSION_START": "1.7.5.2",
       "PHP_VERSION": "7.2",
       "UPGRADE_CHANNEL": "online"
