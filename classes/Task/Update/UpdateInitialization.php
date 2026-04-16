@@ -70,12 +70,13 @@ class UpdateInitialization extends AbstractTask
 
         $this->logger->info($this->translator->trans('Destination version: %s', [$destinationVersion]));
 
-        /**
-         * We use the same method as UpgradeSelfCheck to determine if the target version is known. If it isn't, we skip the uninstallation step (otherwise, it would cause a mass uninstallation of all modules that are not up to date).
+        /*
+         * If the option to uninstall incompatible modules is enabled, we use the same method as UpgradeSelfCheck to determine
+         * if the target version is known. If it isn't, we skip the uninstallation step (otherwise, it would cause a mass uninstallation of all modules that are not up to date).
          */
-        $phpRequirementsState = $this->container->getPhpVersionResolverService()->getPhpRequirementsState(PHP_VERSION_ID, $destinationVersion);
-
-        if ($phpRequirementsState === PhpVersionResolverService::COMPATIBILITY_UNKNOWN) {
+        if (!$this->container->getUpdateConfiguration()->shouldUninstallNonCompatibleModules()
+            || $this->container->getPhpVersionResolverService()->getPhpRequirementsState(PHP_VERSION_ID, $destinationVersion) === PhpVersionResolverService::COMPATIBILITY_UNKNOWN
+        ) {
             $updateState->setSkipUninstallModule(true);
         }
 

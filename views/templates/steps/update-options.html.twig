@@ -45,6 +45,15 @@
     {% endif %}
 
     {% include "@ModuleAutoUpgrade/components/render-switch.html.twig" with {
+      id: form_fields.uninstall_incompatible_modules.field,
+      name: form_fields.uninstall_incompatible_modules.field,
+      title: "Uninstall incompatible modules"|trans({}),
+      description: "Modules detected as incompatible with the new version of PrestaShop will be uninstalled before the update begins, so they can safely remove their modifications. Their configuration and data will be lost."|trans({}),
+      value: form_fields.uninstall_incompatible_modules.value,
+      error_message: errors[form_fields.uninstall_incompatible_modules.field] is defined ? errors[form_fields.uninstall_incompatible_modules.field] : null,
+    } %}
+
+    {% include "@ModuleAutoUpgrade/components/render-switch.html.twig" with {
       id: form_fields.regenerate_email_templates.field,
       name: form_fields.regenerate_email_templates.field,
       title: "Regenerate email templates"|trans({}),

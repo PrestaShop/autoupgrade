@@ -53,6 +53,7 @@ class AnalyticsTest extends TestCase
         $updateConfiguration = $configurationStorage->loadUpdateConfiguration();
         $updateConfiguration->merge([
             UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => false,
+            UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
             UpgradeConfiguration::PS_AUTOUP_CHANGE_DEFAULT_THEME => true,
             UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL => true,
             UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => false,
@@ -109,6 +110,7 @@ class AnalyticsTest extends TestCase
                     'to_ps_version' => '8.8.808',
                     'upgrade_channel' => 'local',
                     'disable_non_native_modules' => false,
+                    'uninstall_incompatible_modules' => true,
                     'regenerate_customized_email_templates' => true,
                     'regenerate_rtl_stylesheet' => false,
                     'update_type' => 'patch',
