@@ -35,7 +35,7 @@ class UpdateConfiguration extends AbstractConfiguration
     /** PrestaShop configuration variable to disable or not overrides */
     const PS_DISABLE_OVERRIDES = 'PS_DISABLE_OVERRIDES';
 
-    const PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS = 'PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS';
+    const UNINSTALL_INCOMPATIBLE_MODULES = 'uninstall_incompatible_modules';
     const DISABLE_NON_NATIVE_MODULES = 'disable_non_native_modules';
     const REGENERATE_EMAIL_TEMPLATES = 'regenerate_email_templates';
     const DISABLE_OVERRIDES = 'disable_overrides';
@@ -54,7 +54,7 @@ class UpdateConfiguration extends AbstractConfiguration
 
     const UPGRADE_CONST_KEYS = [
         self::DISABLE_NON_NATIVE_MODULES,
-        self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS,
+        self::UNINSTALL_INCOMPATIBLE_MODULES,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME,
         self::REGENERATE_EMAIL_TEMPLATES,
         self::DISABLE_OVERRIDES,
@@ -68,7 +68,7 @@ class UpdateConfiguration extends AbstractConfiguration
 
     const DEFAULT_VALUES = [
         self::DISABLE_NON_NATIVE_MODULES => true,
-        self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
+        self::UNINSTALL_INCOMPATIBLE_MODULES => true,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME => false,
         self::REGENERATE_EMAIL_TEMPLATES => true,
         self::BACKUP_COMPLETED => null,
@@ -182,9 +182,12 @@ class UpdateConfiguration extends AbstractConfiguration
         return $this->computeBooleanConfiguration(self::DISABLE_NON_NATIVE_MODULES);
     }
 
+    /**
+     * @return bool True if non compatible modules should be uninstall during upgrade
+     */
     public function shouldUninstallNonCompatibleModules(): bool
     {
-        return $this->computeBooleanConfiguration(self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS);
+        return $this->computeBooleanConfiguration(self::UNINSTALL_INCOMPATIBLE_MODULES);
     }
 
     /**

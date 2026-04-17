@@ -54,7 +54,7 @@ class AnalyticsTest extends TestCase
         $updateConfiguration = $configurationStorage->loadUpdateConfiguration();
         $updateConfiguration->merge([
             UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => false,
-            UpdateConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
+            UpdateConfiguration::UNINSTALL_INCOMPATIBLE_MODULES => true,
             UpdateConfiguration::PS_AUTOUP_CHANGE_DEFAULT_THEME => true,
             UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => true,
             UpdateConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_LOCAL,

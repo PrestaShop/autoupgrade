@@ -99,7 +99,7 @@ class UpdateCommand extends AbstractCommand
                     UpdateConfiguration::ARCHIVE_ZIP => 'zip',
                     UpdateConfiguration::ARCHIVE_XML => 'xml',
                     UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => 'disable-non-native-modules',
-                    UpdateConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => 'uninstall-incompatible-modules',
+                    UpdateConfiguration::UNINSTALL_INCOMPATIBLE_MODULES => 'uninstall-incompatible-modules',
                     UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => 'regenerate-email-templates',
                     UpdateConfiguration::DISABLE_OVERRIDES => 'disable-all-overrides',
                     UpdateConfiguration::MAX_FILES_PER_BATCH => 'max-files-per-batch',
