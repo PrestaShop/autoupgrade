@@ -60,6 +60,7 @@ class UpdateCommand extends AbstractCommand
             ->addOption('zip', null, InputOption::VALUE_REQUIRED, 'Sets the archive zip file for a local update')
             ->addOption('xml', null, InputOption::VALUE_REQUIRED, 'Sets the archive xml file for a local update')
             ->addOption('disable-non-native-modules', null, InputOption::VALUE_REQUIRED, 'Disable all modules installed after the store creation (1 for yes, 0 for no). Ignored for PrestaShop v9 and above.')
+            ->addOption('uninstall-incompatible-modules', null, InputOption::VALUE_REQUIRED, 'Uninstall the modules incompatible with the new version of PrestaShop (1 for yes, 0 for no). Their configuration and data will be lost.')
             ->addOption('regenerate-email-templates', null, InputOption::VALUE_REQUIRED, "Regenerate email templates. If you've customized email templates, your changes will be lost if you activate this option (1 for yes, 0 for no)")
             ->addOption('disable-all-overrides', null, InputOption::VALUE_REQUIRED, 'Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates (1 for yes, 0 for no)')
             ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
@@ -182,6 +183,7 @@ class UpdateCommand extends AbstractCommand
             UpgradeConfiguration::ARCHIVE_ZIP => 'zip',
             UpgradeConfiguration::ARCHIVE_XML => 'xml',
             UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => 'disable-non-native-modules',
+            UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => 'uninstall-incompatible-modules',
             UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL => 'regenerate-email-templates',
             UpgradeConfiguration::PS_DISABLE_OVERRIDES => 'disable-all-overrides',
         ];
