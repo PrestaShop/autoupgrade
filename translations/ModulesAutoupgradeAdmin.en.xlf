@@ -352,14 +352,14 @@
         <target>We were unable to fetch missing or altered files. In these conditions, your store cannot be updated to avoid any further bugs.</target>
         <note>classes/UpgradeSelfCheck.php:437</note>
       </trans-unit>
-      <trans-unit id="87458a22657103c3a4bc4ef1d43ff56d">
-        <source>Some modules require your attention. [1]See the details[/1].</source>
-        <target>Some modules require your attention. [1]See the details[/1].</target>
+      <trans-unit id="e0c819af7c918cea3b751702e09d23ce">
+        <source>Some installed modules are incompatible or have uncertain compatibility with the target version. Incompatible ones will be uninstalled. [1]See the details[/1].</source>
+        <target>Some installed modules are incompatible or have uncertain compatibility with the target version. Incompatible ones will be uninstalled. [1]See the details[/1].</target>
         <note>classes/UpgradeSelfCheck.php:446</note>
       </trans-unit>
-      <trans-unit id="c4ec447315a0190bbf7f883f57e407c5">
-        <source>Some modules require your attention. Run bin/console %command%</source>
-        <target>Some modules require your attention. Run bin/console %command%</target>
+      <trans-unit id="fe43fa982ad5723f80f1d91485bf0304">
+        <source>Some installed modules are incompatible or have uncertain compatibility with the target version. Incompatible ones will be uninstalled. Run bin/console %command%</source>
+        <target>Some installed modules are incompatible or have uncertain compatibility with the target version. Incompatible ones will be uninstalled. Run bin/console %command%</target>
         <note>classes/UpgradeSelfCheck.php:448</note>
       </trans-unit>
       <trans-unit id="5ae505096414401ddbb2affa6620a869">
@@ -882,25 +882,30 @@
         <target>All modules have been uninstalled.</target>
         <note>classes/Task/Update/UninstallModules.php:89</note>
       </trans-unit>
+      <trans-unit id="74cb59cc93b0a8c9a64589150b29f9d2">
+        <source>Uninstalling incompatible modules is disabled. Skipping to the next step.</source>
+        <target>Uninstalling incompatible modules is disabled. Skipping to the next step.</target>
+        <note>classes/Task/Update/UninstallModules.php:115</note>
+      </trans-unit>
       <trans-unit id="057237f5489b5c68ba83093439cc5587">
         <source>Since this version of PrestaShop is not released to the public, the module compatibility check for uninstallation cannot be performed. Skipping to the next step.</source>
         <target>Since this version of PrestaShop is not released to the public, the module compatibility check for uninstallation cannot be performed. Skipping to the next step.</target>
-        <note>classes/Task/Update/UninstallModules.php:114</note>
+        <note>classes/Task/Update/UninstallModules.php:117</note>
       </trans-unit>
       <trans-unit id="a69ed524ced858a2d790fdaccb139cb0">
         <source>Checking modules compatibility with PrestaShop %s and uninstalling incompatible ones.</source>
         <target>Checking modules compatibility with PrestaShop %s and uninstalling incompatible ones.</target>
-        <note>classes/Task/Update/UninstallModules.php:125</note>
+        <note>classes/Task/Update/UninstallModules.php:129</note>
       </trans-unit>
       <trans-unit id="7936efd0bb368052d140848962efbde8">
         <source>Could not check compatibility of module %s with the Marketplace API.</source>
         <target>Could not check compatibility of module %s with the Marketplace API.</target>
-        <note>classes/Task/Update/UninstallModules.php:144</note>
+        <note>classes/Task/Update/UninstallModules.php:148</note>
       </trans-unit>
       <trans-unit id="1bb3417aa4ddeb45d58d8cfa775c0a25">
         <source>%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.</source>
         <target>%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.</target>
-        <note>classes/Task/Update/UninstallModules.php:165</note>
+        <note>classes/Task/Update/UninstallModules.php:169</note>
       </trans-unit>
       <trans-unit id="64d7e13ba8bcd0c4a6977cf271577a03">
         <source>Shop updated to %s, but some warnings have been found.</source>
@@ -970,27 +975,27 @@
       <trans-unit id="f82790d7b72439c8a630725ba9948cff">
         <source>Downloading step has been skipped, update process will now unzip the local archive.</source>
         <target>Downloading step has been skipped, update process will now unzip the local archive.</target>
-        <note>classes/Task/Update/UpdateInitialization.php:85</note>
+        <note>classes/Task/Update/UpdateInitialization.php:86</note>
       </trans-unit>
       <trans-unit id="eeeace3d8262c74ad32f412c8d56fea4">
         <source>Store deactivated. Extracting files...</source>
         <target>Store deactivated. Extracting files...</target>
-        <note>classes/Task/Update/UpdateInitialization.php:86</note>
+        <note>classes/Task/Update/UpdateInitialization.php:87</note>
       </trans-unit>
       <trans-unit id="05170d952c90239be93cdf479e4fe5e6">
         <source>Store deactivated. Now downloading... (this can take a while)</source>
         <target>Store deactivated. Now downloading... (this can take a while)</target>
-        <note>classes/Task/Update/UpdateInitialization.php:90</note>
+        <note>classes/Task/Update/UpdateInitialization.php:91</note>
       </trans-unit>
       <trans-unit id="10b5aa33077df49427f04cd33ad3843f">
         <source>Downloaded archive will come from %s</source>
         <target>Downloaded archive will come from %s</target>
-        <note>classes/Task/Update/UpdateInitialization.php:91</note>
+        <note>classes/Task/Update/UpdateInitialization.php:92</note>
       </trans-unit>
       <trans-unit id="da652b8ece8ba2da84d5f5116f6ef63e">
         <source>MD5 hash will be checked against %s</source>
         <target>MD5 hash will be checked against %s</target>
-        <note>classes/Task/Update/UpdateInitialization.php:92</note>
+        <note>classes/Task/Update/UpdateInitialization.php:93</note>
       </trans-unit>
       <trans-unit id="d34ff4aaea46577cb23bcbd044592ebc">
         <source>Directory "%s" does not exist and cannot be emptied.</source>
@@ -1759,7 +1764,7 @@
       <trans-unit id="10ac3d04253ef7e1ddc73e6091c0cd55">
         <source>Next</source>
         <target>Next</target>
-        <note>views/templates/steps/update-options.html.twig:72</note>
+        <note>views/templates/steps/update-options.html.twig:81</note>
       </trans-unit>
       <trans-unit id="9c32ff52925ba5a296f9696cfbb7edcc">
         <source>Backing up your store's files, database, and images means you can restore to a previous version if something goes wrong during the update. This keeps your data safe and ensures your business stays up and running.</source>
@@ -1796,25 +1801,35 @@
         <target>All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.</target>
         <note>views/templates/steps/update-options.html.twig:41</note>
       </trans-unit>
+      <trans-unit id="98fd59296901dc59ea6d347ec94385cd">
+        <source>Uninstall incompatible modules</source>
+        <target>Uninstall incompatible modules</target>
+        <note>views/templates/steps/update-options.html.twig:50</note>
+      </trans-unit>
+      <trans-unit id="4a819a329691170558bde7fbbd6afad0">
+        <source>Modules detected as incompatible with the new version of PrestaShop will be uninstalled before the update begins, so they can safely remove their modifications. Their configuration and data will be lost.</source>
+        <target>Modules detected as incompatible with the new version of PrestaShop will be uninstalled before the update begins, so they can safely remove their modifications. Their configuration and data will be lost.</target>
+        <note>views/templates/steps/update-options.html.twig:51</note>
+      </trans-unit>
       <trans-unit id="81b6978502363841a3bf10daba2245a0">
         <source>Regenerate email templates</source>
         <target>Regenerate email templates</target>
-        <note>views/templates/steps/update-options.html.twig:50</note>
+        <note>views/templates/steps/update-options.html.twig:59</note>
       </trans-unit>
       <trans-unit id="fa7822529883d315d967479ca1b03086">
         <source>If you've customized email templates, your changes will be lost if you activate this option.</source>
         <target>If you've customized email templates, your changes will be lost if you activate this option.</target>
-        <note>views/templates/steps/update-options.html.twig:51</note>
+        <note>views/templates/steps/update-options.html.twig:60</note>
       </trans-unit>
       <trans-unit id="03a9e6840847f96325b7184d5f3c2769">
         <source>Disable all overrides</source>
         <target>Disable all overrides</target>
-        <note>views/templates/steps/update-options.html.twig:59</note>
+        <note>views/templates/steps/update-options.html.twig:68</note>
       </trans-unit>
       <trans-unit id="88ddcf190382d59544798dece18b890b">
         <source><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></source>
         <target><![CDATA[Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates.]]></target>
-        <note>views/templates/steps/update-options.html.twig:60</note>
+        <note>views/templates/steps/update-options.html.twig:69</note>
       </trans-unit>
       <trans-unit id="8f54da32d0160f178f08b2530d1e690b">
         <source>Back up your store</source>
