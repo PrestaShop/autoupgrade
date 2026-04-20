@@ -54,12 +54,8 @@ abstract class AbstractConfigurationLoader
         $this->configurationValidators = $configurationValidators;
     }
 
-    /**
-     * @throws Exception
-     */
     public function initialize(UpgradeContainer $upgradeContainer): void
     {
-        $upgradeContainer->initPrestaShopCore();
     }
 
     /**
