@@ -81,7 +81,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
 
         $this->marketplaceService->expects($this->exactly(3))->method('getModuleDetail');
 
-        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', null, ModuleCompatibilityChecker::COMPLETE_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
@@ -111,7 +111,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
         // The results are the same but the number of calls to the marketplace is different
         $this->marketplaceService->expects($this->exactly(6))->method('getModuleDetail');
 
-        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::DETAILED_SEARCH);
+        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', null, ModuleCompatibilityChecker::DETAILED_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
@@ -136,7 +136,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
 
         $this->marketplaceService->expects($this->never())->method('getModuleDetail');
 
-        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', null, ModuleCompatibilityChecker::COMPLETE_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
@@ -164,7 +164,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
 
         $this->marketplaceService->expects($this->once())->method('getModuleDetail');
 
-        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::QUICK_SEARCH);
+        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', null, ModuleCompatibilityChecker::QUICK_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
@@ -191,7 +191,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
 
         $this->marketplaceService->expects($this->once())->method('getModuleDetail');
 
-        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::QUICK_SEARCH);
+        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', null, ModuleCompatibilityChecker::QUICK_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
@@ -222,7 +222,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
         }));
         $checker = new ModuleCompatibilityChecker($this->distributionApiService, $marketplaceService);
 
-        $actual = $checker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+        $actual = $checker->getModulesRequiringAttention($installedModules, '99.99.99', null, ModuleCompatibilityChecker::COMPLETE_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
