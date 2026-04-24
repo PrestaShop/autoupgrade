@@ -20,10 +20,6 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Exceptions\MarketplaceApiException;
-use PrestaShop\Module\AutoUpgrade\Models\Module\DistributionApi\Module as DistributionApiModule;
-use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\Module as MarketplaceModule;
-use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\Release;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\MarketplaceService;
