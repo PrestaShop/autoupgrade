@@ -111,7 +111,11 @@ class ModuleCompatibilityChecker
                 }
             } elseif (!$moduleCompatibility->isCompatible()) {
                 if (!$moduleIsNative) {
-                    $result['incompatible_modules'][] = $localModuleName;
+                    if (!$moduleDetails->product->isActive) {
+                        $result['uncertain_modules'][] = $localModuleName;
+                    } else {
+                        $result['incompatible_modules'][] = $localModuleName;
+                    }
                 }
 
                 if ($mode === self::QUICK_SEARCH) {

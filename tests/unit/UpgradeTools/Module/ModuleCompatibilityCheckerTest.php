@@ -228,6 +228,56 @@ class ModuleCompatibilityCheckerTest extends TestCase
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
     }
 
+    public function testIncompatibleModuleWithOfflinePageIsUncertainNotIncompatible(): void
+    {
+        $installedModules = [
+            ['name' => 'iqitpopup', 'currentVersion' => '1.0.0'],
+        ];
+
+        $marketplaceService = $this->createMock(MarketplaceService::class);
+        $marketplaceService->method('getModuleDetail')->willReturn(
+            MarketplaceModule::fromArray(['product' => ['is_active' => false]])
+        );
+        $marketplaceService->method('findCompatibleModuleUpgrade')->will($this->returnCallback(function () {
+            $compat = $this->createMock(ModuleUpgradeCompatibility::class);
+            $compat->method('isCompatible')->willReturn(false);
+            $compat->method('getLatestRelease')->willReturn(Release::fromArray($this->createModuleRelease()));
+
+            return $compat;
+        }));
+
+        $checker = new ModuleCompatibilityChecker($this->distributionApiService, $marketplaceService);
+        $actual = $checker->getModulesRequiringAttention($installedModules, '9.0.0', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+
+        $this->assertEmpty($actual['incompatible_modules']);
+        $this->assertEquals(['iqitpopup'], $actual['uncertain_modules']);
+    }
+
+    public function testCompatibleModuleWithOfflinePageRemainsCompatible(): void
+    {
+        $installedModules = [
+            ['name' => 'psxdesign', 'currentVersion' => '2.0.0'],
+        ];
+
+        $marketplaceService = $this->createMock(MarketplaceService::class);
+        $marketplaceService->method('getModuleDetail')->willReturn(
+            MarketplaceModule::fromArray(['product' => ['is_active' => false]])
+        );
+        $marketplaceService->method('findCompatibleModuleUpgrade')->will($this->returnCallback(function () {
+            $compat = $this->createMock(ModuleUpgradeCompatibility::class);
+            $compat->method('isCompatible')->willReturn(true);
+            $compat->method('getLatestRelease')->willReturn(Release::fromArray($this->createModuleRelease()));
+
+            return $compat;
+        }));
+
+        $checker = new ModuleCompatibilityChecker($this->distributionApiService, $marketplaceService);
+        $actual = $checker->getModulesRequiringAttention($installedModules, '9.0.0', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+
+        $this->assertEmpty($actual['incompatible_modules']);
+        $this->assertEmpty($actual['uncertain_modules']);
+    }
+
     private function mockDistributionApiService()
     {
         $distributionApiService = $this->createMock(DistributionApiService::class);
@@ -252,7 +302,10 @@ class ModuleCompatibilityCheckerTest extends TestCase
 
             // Module exists. Compatibility will be reported with the other method
             // We hack one data of the module class as the technical name is not present.
-            return MarketplaceModule::fromArray(['product' => ['id_product' => (int) !in_array($arg, self::INCOMPATIBLE_MODULES)]]);
+            return MarketplaceModule::fromArray(['product' => [
+                'id_product' => (int) !in_array($arg, self::INCOMPATIBLE_MODULES),
+                'is_active' => true,
+            ]]);
         }));
 
         $marketplaceService->method('findCompatibleModuleUpgrade')->will($this->returnCallback(function (MarketplaceModule $arg) {
