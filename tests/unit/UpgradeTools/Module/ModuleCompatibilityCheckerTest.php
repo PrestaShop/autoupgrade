@@ -81,7 +81,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
 
         $this->marketplaceService->expects($this->exactly(3))->method('getModuleDetail');
 
-        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::COMPLETE_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
@@ -111,7 +111,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
         // The results are the same but the number of calls to the marketplace is different
         $this->marketplaceService->expects($this->exactly(6))->method('getModuleDetail');
 
-        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', ModuleCompatibilityChecker::DETAILED_SEARCH);
+        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::DETAILED_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
@@ -136,7 +136,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
 
         $this->marketplaceService->expects($this->never())->method('getModuleDetail');
 
-        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::COMPLETE_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
@@ -164,7 +164,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
 
         $this->marketplaceService->expects($this->once())->method('getModuleDetail');
 
-        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', ModuleCompatibilityChecker::QUICK_SEARCH);
+        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::QUICK_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
@@ -191,7 +191,7 @@ class ModuleCompatibilityCheckerTest extends TestCase
 
         $this->marketplaceService->expects($this->once())->method('getModuleDetail');
 
-        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', ModuleCompatibilityChecker::QUICK_SEARCH);
+        $actual = $this->moduleCompatibilityChecker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::QUICK_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
@@ -222,14 +222,15 @@ class ModuleCompatibilityCheckerTest extends TestCase
         }));
         $checker = new ModuleCompatibilityChecker($this->distributionApiService, $marketplaceService);
 
-        $actual = $checker->getModulesRequiringAttention($installedModules, '99.99.99', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+        $actual = $checker->getModulesRequiringAttention($installedModules, '99.99.99', '', ModuleCompatibilityChecker::COMPLETE_SEARCH);
 
         $this->assertEquals($expected['incompatible_modules'], $actual['incompatible_modules']);
         $this->assertEquals($expected['uncertain_modules'], $actual['uncertain_modules']);
     }
 
-    public function testIncompatibleModuleWithOfflinePageIsUncertainNotIncompatible(): void
+    public function testOfflineModuleNotCompatibleWithSourceVersionIsUncertain(): void
     {
+        // iqitpopup only has releases for PS 1.6, so it was not compatible with the 8.x source version
         $installedModules = [
             ['name' => 'iqitpopup', 'currentVersion' => '1.0.0'],
         ];
@@ -247,10 +248,37 @@ class ModuleCompatibilityCheckerTest extends TestCase
         }));
 
         $checker = new ModuleCompatibilityChecker($this->distributionApiService, $marketplaceService);
-        $actual = $checker->getModulesRequiringAttention($installedModules, '9.0.0', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+        $actual = $checker->getModulesRequiringAttention($installedModules, '9.0.0', '8.2.0', ModuleCompatibilityChecker::COMPLETE_SEARCH);
 
         $this->assertEmpty($actual['incompatible_modules']);
         $this->assertEquals(['iqitpopup'], $actual['uncertain_modules']);
+    }
+
+    public function testOfflineModuleCompatibleWithSourceVersionIsIncompatible(): void
+    {
+        // ps_edition_basic had releases for PS 8.x, so it was compatible with the source version
+        $installedModules = [
+            ['name' => 'ps_edition_basic', 'currentVersion' => '1.0.0'],
+        ];
+
+        $marketplaceService = $this->createMock(MarketplaceService::class);
+        $marketplaceService->method('getModuleDetail')->willReturn(
+            MarketplaceModule::fromArray(['product' => ['is_active' => false]])
+        );
+        // First call: target 9.0.0 → not compatible. Second call: source 8.2.0 → compatible.
+        $marketplaceService->method('findCompatibleModuleUpgrade')->will($this->returnCallback(function (MarketplaceModule $module, string $version) {
+            $compat = $this->createMock(ModuleUpgradeCompatibility::class);
+            $compat->method('isCompatible')->willReturn($version === '8.2.0');
+            $compat->method('getLatestRelease')->willReturn(Release::fromArray($this->createModuleRelease()));
+
+            return $compat;
+        }));
+
+        $checker = new ModuleCompatibilityChecker($this->distributionApiService, $marketplaceService);
+        $actual = $checker->getModulesRequiringAttention($installedModules, '9.0.0', '8.2.0', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+
+        $this->assertEquals(['ps_edition_basic'], $actual['incompatible_modules']);
+        $this->assertEmpty($actual['uncertain_modules']);
     }
 
     public function testCompatibleModuleWithOfflinePageRemainsCompatible(): void

@@ -63,7 +63,7 @@ class MarketplaceAndModuleCompatibilityTest extends TestCase
             new MarketplaceService($translator)
         );
 
-        $result = $checker->getModulesRequiringAttention($modules, '9.0.0', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+        $result = $checker->getModulesRequiringAttention($modules, '9.0.0', '8.2.0', ModuleCompatibilityChecker::COMPLETE_SEARCH);
 
         $this->assertEquals(['ps_edition_basic'], $result['incompatible_modules']);
         $this->assertEquals(['iqitpopup', 'monetico', 'lghidesubcat'], $result['uncertain_modules']);
