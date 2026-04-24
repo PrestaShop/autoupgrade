@@ -111,7 +111,7 @@ class ModuleCompatibilityChecker
                 }
             } elseif (!$moduleCompatibility->isCompatible()) {
                 if (!$moduleIsNative) {
-                    if (!$moduleDetails->product->isActive && $sourceVersion && !$this->marketplaceService->findCompatibleModuleUpgrade($moduleDetails, $sourceVersion, $localVersion)->isCompatible()) {
+                    if ($sourceVersion && !$this->marketplaceService->findCompatibleModuleUpgrade($moduleDetails, $sourceVersion, $localVersion)->isCompatible()) {
                         $result['uncertain_modules'][] = $localModuleName;
                     } else {
                         $result['incompatible_modules'][] = $localModuleName;

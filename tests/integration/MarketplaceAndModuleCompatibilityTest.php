@@ -42,6 +42,7 @@ class MarketplaceAndModuleCompatibilityTest extends TestCase
             // Compatible and active modules
             ['name' => 'ps_mcp_tools',      'currentVersion' => '1.0.0'],
             ['name' => 'paypal',            'currentVersion' => '1.0.0'],
+            ['name' => 'chronopost',        'currentVersion' => '1.0.0'],
 
             // psxdesign has is_active=false but does have releases compatible with PS 9.0.0.
             // It should be reported as compatible (absent from both lists).
@@ -52,6 +53,9 @@ class MarketplaceAndModuleCompatibilityTest extends TestCase
             ['name' => 'iqitpopup',         'currentVersion' => '1.0.0'],
             ['name' => 'monetico',          'currentVersion' => '1.0.0'],
             ['name' => 'lghidesubcat',      'currentVersion' => '1.0.0'],
+
+            // Module not maintained anymore on marketplace
+            ['name' => 'systempay',         'currentVersion' => '1.0.0'],
 
             // Modules known as incomaptible
             ['name' => 'ps_edition_basic',  'currentVersion' => '1.0.0'],
@@ -66,6 +70,6 @@ class MarketplaceAndModuleCompatibilityTest extends TestCase
         $result = $checker->getModulesRequiringAttention($modules, '9.0.0', '8.2.0', ModuleCompatibilityChecker::COMPLETE_SEARCH);
 
         $this->assertEquals(['ps_edition_basic'], $result['incompatible_modules']);
-        $this->assertEquals(['iqitpopup', 'monetico', 'lghidesubcat'], $result['uncertain_modules']);
+        $this->assertEquals(['iqitpopup', 'monetico', 'lghidesubcat', 'systempay'], $result['uncertain_modules']);
     }
 }
