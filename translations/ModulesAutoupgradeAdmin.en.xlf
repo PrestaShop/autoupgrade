@@ -172,65 +172,90 @@
         <target>File %filename% (size: %filesize%) has been skipped during backup.</target>
         <note>classes/ZipAction.php:361</note>
       </trans-unit>
-      <trans-unit id="0067de0b699a1ff27fe4faa758932986">
-        <source>Invalid configuration, backup name is missing.</source>
-        <target>Invalid configuration, backup name is missing.</target>
-        <note>classes/Parameters/RestoreConfigurationValidator.php:82</note>
+      <trans-unit id="1c041a27877f172964552beef6c228e6">
+        <source>Unknown configuration key '%s', Ignoring.</source>
+        <target>Unknown configuration key '%s', Ignoring.</target>
+        <note>classes/Parameters/Loader/UpdateConfigurationLoader.php:71</note>
       </trans-unit>
-      <trans-unit id="2aa754c876879a7a9bb7a8f4273730f8">
-        <source>Invalid configuration, backup %s doesn't exist.</source>
-        <target>Invalid configuration, backup %s doesn't exist.</target>
-        <note>classes/Parameters/RestoreConfigurationValidator.php:91</note>
+      <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97">
+        <source>Configuration successfully updated.</source>
+        <target>Configuration successfully updated.</target>
+        <note>classes/Parameters/Loader/AbstractConfigurationLoader.php:91</note>
       </trans-unit>
-      <trans-unit id="80c25611ea9134bac1da1d91eb03544a">
-        <source>Both 'xml' and 'zip' files attributes must be provided to use the local channel.</source>
-        <target>Both 'xml' and 'zip' files attributes must be provided to use the local channel.</target>
-        <note>classes/Parameters/LocalChannelConfigurationValidator.php:113</note>
+      <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12">
+        <source>Error on saving configuration</source>
+        <target>Error on saving configuration</target>
+        <note>classes/Parameters/Loader/AbstractConfigurationLoader.php:95</note>
       </trans-unit>
-      <trans-unit id="1d1a5763d2901dbd435b378358a149b4">
-        <source>File %s does not exist. Unable to select that channel.</source>
-        <target>File %s does not exist. Unable to select that channel.</target>
-        <note>classes/Parameters/LocalChannelConfigurationValidator.php:155</note>
+      <trans-unit id="d70699057bcd09b03129da2391b47d67">
+        <source>Update process will use archive.</source>
+        <target>Update process will use archive.</target>
+        <note>classes/Parameters/Loader/UpdateConfigurationLoader.php:118</note>
       </trans-unit>
       <trans-unit id="8cd1c74d3c55f934c1b312fc65f9022f">
         <source>We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</source>
         <target>We couldn't find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:103</note>
-      </trans-unit>
-      <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c">
-        <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</source>
-        <target>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</target>
-        <note>classes/Parameters/LocalChannelConfigurationValidator.php:164</note>
-      </trans-unit>
-      <trans-unit id="9faf1391c6c018a5f5343bd509fe8e96">
-        <source>The PrestaShop version in your archive doesn't match the one in XML file. Please fix this issue and try again.</source>
-        <target>The PrestaShop version in your archive doesn't match the one in XML file. Please fix this issue and try again.</target>
-        <note>classes/Parameters/LocalChannelConfigurationValidator.php:179</note>
+        <note>classes/Parameters/Validator/LocalChannelConfigurationValidator.php:135</note>
       </trans-unit>
       <trans-unit id="494e9240706355902c051f7edbff16d8">
         <source>Unknown channel %s</source>
         <target>Unknown channel %s</target>
-        <note>classes/Parameters/ConfigurationValidator.php:88</note>
+        <note>classes/Parameters/Validator/UpdateConfigurationValidator.php:76</note>
       </trans-unit>
       <trans-unit id="a1e2f27f691acb7eff72046d0c6d15b9">
         <source>No zip archive provided</source>
         <target>No zip archive provided</target>
-        <note>classes/Parameters/ConfigurationValidator.php:97</note>
+        <note>classes/Parameters/Validator/UpdateConfigurationValidator.php:85</note>
       </trans-unit>
       <trans-unit id="08ecdfa1e85ff7b6cc146b6a61690840">
         <source>No xml archive provided</source>
         <target>No xml archive provided</target>
-        <note>classes/Parameters/ConfigurationValidator.php:106</note>
-      </trans-unit>
-      <trans-unit id="8f6819dd1d8ef2e214833f667fe994b0">
-        <source>Value must be a boolean for %s</source>
-        <target>Value must be a boolean for %s</target>
-        <note>classes/Parameters/ConfigurationValidator.php:118</note>
+        <note>classes/Parameters/Validator/UpdateConfigurationValidator.php:94</note>
       </trans-unit>
       <trans-unit id="e1f14f4d3c6982641c551777d9100d93">
         <source>Zip or XML archives are only allowed with the local channel</source>
         <target>Zip or XML archives are only allowed with the local channel</target>
-        <note>classes/Parameters/ConfigurationValidator.php:138</note>
+        <note>classes/Parameters/Validator/UpdateConfigurationValidator.php:114</note>
+      </trans-unit>
+      <trans-unit id="0067de0b699a1ff27fe4faa758932986">
+        <source>Invalid configuration, backup name is missing.</source>
+        <target>Invalid configuration, backup name is missing.</target>
+        <note>classes/Parameters/Validator/RestoreConfigurationValidator.php:84</note>
+      </trans-unit>
+      <trans-unit id="2aa754c876879a7a9bb7a8f4273730f8">
+        <source>Invalid configuration, backup %s doesn't exist.</source>
+        <target>Invalid configuration, backup %s doesn't exist.</target>
+        <note>classes/Parameters/Validator/RestoreConfigurationValidator.php:93</note>
+      </trans-unit>
+      <trans-unit id="8f6819dd1d8ef2e214833f667fe994b0">
+        <source>Value must be a boolean for %s</source>
+        <target>Value must be a boolean for %s</target>
+        <note>classes/Parameters/Validator/AbstractConfigurationValidator.php:48</note>
+      </trans-unit>
+      <trans-unit id="dbdcb7ab425a6ee8dda8949f185b9407">
+        <source>Value must be an integer for %s</source>
+        <target>Value must be an integer for %s</target>
+        <note>classes/Parameters/Validator/AbstractConfigurationValidator.php:60</note>
+      </trans-unit>
+      <trans-unit id="80c25611ea9134bac1da1d91eb03544a">
+        <source>Both 'xml' and 'zip' files attributes must be provided to use the local channel.</source>
+        <target>Both 'xml' and 'zip' files attributes must be provided to use the local channel.</target>
+        <note>classes/Parameters/Validator/LocalChannelConfigurationValidator.php:110</note>
+      </trans-unit>
+      <trans-unit id="1d1a5763d2901dbd435b378358a149b4">
+        <source>File %s does not exist. Unable to select that channel.</source>
+        <target>File %s does not exist. Unable to select that channel.</target>
+        <note>classes/Parameters/Validator/LocalChannelConfigurationValidator.php:152</note>
+      </trans-unit>
+      <trans-unit id="a9c58dc4da830f87b1f0cb9e2b6f8a1c">
+        <source>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</source>
+        <target>We couldn't find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.</target>
+        <note>classes/Parameters/Validator/LocalChannelConfigurationValidator.php:161</note>
+      </trans-unit>
+      <trans-unit id="9faf1391c6c018a5f5343bd509fe8e96">
+        <source>The PrestaShop version in your archive doesn't match the one in XML file. Please fix this issue and try again.</source>
+        <target>The PrestaShop version in your archive doesn't match the one in XML file. Please fix this issue and try again.</target>
+        <note>classes/Parameters/Validator/LocalChannelConfigurationValidator.php:176</note>
       </trans-unit>
       <trans-unit id="26b9f7a72f6303211ad6d2f635ea680e">
         <source>Your current PHP version isn't compatible with PrestaShop %s. (Expected: %s - %s | Current: %s)</source>
@@ -470,32 +495,12 @@
       <trans-unit id="88b3ca1ea582b35668b5ed49bbf8206b">
         <source>Backup completed successfully.</source>
         <target>Backup completed successfully.</target>
-        <note>classes/Task/Backup/BackupComplete.php:55</note>
+        <note>classes/Task/Backup/BackupComplete.php:58</note>
       </trans-unit>
       <trans-unit id="435d516735dbf7f622c7d14585f66840">
         <source>Action %s skipped</source>
         <target>Action %s skipped</target>
         <note>classes/Task/AbstractTask.php:205</note>
-      </trans-unit>
-      <trans-unit id="1c041a27877f172964552beef6c228e6">
-        <source>Unknown configuration key '%s', Ignoring.</source>
-        <target>Unknown configuration key '%s', Ignoring.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:59</note>
-      </trans-unit>
-      <trans-unit id="d70699057bcd09b03129da2391b47d67">
-        <source>Update process will use archive.</source>
-        <target>Update process will use archive.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:100</note>
-      </trans-unit>
-      <trans-unit id="1fe9dd96f646eaa0cd3a0fcc7632ce12">
-        <source>Error on saving configuration</source>
-        <target>Error on saving configuration</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:111</note>
-      </trans-unit>
-      <trans-unit id="f2ff9d001d0a553c78da73443e7fcd97">
-        <source>Configuration successfully updated.</source>
-        <target>Configuration successfully updated.</target>
-        <note>classes/Task/Miscellaneous/UpdateConfig.php:174</note>
       </trans-unit>
       <trans-unit id="64ace91c75e6a8dcba8262e5215df07f">
         <source>OPCache configuration will be changed for the duration of the process.</source>
@@ -545,7 +550,7 @@
       <trans-unit id="b579142dc2ece4e07e8fcc1f99cd75c8">
         <source>Restoration process done. Congratulations! You can now reactivate your store.</source>
         <target>Restoration process done. Congratulations! You can now reactivate your store.</target>
-        <note>classes/Task/Restore/RestoreComplete.php:39</note>
+        <note>classes/Task/Restore/RestoreComplete.php:44</note>
       </trans-unit>
       <trans-unit id="8c4204265814594491ae20c9899a0fff">
         <source>Running opcache_reset</source>
@@ -925,7 +930,7 @@
       <trans-unit id="1b24cc8e4bf3ac0babd1a96fbc83e369">
         <source>The temporary directory of modules has been emptied</source>
         <target>The temporary directory of modules has been emptied</target>
-        <note>classes/Task/Update/UpdateComplete.php:82</note>
+        <note>classes/Task/Update/UpdateComplete.php:79</note>
       </trans-unit>
       <trans-unit id="d2b9f1e39aa8e96bb61f3a4bfe133f58">
         <source>%s removed</source>
