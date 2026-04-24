@@ -24,7 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeSelfCheck;
@@ -48,7 +48,7 @@ class CheckRequirementsCommand extends AbstractCommand
             ->setDescription('Check all prerequisites for an update.')
             ->setHelp('This command allows you to check the prerequisites necessary for the proper functioning of an update.')
             ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
-            ->addOption('channel', null, InputOption::VALUE_REQUIRED, "Selects what update to run ('" . UpgradeConfiguration::CHANNEL_LOCAL . "' / '" . UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED . "' / '" . UpgradeConfiguration::CHANNEL_ONLINE . "')")
+            ->addOption('channel', null, InputOption::VALUE_REQUIRED, "Selects what update to run ('" . UpdateConfiguration::CHANNEL_LOCAL . "' / '" . UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED . "' / '" . UpdateConfiguration::CHANNEL_ONLINE . "')")
             ->addOption('zip', null, InputOption::VALUE_REQUIRED, 'Sets the archive zip file for a local update.')
             ->addOption('xml', null, InputOption::VALUE_REQUIRED, 'Sets the archive xml file for a local update.')
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.');
@@ -65,9 +65,9 @@ class CheckRequirementsCommand extends AbstractCommand
             $this->output = $output;
 
             $options = [
-                UpgradeConfiguration::ARCHIVE_ZIP => 'zip',
-                UpgradeConfiguration::ARCHIVE_XML => 'xml',
-                UpgradeConfiguration::CHANNEL => 'channel',
+                UpdateConfiguration::ARCHIVE_ZIP => 'zip',
+                UpdateConfiguration::ARCHIVE_XML => 'xml',
+                UpdateConfiguration::CHANNEL => 'channel',
             ];
             foreach ($options as $configKey => $optionName) {
                 $optionValue = $input->getOption($optionName);
@@ -77,7 +77,8 @@ class CheckRequirementsCommand extends AbstractCommand
             }
 
             $configPath = $input->getOption('config-file-path');
-            $exitCode = $this->loadConfiguration($configPath);
+            $loader = $this->upgradeContainer->getUpdateConfigurationLoader();
+            $exitCode = $this->loadConfiguration($loader, $configPath);
             if ($exitCode !== ExitCode::SUCCESS) {
                 return $exitCode;
             }
@@ -99,6 +100,8 @@ class CheckRequirementsCommand extends AbstractCommand
         } catch (Exception $e) {
             $this->logger->error("An error occurred during the check requirements process:\n" . $e);
             throw $e;
+        } finally {
+            $this->upgradeContainer->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
         }
     }
 

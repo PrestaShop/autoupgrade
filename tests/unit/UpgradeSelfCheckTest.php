@@ -20,7 +20,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\PrestashopConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Upgrader;
@@ -46,7 +46,7 @@ class UpgradeSelfCheckTest extends TestCase
         $upgrader->method('getDestinationVersion')->willReturn(null);
         $upgrader->method('getLatestCompatibleModuleVersion')->willReturn('');
 
-        $updateConfiguration = $this->createMock(UpgradeConfiguration::class);
+        $updateConfiguration = $this->createMock(UpdateConfiguration::class);
         $updateConfiguration->method('isChannelLocal')->willReturn(false);
 
         $prestashopConfiguration = $this->createMock(PrestashopConfiguration::class);
@@ -100,7 +100,7 @@ class UpgradeSelfCheckTest extends TestCase
         // Empty string triggers DESTINATION_VERSION_IS_NOT_SUPPORTED, skipping isModuleVersionLatest() call
         $upgrader->method('getLatestCompatibleModuleVersion')->willReturn('');
 
-        $updateConfiguration = $this->createMock(UpgradeConfiguration::class);
+        $updateConfiguration = $this->createMock(UpdateConfiguration::class);
         $updateConfiguration->method('isChannelLocal')->willReturn($isChannelLocal);
 
         $prestashopConfiguration = $this->createMock(PrestashopConfiguration::class);
@@ -165,7 +165,7 @@ class UpgradeSelfCheckTest extends TestCase
         $upgrader->method('getDestinationVersion')->willReturn('9.0.0');
         $upgrader->method('getLatestCompatibleModuleVersion')->willReturn('');
 
-        $updateConfiguration = $this->createMock(UpgradeConfiguration::class);
+        $updateConfiguration = $this->createMock(UpdateConfiguration::class);
         $updateConfiguration->method('isChannelLocal')->willReturn(true);
 
         $prestashopConfiguration = $this->createMock(PrestashopConfiguration::class);

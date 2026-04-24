@@ -28,7 +28,7 @@ use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
  * The State is used to keep track of the remaining operations to do on the shop during a process.
  * Its lifespan is strictly linked to a running process, it has no use outside it.
  *
- * @see PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration to prepare data that will be needed during an update.
+ * @see PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration to prepare data that will be needed during an update.
  */
 abstract class AbstractState
 {

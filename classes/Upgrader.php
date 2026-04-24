@@ -24,7 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Models\PrestashopRelease;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\DistributionApiService;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
@@ -43,7 +43,7 @@ class Upgrader
     protected $currentPsVersion;
     /** @var PhpVersionResolverService */
     protected $phpVersionResolverService;
-    /** @var UpgradeConfiguration */
+    /** @var UpdateConfiguration */
     protected $updateConfiguration;
     /** @var Filesystem */
     protected $filesystem;
@@ -55,7 +55,7 @@ class Upgrader
     public function __construct(
         Translator $translator,
         PhpVersionResolverService $phpRequirementService,
-        UpgradeConfiguration $updateConfiguration,
+        UpdateConfiguration $updateConfiguration,
         Filesystem $filesystem,
         FileLoader $fileLoader,
         DistributionApiService $distributionApiService,
@@ -182,13 +182,13 @@ class Upgrader
      */
     public function getOnlineDestinationVersionForChannel(string $channel): ?string
     {
-        if ($channel === UpgradeConfiguration::CHANNEL_ONLINE) {
+        if ($channel === UpdateConfiguration::CHANNEL_ONLINE) {
             return $this->getOnlineMaxDestinationRelease() ? $this->getOnlineMaxDestinationRelease()->getVersion() : null;
-        } elseif ($channel === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED) {
+        } elseif ($channel === UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED) {
             return $this->getOnlineRecommendedDestinationRelease() ? $this->getOnlineRecommendedDestinationRelease()->getVersion() : null;
         }
 
-        throw new ProcessException(sprintf('Channel accepted: %s, %s', UpgradeConfiguration::CHANNEL_ONLINE, UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED));
+        throw new ProcessException(sprintf('Channel accepted: %s, %s', UpdateConfiguration::CHANNEL_ONLINE, UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED));
     }
 
     /**

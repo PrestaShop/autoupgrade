@@ -19,8 +19,9 @@
  */
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Analytics;
+use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileStorage;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\State\RestoreState;
 use PrestaShop\Module\AutoUpgrade\State\UpdateState;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -52,19 +53,25 @@ class AnalyticsTest extends TestCase
         $configurationStorage = $this->container->getConfigurationStorage();
         $updateConfiguration = $configurationStorage->loadUpdateConfiguration();
         $updateConfiguration->merge([
-            UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => false,
-            UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
-            UpgradeConfiguration::PS_AUTOUP_CHANGE_DEFAULT_THEME => true,
-            UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL => true,
-            UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => false,
-            UpgradeConfiguration::CHANNEL => UpgradeConfiguration::CHANNEL_LOCAL,
-            UpgradeConfiguration::ARCHIVE_ZIP => 'zip.zip',
-            UpgradeConfiguration::UPDATE_TYPE => 'patch',
+            UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => false,
+            UpdateConfiguration::UNINSTALL_INCOMPATIBLE_MODULES => true,
+            UpdateConfiguration::PS_AUTOUP_CHANGE_DEFAULT_THEME => true,
+            UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => true,
+            UpdateConfiguration::CHANNEL => UpdateConfiguration::CHANNEL_LOCAL,
+            UpdateConfiguration::ARCHIVE_ZIP => 'zip.zip',
+            UpdateConfiguration::UPDATE_TYPE => 'patch',
         ]);
         $configurationStorage->save($updateConfiguration);
 
+        $backupConfiguration = $configurationStorage->loadBackupConfiguration();
+        $backupConfiguration->merge([
+            BackupConfiguration::KEEP_IMAGES => false,
+        ]);
+        $configurationStorage->save($backupConfiguration);
+
         $analytics = new Analytics(
             $updateConfiguration,
+            $backupConfiguration,
             $this->container->getEnvironment(),
             $states,
             'somePathToAutoupgradeModule',

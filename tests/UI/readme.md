@@ -84,14 +84,14 @@ docker exec -t prestashop curl --fail -L https://github.com/PrestaShop/zip-archi
 docker exec -t prestashop curl --fail -L https://api.prestashop.com/xml/md5/8.2.0.xml -o admin-dev/autoupgrade/download/prestashop_8.2.0.xml
 # Create config file of new version 8.2.0
 docker exec -t prestashop sh -c "echo '{\"local\":\"online\",\"archive_zip\":\"prestashop_8.2.0.zip\",
-\"archive_xml\":\"prestashop_8.2.0.xml\",\"PS_AUTOUP_CUSTOM_MOD_DESACT\":\"true\",\"PS_AUTOUP_CHANGE_DEFAULT_THEME\"
-:\"false\",\"PS_AUTOUP_KEEP_IMAGES\":\"true\",\"PS_DISABLE_OVERRIDES\":\"true\"}' > modules/autoupgrade/config.json"
+\"archive_xml\":\"prestashop_8.2.0.xml\",\"disable_non_native_modules\":\"true\",\"PS_AUTOUP_CHANGE_DEFAULT_THEME\"
+:\"false\",\"keep_images\":\"true\",\"disable_overrides\":\"true\"}' > modules/autoupgrade/config.json"
 
 # 3 - If you want to upgrade using channel **online**
 # Create config file of new version 8.2.0
 docker exec -t prestashop sh -c "echo '{\"channel\":\"online\",\"archive_zip\":\"prestashop_8.2.0.zip\",
-\"archive_xml\":\"prestashop_8.2.0.xml\",\"PS_AUTOUP_CUSTOM_MOD_DESACT\":\"true\",\"PS_AUTOUP_CHANGE_DEFAULT_THEME\"
-:\"false\",\"PS_AUTOUP_KEEP_IMAGES\":\"true\",\"PS_DISABLE_OVERRIDES\":\"true\"}' > modules/autoupgrade/config.json"
+\"archive_xml\":\"prestashop_8.2.0.xml\",\"disable_non_native_modules\":\"true\",\"PS_AUTOUP_CHANGE_DEFAULT_THEME\"
+:\"false\",\"keep_images\":\"true\",\"disable_overrides\":\"true\"}' > modules/autoupgrade/config.json"
 
 # 4 - Update to 8.2.0
 docker exec -t prestashop php modules/autoupgrade/bin/console update:start --config-file-path=modules/autoupgrade/config.json

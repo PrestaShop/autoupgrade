@@ -26,8 +26,8 @@ use InvalidArgumentException;
 use PrestaShop\Module\AutoUpgrade\ErrorHandler;
 use PrestaShop\Module\AutoUpgrade\Log\CliLogger;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
+use PrestaShop\Module\AutoUpgrade\Parameters\Loader\AbstractConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
-use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -98,16 +98,9 @@ abstract class AbstractCommand extends Command
     /**
      * @throws Exception
      */
-    protected function loadConfiguration(?string $configPath): int
+    protected function loadConfiguration(AbstractConfigurationLoader $loader, ?string $configPath): int
     {
-        $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();
-        if (!$updateConfiguration->hasAllTheShopConfiguration()) {
-            $this->upgradeContainer->initPrestaShopCore();
-            $this->upgradeContainer->getPrestaShopConfiguration()->fillInUpdateConfiguration($updateConfiguration);
-        }
-        $this->upgradeContainer->getConfigurationStorage()->save($updateConfiguration);
-
-        $controller = new UpdateConfig($this->upgradeContainer);
+        $loader->initialize($this->upgradeContainer);
 
         $configurationData = [];
 
@@ -134,12 +127,27 @@ abstract class AbstractCommand extends Command
         if (!empty($configurationData)) {
             $this->logger->debug('Following configuration will be used for the process: ' . json_encode($configurationData));
 
-            $controller->inputCliParameters($configurationData);
-            $controller->init();
-
-            return $controller->run();
+            try {
+                return $loader->load($configurationData);
+            } catch (Exception $e) {
+                return ExitCode::FAIL;
+            }
         }
 
         return ExitCode::SUCCESS;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param array<string, string> $options
+     */
+    protected function processConsoleInputConfiguration(InputInterface $input, array $options): void
+    {
+        foreach ($options as $configKey => $optionName) {
+            $optionValue = $input->getOption($optionName);
+            if ($optionValue !== null) {
+                $this->consoleInputConfiguration[$configKey] = $optionValue;
+            }
+        }
     }
 }

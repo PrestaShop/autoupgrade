@@ -61,7 +61,7 @@ class UpdateFiles extends AbstractTask
         );
 
         // @TODO : does not upgrade files in modules, translations if they have not a correct md5 (or crc32, or whatever) from previous version
-        for ($i = 0; $i < $this->container->getUpdateConfiguration()->getNumberOfFilesPerCall(); ++$i) {
+        for ($i = 0; $i < $this->container->getUpdateConfiguration()->getMaxFilesPerBatch(); ++$i) {
             if (!$filesToUpgrade->getRemainingTotal()) {
                 $this->next = TaskName::TASK_UPDATE_DATABASE;
                 $this->logger->info($this->translator->trans('All files updated. Now updating database...'));

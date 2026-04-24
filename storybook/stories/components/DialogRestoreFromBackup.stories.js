@@ -29,7 +29,7 @@ export default {
     form_name: "backup_to_restore",
     form_route_to_confirm_restore: "/",
     form_fields: {
-      BACKUP_NAME: "backup_name",
+      backup_name: "backup_name",
     },
   },
 };

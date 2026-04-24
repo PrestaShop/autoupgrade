@@ -21,8 +21,6 @@
 
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 class ConfigurationStorage
 {
     /**
@@ -35,9 +33,14 @@ class ConfigurationStorage
         $this->storage = $storage;
     }
 
-    public function loadUpdateConfiguration(): UpgradeConfiguration
+    public function loadUpdateConfiguration(): UpdateConfiguration
     {
-        return new UpgradeConfiguration($this->storage->load(UpgradeFileNames::UPDATE_CONFIG_FILENAME));
+        return new UpdateConfiguration($this->storage->load(UpgradeFileNames::UPDATE_CONFIG_FILENAME));
+    }
+
+    public function loadBackupConfiguration(): BackupConfiguration
+    {
+        return new BackupConfiguration($this->storage->load(UpgradeFileNames::BACKUP_CONFIG_FILENAME));
     }
 
     public function loadRestoreConfiguration(): RestoreConfiguration
@@ -51,15 +54,18 @@ class ConfigurationStorage
     }
 
     /**
-     * @param UpgradeConfiguration|RestoreConfiguration|LanguageConfiguration $config
+     * @param UpdateConfiguration|BackupConfiguration|RestoreConfiguration|LanguageConfiguration $config
      *
      * @return bool
      */
-    public function save(ArrayCollection $config): bool
+    public function save(AbstractConfiguration $config): bool
     {
         switch (get_class($config)) {
-            case UpgradeConfiguration::class:
+            case UpdateConfiguration::class:
                 $fileName = UpgradeFileNames::UPDATE_CONFIG_FILENAME;
+                break;
+            case BackupConfiguration::class:
+                $fileName = UpgradeFileNames::BACKUP_CONFIG_FILENAME;
                 break;
             case RestoreConfiguration::class:
                 $fileName = UpgradeFileNames::RESTORE_CONFIG_FILENAME;

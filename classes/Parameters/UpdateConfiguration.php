@@ -22,23 +22,23 @@
 namespace PrestaShop\Module\AutoUpgrade\Parameters;
 
 use Configuration;
-use Doctrine\Common\Collections\ArrayCollection;
 use Shop;
-use UnexpectedValueException;
 
 /**
- * Contains the module configuration (form params).
- *
- * @extends ArrayCollection<string, mixed>
+ * Contains the update process configuration.
  */
-class UpgradeConfiguration extends ArrayCollection
+class UpdateConfiguration extends AbstractConfiguration
 {
-    const PS_AUTOUP_CUSTOM_MOD_DESACT = 'PS_AUTOUP_CUSTOM_MOD_DESACT';
-    const PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS = 'PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS';
+    /** @deprecated this configuration is no longer used by update process */
     const PS_AUTOUP_CHANGE_DEFAULT_THEME = 'PS_AUTOUP_CHANGE_DEFAULT_THEME';
-    const PS_AUTOUP_REGEN_EMAIL = 'PS_AUTOUP_REGEN_EMAIL';
-    const PS_AUTOUP_KEEP_IMAGES = 'PS_AUTOUP_KEEP_IMAGES';
+
+    /** PrestaShop configuration variable to disable or not overrides */
     const PS_DISABLE_OVERRIDES = 'PS_DISABLE_OVERRIDES';
+
+    const UNINSTALL_INCOMPATIBLE_MODULES = 'uninstall_incompatible_modules';
+    const DISABLE_NON_NATIVE_MODULES = 'disable_non_native_modules';
+    const REGENERATE_EMAIL_TEMPLATES = 'regenerate_email_templates';
+    const DISABLE_OVERRIDES = 'disable_overrides';
     const CHANNEL = 'channel';
     const UPDATE_TYPE = 'update_type';
     const ARCHIVE_ZIP = 'archive_zip';
@@ -46,32 +46,33 @@ class UpgradeConfiguration extends ArrayCollection
     const ARCHIVE_VERSION_NUM = 'archive_version_num';
     const BACKUP_COMPLETED = 'backup_completed';
     const INSTALLED_LANGUAGES = 'installed_languages';
+    const MAX_FILES_PER_BATCH = 'max_files_per_batch';
 
     const CHANNEL_ONLINE = 'online';
     const CHANNEL_ONLINE_RECOMMENDED = 'online_recommended';
     const CHANNEL_LOCAL = 'local';
 
     const UPGRADE_CONST_KEYS = [
-        self::PS_AUTOUP_CUSTOM_MOD_DESACT,
-        self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS,
+        self::DISABLE_NON_NATIVE_MODULES,
+        self::UNINSTALL_INCOMPATIBLE_MODULES,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME,
-        self::PS_AUTOUP_REGEN_EMAIL,
-        self::PS_AUTOUP_KEEP_IMAGES,
-        self::PS_DISABLE_OVERRIDES,
+        self::REGENERATE_EMAIL_TEMPLATES,
+        self::DISABLE_OVERRIDES,
         self::CHANNEL,
         self::UPDATE_TYPE,
         self::ARCHIVE_ZIP,
         self::ARCHIVE_XML,
         self::ARCHIVE_VERSION_NUM,
+        self::MAX_FILES_PER_BATCH,
     ];
 
-    const PS_CONST_DEFAULT_VALUE = [
-        self::PS_AUTOUP_CUSTOM_MOD_DESACT => true,
-        self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => true,
+    const DEFAULT_VALUES = [
+        self::DISABLE_NON_NATIVE_MODULES => true,
+        self::UNINSTALL_INCOMPATIBLE_MODULES => true,
         self::PS_AUTOUP_CHANGE_DEFAULT_THEME => false,
-        self::PS_AUTOUP_REGEN_EMAIL => true,
-        self::PS_AUTOUP_KEEP_IMAGES => true,
+        self::REGENERATE_EMAIL_TEMPLATES => true,
         self::BACKUP_COMPLETED => null,
+        self::MAX_FILES_PER_BATCH => 400,
     ];
 
     const CONFIGURATION_KEYS_ABOUT_SHOP = [
@@ -80,18 +81,6 @@ class UpgradeConfiguration extends ArrayCollection
 
     const DEFAULT_CHANNEL = self::CHANNEL_ONLINE_RECOMMENDED;
     const ONLINE_CHANNEL_ZIP = 'prestashop.zip';
-
-    /**
-     * Performance settings, if your server has a low memory size, lower these values.
-     *
-     * @var array<string, int>
-     */
-    private const PERFORMANCE_VALUES = [
-        'loopFiles' => 400, // files
-        'loopTime' => 6, // seconds
-        'maxBackupFileSize' => 15728640, // bytes
-        'maxWrittenAllowed' => 4194304, // bytes
-    ];
 
     /**
      * Get the name of the new release archive.
@@ -126,7 +115,7 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * Get channel selected on config panel (Minor, major ...).
      *
-     * @return UpgradeConfiguration::CHANNEL_*|null
+     * @return UpdateConfiguration::CHANNEL_*|null
      */
     public function getChannel(): ?string
     {
@@ -134,7 +123,7 @@ class UpgradeConfiguration extends ArrayCollection
     }
 
     /**
-     * @return UpgradeConfiguration::CHANNEL_*
+     * @return UpdateConfiguration::CHANNEL_*
      */
     public function getChannelOrDefault(): string
     {
@@ -143,17 +132,17 @@ class UpgradeConfiguration extends ArrayCollection
 
     public function isChannelLocal(): bool
     {
-        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_LOCAL;
+        return $this->getChannelOrDefault() === UpdateConfiguration::CHANNEL_LOCAL;
     }
 
     public function isChannelOnline(): bool
     {
-        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE;
+        return $this->getChannelOrDefault() === UpdateConfiguration::CHANNEL_ONLINE;
     }
 
     public function isChannelOnlineRecommended(): bool
     {
-        return $this->getChannelOrDefault() === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED;
+        return $this->getChannelOrDefault() === UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED;
     }
 
     /**
@@ -180,41 +169,9 @@ class UpgradeConfiguration extends ArrayCollection
     /**
      * @return int Number of files to handle in a single call to avoid timeouts
      */
-    public function getNumberOfFilesPerCall(): int
+    public function getMaxFilesPerBatch(): int
     {
-        return $this::PERFORMANCE_VALUES['loopFiles'];
-    }
-
-    /**
-     * @return int Number of seconds allowed before having to make another request
-     */
-    public function getTimePerCall(): int
-    {
-        return $this::PERFORMANCE_VALUES['loopTime'];
-    }
-
-    /**
-     * @return int Kind of reference for SQL file creation, giving a file size before another request is needed
-     */
-    public function getMaxSizeToWritePerCall(): int
-    {
-        return $this::PERFORMANCE_VALUES['maxWrittenAllowed'];
-    }
-
-    /**
-     * @return int Max file size allowed in backup
-     */
-    public function getMaxFileToBackup(): int
-    {
-        return $this::PERFORMANCE_VALUES['maxBackupFileSize'];
-    }
-
-    /**
-     * @return bool True if the autoupgrade module backup should include the images
-     */
-    public function shouldBackupImages(): bool
-    {
-        return $this->computeBooleanConfiguration(self::PS_AUTOUP_KEEP_IMAGES);
+        return $this->computeIntConfiguration(self::MAX_FILES_PER_BATCH);
     }
 
     /**
@@ -222,12 +179,15 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldDeactivateCustomModules(): bool
     {
-        return $this->computeBooleanConfiguration(self::PS_AUTOUP_CUSTOM_MOD_DESACT);
+        return $this->computeBooleanConfiguration(self::DISABLE_NON_NATIVE_MODULES);
     }
 
+    /**
+     * @return bool True if non compatible modules should be uninstall during upgrade
+     */
     public function shouldUninstallNonCompatibleModules(): bool
     {
-        return $this->computeBooleanConfiguration(self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS);
+        return $this->computeBooleanConfiguration(self::UNINSTALL_INCOMPATIBLE_MODULES);
     }
 
     /**
@@ -235,7 +195,7 @@ class UpgradeConfiguration extends ArrayCollection
      */
     public function shouldRegenerateMailTemplates(): bool
     {
-        return $this->computeBooleanConfiguration(self::PS_AUTOUP_REGEN_EMAIL);
+        return $this->computeBooleanConfiguration(self::REGENERATE_EMAIL_TEMPLATES);
     }
 
     /**
@@ -246,20 +206,6 @@ class UpgradeConfiguration extends ArrayCollection
     public function shouldSwitchToDefaultTheme(): bool
     {
         return $this->computeBooleanConfiguration(self::PS_AUTOUP_CHANGE_DEFAULT_THEME);
-    }
-
-    private function computeBooleanConfiguration(string $const): bool
-    {
-        $currentValue = $this->get($const);
-        $defaultValue = self::PS_CONST_DEFAULT_VALUE[$const];
-
-        if ($currentValue === null) {
-            return $defaultValue;
-        }
-
-        $currentValue = filter_var($currentValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-        return $currentValue !== null ? $currentValue : $defaultValue;
     }
 
     public static function isOverrideAllowed(): bool
@@ -282,20 +228,6 @@ class UpgradeConfiguration extends ArrayCollection
             self::updateDisabledOverride($value, $id_shop);
         }
         self::updateDisabledOverride($value);
-    }
-
-    /**
-     * @param array<string, mixed> $array
-     *
-     * @return void
-     *
-     * @throws UnexpectedValueException
-     */
-    public function merge(array $array = []): void
-    {
-        foreach ($array as $key => $value) {
-            $this->set($key, $value);
-        }
     }
 
     public function hasAllTheShopConfiguration(): bool

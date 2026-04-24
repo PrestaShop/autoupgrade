@@ -49,7 +49,9 @@ class RestoreCommand extends AbstractBackupCommand
                 'See https://devdocs.prestashop-project.org/8/basics/keeping-up-to-date/upgrade-module/upgrade-cli/#rollback-cli for more details'
             )
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.')
-            ->addOption('backup', null, InputOption::VALUE_REQUIRED, 'Specify the backup name to restore (this can be found in your folder <admin directory>/autoupgrade/backup/)');
+            ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location.')
+            ->addOption('backup', null, InputOption::VALUE_REQUIRED, 'Specify the backup name to restore (this can be found in your folder <admin directory>/autoupgrade/backup/)')
+            ->addOption('max-seconds-per-batch', null, InputOption::VALUE_REQUIRED, 'Number of seconds allowed before having to make another request');
     }
 
     /**
@@ -59,7 +61,7 @@ class RestoreCommand extends AbstractBackupCommand
     {
         try {
             $this->setupEnvironment($input, $output);
-
+            $configPath = $input->getOption('config-file-path');
             $backup = $input->getOption('backup');
 
             if (!$backup) {
@@ -73,10 +75,18 @@ class RestoreCommand extends AbstractBackupCommand
                     return ExitCode::SUCCESS;
                 }
             }
+
+            $this->consoleInputConfiguration[RestoreConfiguration::BACKUP_NAME] = $backup;
+
+            $secondsPerCall = $input->getOption('max-seconds-per-batch');
+            if ($secondsPerCall) {
+                $this->consoleInputConfiguration[RestoreConfiguration::MAX_SECONDS_PER_BATCH] = $secondsPerCall;
+            }
+
+            $loader = $this->upgradeContainer->getRestoreConfigurationLoader();
+            $this->loadConfiguration($loader, $configPath);
+
             $controller = new AllRestoreTasks($this->upgradeContainer);
-            $controller->setOptions([
-                RestoreConfiguration::BACKUP_NAME => $backup,
-            ]);
             $controller->init();
             $exitCode = $controller->run();
 

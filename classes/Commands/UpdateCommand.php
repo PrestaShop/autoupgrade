@@ -26,7 +26,7 @@ use InvalidArgumentException;
 use PrestaShop\Module\AutoUpgrade\DocumentationLinks;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\AllUpdateTasks;
@@ -56,7 +56,7 @@ class UpdateCommand extends AbstractCommand
             ->addArgument('admin-dir', InputArgument::REQUIRED, 'The admin directory name.')
             ->addOption('chain', null, InputOption::VALUE_NONE, 'True by default. Allows you to chain update commands automatically. The command will continue executing subsequent tasks without requiring manual intervention to restart the process.')
             ->addOption('no-chain', null, InputOption::VALUE_NONE, 'Prevents chaining of update commands. The command will execute a task and then stop, logging the next command that needs to be run. You will need to manually restart the process to continue with the next step.')
-            ->addOption('channel', null, InputOption::VALUE_REQUIRED, "Selects what update to run ('" . UpgradeConfiguration::CHANNEL_LOCAL . "' / '" . UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED . "' / '" . UpgradeConfiguration::CHANNEL_ONLINE . "')")
+            ->addOption('channel', null, InputOption::VALUE_REQUIRED, "Selects what update to run ('" . UpdateConfiguration::CHANNEL_LOCAL . "' / '" . UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED . "' / '" . UpdateConfiguration::CHANNEL_ONLINE . "')")
             ->addOption('zip', null, InputOption::VALUE_REQUIRED, 'Sets the archive zip file for a local update')
             ->addOption('xml', null, InputOption::VALUE_REQUIRED, 'Sets the archive xml file for a local update')
             ->addOption('disable-non-native-modules', null, InputOption::VALUE_REQUIRED, 'Disable all modules installed after the store creation (1 for yes, 0 for no). Ignored for PrestaShop v9 and above.')
@@ -64,7 +64,8 @@ class UpdateCommand extends AbstractCommand
             ->addOption('regenerate-email-templates', null, InputOption::VALUE_REQUIRED, "Regenerate email templates. If you've customized email templates, your changes will be lost if you activate this option (1 for yes, 0 for no)")
             ->addOption('disable-all-overrides', null, InputOption::VALUE_REQUIRED, 'Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates (1 for yes, 0 for no)')
             ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
-            ->addOption('action', null, InputOption::VALUE_REQUIRED, 'Advanced users only. Sets the step you want to start from. Only the "' . TaskName::TASK_UPDATE_INITIALIZATION . '" task updates the configuration. (Default: ' . TaskName::TASK_UPDATE_INITIALIZATION . ', see ' . DocumentationLinks::getDevDocUpdateAssistantCliUrl() . ' for other values available)');
+            ->addOption('action', null, InputOption::VALUE_REQUIRED, 'Advanced users only. Sets the step you want to start from. Only the "' . TaskName::TASK_UPDATE_INITIALIZATION . '" task updates the configuration. (Default: ' . TaskName::TASK_UPDATE_INITIALIZATION . ', see ' . DocumentationLinks::getDevDocUpdateAssistantCliUrl() . ' for other values available)')
+            ->addOption('max-files-per-batch', null, InputOption::VALUE_REQUIRED, 'Number of files to handle in a single call to avoid timeouts');
     }
 
     /**
@@ -93,11 +94,19 @@ class UpdateCommand extends AbstractCommand
                     ->getFileStorage()
                     ->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
 
-                $this->processConsoleInputConfiguration($input);
-
+                $this->processConsoleInputConfiguration($input, [
+                    UpdateConfiguration::CHANNEL => 'channel',
+                    UpdateConfiguration::ARCHIVE_ZIP => 'zip',
+                    UpdateConfiguration::ARCHIVE_XML => 'xml',
+                    UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => 'disable-non-native-modules',
+                    UpdateConfiguration::UNINSTALL_INCOMPATIBLE_MODULES => 'uninstall-incompatible-modules',
+                    UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => 'regenerate-email-templates',
+                    UpdateConfiguration::DISABLE_OVERRIDES => 'disable-all-overrides',
+                    UpdateConfiguration::MAX_FILES_PER_BATCH => 'max-files-per-batch',
+                ]);
                 $configPath = $input->getOption('config-file-path');
-                $exitCode = $this->loadConfiguration($configPath);
-
+                $loader = $this->upgradeContainer->getUpdateConfigurationLoader();
+                $exitCode = $this->loadConfiguration($loader, $configPath);
                 if ($exitCode !== ExitCode::SUCCESS) {
                     return $exitCode;
                 }
@@ -176,25 +185,6 @@ class UpdateCommand extends AbstractCommand
         return ExitCode::SUCCESS;
     }
 
-    private function processConsoleInputConfiguration(InputInterface $input): void
-    {
-        $options = [
-            UpgradeConfiguration::CHANNEL => 'channel',
-            UpgradeConfiguration::ARCHIVE_ZIP => 'zip',
-            UpgradeConfiguration::ARCHIVE_XML => 'xml',
-            UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => 'disable-non-native-modules',
-            UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => 'uninstall-incompatible-modules',
-            UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL => 'regenerate-email-templates',
-            UpgradeConfiguration::PS_DISABLE_OVERRIDES => 'disable-all-overrides',
-        ];
-        foreach ($options as $configKey => $optionName) {
-            $optionValue = $input->getOption($optionName);
-            if ($optionValue !== null) {
-                $this->consoleInputConfiguration[$configKey] = $optionValue;
-            }
-        }
-    }
-
     /**
      * @throws DistributionApiException
      * @throws ProcessException
@@ -203,29 +193,29 @@ class UpdateCommand extends AbstractCommand
     private function calculateUpdateTypeAfterConfigLoad(): void
     {
         $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();
-        $channel = $this->consoleInputConfiguration[UpgradeConfiguration::CHANNEL] ?? $updateConfiguration->getChannelOrDefault();
+        $channel = $this->consoleInputConfiguration[UpdateConfiguration::CHANNEL] ?? $updateConfiguration->getChannelOrDefault();
         $currentVersion = $this->upgradeContainer->getProperty(UpgradeContainer::PS_VERSION);
         $destinationVersion = null;
 
         switch ($channel) {
-            case UpgradeConfiguration::CHANNEL_LOCAL:
-                $zipFile = $this->consoleInputConfiguration[UpgradeConfiguration::ARCHIVE_ZIP] ?? $updateConfiguration->getLocalChannelZip();
+            case UpdateConfiguration::CHANNEL_LOCAL:
+                $zipFile = $this->consoleInputConfiguration[UpdateConfiguration::ARCHIVE_ZIP] ?? $updateConfiguration->getLocalChannelZip();
                 if ($zipFile) {
                     $fullFilePath = $this->upgradeContainer->getProperty(UpgradeContainer::DOWNLOAD_PATH) . DIRECTORY_SEPARATOR . $zipFile;
                     try {
                         $destinationVersion = $this->upgradeContainer->getPrestashopVersionService()->extractPrestashopVersionFromZip($fullFilePath);
-                        $updateConfiguration->set(UpgradeConfiguration::ARCHIVE_VERSION_NUM, $destinationVersion);
+                        $updateConfiguration->set(UpdateConfiguration::ARCHIVE_VERSION_NUM, $destinationVersion);
                     } catch (Exception $e) {
                         $this->logger->warning('Unable to extract PrestaShop version from ZIP file: ' . $e->getMessage());
                     }
                 }
                 break;
-            case UpgradeConfiguration::CHANNEL_ONLINE:
+            case UpdateConfiguration::CHANNEL_ONLINE:
                 $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease()
                     ? $this->upgradeContainer->getUpgrader()->getOnlineMaxDestinationRelease()->getVersion()
                     : null;
                 break;
-            case UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED:
+            case UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED:
                 $destinationVersion = $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()
                     ? $this->upgradeContainer->getUpgrader()->getOnlineRecommendedDestinationRelease()->getVersion()
                     : null;
@@ -234,7 +224,7 @@ class UpdateCommand extends AbstractCommand
 
         if (isset($destinationVersion)) {
             $updateType = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
-            $updateConfiguration->set(UpgradeConfiguration::UPDATE_TYPE, $updateType);
+            $updateConfiguration->set(UpdateConfiguration::UPDATE_TYPE, $updateType);
             $this->upgradeContainer->getConfigurationStorage()->save($updateConfiguration);
         }
     }

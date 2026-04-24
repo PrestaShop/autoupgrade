@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade\Controller;
 
 use PrestaShop\Module\AutoUpgrade\AjaxResponseBuilder;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Router\Routes;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
 use PrestaShop\Module\AutoUpgrade\Twig\PageSelectors;
@@ -58,18 +58,18 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
         $updateConfiguration = $this->upgradeContainer->getUpdateConfiguration();
 
         $config = [
-            UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT => $this->request->request->getBoolean(UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT, false),
-            UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => $this->request->request->getBoolean(UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS, false),
-            UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL => $this->request->request->getBoolean(UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL, false),
-            UpgradeConfiguration::PS_DISABLE_OVERRIDES => $this->request->request->getBoolean(UpgradeConfiguration::PS_DISABLE_OVERRIDES, false),
+            UpdateConfiguration::DISABLE_NON_NATIVE_MODULES => $this->request->request->getBoolean(UpdateConfiguration::DISABLE_NON_NATIVE_MODULES, false),
+            UpdateConfiguration::UNINSTALL_INCOMPATIBLE_MODULES => $this->request->request->getBoolean(UpdateConfiguration::UNINSTALL_INCOMPATIBLE_MODULES, false),
+            UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => $this->request->request->getBoolean(UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES, false),
+            UpdateConfiguration::DISABLE_OVERRIDES => $this->request->request->getBoolean(UpdateConfiguration::DISABLE_OVERRIDES, false),
         ];
 
-        $errors = $this->upgradeContainer->getConfigurationValidator()->validate($config);
+        $errors = $this->upgradeContainer->getUpdateConfigurationValidator()->validate($config);
 
         if (empty($errors)) {
             // One specific option requires the Core to store the value in database.
             $this->upgradeContainer->initPrestaShopCore();
-            UpgradeConfiguration::updatePSDisableOverrides($config[UpgradeConfiguration::PS_DISABLE_OVERRIDES]);
+            UpdateConfiguration::updatePSDisableOverrides($config[UpdateConfiguration::DISABLE_OVERRIDES]);
 
             $updateConfiguration->merge($config);
             $this->upgradeContainer->getConfigurationStorage()->save($updateConfiguration);
@@ -107,19 +107,19 @@ class UpdatePageUpdateOptionsController extends AbstractPageWithStepController
                     'deactive_non_native_modules' => [
                         // Starting from v9.0.0, this field has no effect. Services are now loaded regardless of the module's state, so this setting is no longer relevant.
                         'visible' => version_compare('9.0.0', $this->upgradeContainer->getUpgrader()->getDestinationVersion(), '>'),
-                        'field' => UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT,
+                        'field' => UpdateConfiguration::DISABLE_NON_NATIVE_MODULES,
                         'value' => $updateConfiguration->shouldDeactivateCustomModules(),
                     ],
                     'uninstall_incompatible_modules' => [
-                        'field' => UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS,
+                        'field' => UpdateConfiguration::UNINSTALL_INCOMPATIBLE_MODULES,
                         'value' => $updateConfiguration->shouldUninstallNonCompatibleModules(),
                     ],
                     'regenerate_email_templates' => [
-                        'field' => UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL,
+                        'field' => UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES,
                         'value' => $updateConfiguration->shouldRegenerateMailTemplates(),
                     ],
                     'disable_all_overrides' => [
-                        'field' => UpgradeConfiguration::PS_DISABLE_OVERRIDES,
+                        'field' => UpdateConfiguration::DISABLE_OVERRIDES,
                         'value' => !$updateConfiguration->isOverrideAllowed(),
                     ],
                 ],

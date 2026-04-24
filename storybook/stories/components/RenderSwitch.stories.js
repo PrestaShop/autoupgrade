@@ -26,8 +26,8 @@ export default {
 
 export const Switch = {
   args: {
-    id: "PS_AUTOUP_CUSTOM_MOD_DESACT",
-    name: "PS_AUTOUP_CUSTOM_MOD_DESACT",
+    id: "disable_non_native_modules",
+    name: "disable_non_native_modules",
     title: "Deactivate non-native modules",
     description:
       "All the modules installed after creating your store are considered non-native modules. They might be incompatible with the new version of PrestaShop. We recommend deactivating them during the update.",

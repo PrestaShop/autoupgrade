@@ -31,7 +31,7 @@ export const BackupSelection = {
   args: {
     backup_selection: true,
     form_fields: {
-      BACKUP_NAME: "BACKUP_NAME",
+      backup_name: "backup_name",
     },
     backups_available: [
       {

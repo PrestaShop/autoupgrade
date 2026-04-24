@@ -34,12 +34,12 @@
     name="{{ form_backup_selection_name }}"
   >
     {% include "@ModuleAutoUpgrade/components/render-backup-selection.html.twig" with {
-      id: form_fields.BACKUP_NAME,
-      name: form_fields.BACKUP_NAME,
+      id: form_fields.backup_name,
+      name: form_fields.backup_name,
       title: 'Select the backup you want to restore to'|trans({}),
       choices: backups_available,
       value: current_backup,
-      error_message: errors[form_fields.BACKUP_NAME] is defined ? errors[form_fields.BACKUP_NAME] : null,
+      error_message: errors[form_fields.backup_name] is defined ? errors[form_fields.backup_name] : null,
       backup_selection: true,
     } %}
   </form>

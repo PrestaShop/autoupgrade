@@ -19,9 +19,7 @@ parameters:
 		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AppKernel.#'
 		- '#Method PrestaShop\\Module\\AutoUpgrade\\UpgradeTools\\SymfonyAdapter::initKernel\(\) has invalid return type AdminKernel.#'
 		- "#^Parameter \\$moduleRepository of method PrestaShop\\\\Module\\\\AutoUpgrade\\\\UpgradeTools\\\\Module\\\\ModuleAdapter\\:\\:disableNonNativeModules80\\(\\) has invalid type PrestaShop\\\\PrestaShop\\\\Adapter\\\\Module\\\\Repository\\\\ModuleRepository\\.$#"
-		- "#^Class PrestaShop\\\\Module\\\\AutoUpgrade\\\\Parameters\\\\UpgradeConfiguration @extends tag contains incompatible type Doctrine\\\\Common\\\\Collections\\\\ArrayCollection&iterable\\<string, mixed\\>\\.$#"
-		- "#^Class PrestaShop\\\\Module\\\\AutoUpgrade\\\\Parameters\\\\RestoreConfiguration @extends tag contains incompatible type Doctrine\\\\Common\\\\Collections\\\\ArrayCollection&iterable\\<string, mixed\\>\\.$#"
-		- "#^Class PrestaShop\\\\Module\\\\AutoUpgrade\\\\Parameters\\\\LanguageConfiguration @extends tag contains incompatible type Doctrine\\\\Common\\\\Collections\\\\ArrayCollection&iterable\\<string, mixed\\>\\.$#"
+		- "#^Class PrestaShop\\\\Module\\\\AutoUpgrade\\\\Parameters\\\\AbstractConfiguration @extends tag contains incompatible type Doctrine\\\\Common\\\\Collections\\\\ArrayCollection&iterable\\<string, mixed\\>\\.$#"
 		- "#^Property PrestaShop\\\\Module\\\\AutoUpgrade\\\\UpgradeTools\\\\Module\\\\ModuleAdapter\\:\\:\\$commandBus has unknown class PrestaShop\\\\PrestaShop\\\\Core\\\\CommandBus\\\\CommandBusInterface as its type\\.$#"
 		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'
 		- '#Instantiated class AdminKernel not found\.#'

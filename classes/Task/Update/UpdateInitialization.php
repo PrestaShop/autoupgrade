@@ -23,7 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Task\Update;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Analytics;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
@@ -81,7 +81,7 @@ class UpdateInitialization extends AbstractTask
         }
 
         switch ($this->container->getUpdateConfiguration()->getChannelOrDefault()) {
-            case UpgradeConfiguration::CHANNEL_LOCAL:
+            case UpdateConfiguration::CHANNEL_LOCAL:
                 $this->next = TaskName::TASK_UNZIP;
                 $this->logger->debug($this->translator->trans('Downloading step has been skipped, update process will now unzip the local archive.'));
                 $this->logger->info($this->translator->trans('Store deactivated. Extracting files...'));

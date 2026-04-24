@@ -68,9 +68,9 @@ export default class UpdatePageUpdateOptions extends StepPage {
     const data = new FormData(this.#form);
 
     analytics.track('[SUE] Update options configured', {
-      disable_all_overrides: !!data.get('PS_DISABLE_OVERRIDES'),
-      disable_non_native_modules: !!data.get('PS_AUTOUP_CUSTOM_MOD_DESACT'),
-      regenerate_customized_email_templates: !!data.get('PS_AUTOUP_REGEN_EMAIL')
+      disable_all_overrides: !!data.get('disable_overrides'),
+      disable_non_native_modules: !!data.get('disable_non_native_modules'),
+      regenerate_customized_email_templates: !!data.get('regenerate_email_templates')
     });
 
     await api.post(this.#form.dataset.routeToSubmit!, data);

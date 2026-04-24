@@ -18,18 +18,14 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Parameters;
+namespace PrestaShop\Module\AutoUpgrade\Parameters\Validator;
 
 use PrestaShop\Module\AutoUpgrade\Backup\BackupFinder;
+use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
-class RestoreConfigurationValidator
+class RestoreConfigurationValidator extends AbstractConfigurationValidator
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
-
     /**
      * @var BackupFinder
      */
@@ -37,15 +33,11 @@ class RestoreConfigurationValidator
 
     public function __construct(Translator $translator, BackupFinder $backupFinder)
     {
-        $this->translator = $translator;
+        parent::__construct($translator);
+
         $this->backupFinder = $backupFinder;
     }
 
-    /**
-     * @param array<string, mixed> $array
-     *
-     * @return array<array{'message': string, 'target': string}>
-     */
     public function validate(array $array = []): array
     {
         $errors = [];
@@ -66,6 +58,16 @@ class RestoreConfigurationValidator
                 'message' => $backupNameExistErrors,
                 'target' => RestoreConfiguration::BACKUP_NAME,
             ];
+        }
+
+        if (isset($array[RestoreConfiguration::MAX_SECONDS_PER_BATCH])) {
+            $secondPerCallErrors = $this->validateInt($array[RestoreConfiguration::MAX_SECONDS_PER_BATCH], RestoreConfiguration::MAX_SECONDS_PER_BATCH);
+            if ($secondPerCallErrors) {
+                $errors[] = [
+                    'message' => $secondPerCallErrors,
+                    'target' => RestoreConfiguration::MAX_SECONDS_PER_BATCH,
+                ];
+            }
         }
 
         return $errors;

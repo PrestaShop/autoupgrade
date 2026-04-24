@@ -22,7 +22,7 @@
 namespace PrestaShop\Module\AutoUpgrade;
 
 use Exception;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -125,10 +125,10 @@ class PrestashopConfiguration
         );
     }
 
-    public function fillInUpdateConfiguration(UpgradeConfiguration $upgradeConfiguration): void
+    public function fillInUpdateConfiguration(UpdateConfiguration $updateConfiguration): void
     {
-        $upgradeConfiguration->merge([
-            UpgradeConfiguration::INSTALLED_LANGUAGES => $this->getInstalledLanguages(),
+        $updateConfiguration->merge([
+            UpdateConfiguration::INSTALLED_LANGUAGES => $this->getInstalledLanguages(),
         ]);
     }
 }

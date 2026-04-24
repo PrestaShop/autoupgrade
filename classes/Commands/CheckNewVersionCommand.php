@@ -24,7 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\DistributionApiException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\LocalVersionFilesService;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
@@ -70,7 +70,7 @@ class CheckNewVersionCommand extends AbstractCommand
                 $updateType = VersionUtils::getUpdateType($currentVersion, $localVersion);
                 $zipFiles = 'Zip: ' . implode(', ', $files[LocalVersionFilesService::TYPE_ZIP]) . "\n";
                 $xmlFiles = 'Xml: ' . implode(', ', $files[LocalVersionFilesService::TYPE_XML]);
-                $rows[] = [$localVersion, UpgradeConfiguration::CHANNEL_LOCAL, $updateType, $zipFiles . $xmlFiles];
+                $rows[] = [$localVersion, UpdateConfiguration::CHANNEL_LOCAL, $updateType, $zipFiles . $xmlFiles];
             }
 
             // sort by newest
@@ -86,13 +86,13 @@ class CheckNewVersionCommand extends AbstractCommand
             if ($onlineMaxRelease && ($onlineRecommendedRelease === null || $onlineMaxRelease->getVersion() !== $onlineRecommendedRelease->getVersion())) {
                 $destinationVersion = $onlineMaxRelease->getVersion();
                 $updateType = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
-                array_unshift($rows, [$destinationVersion, UpgradeConfiguration::CHANNEL_ONLINE, $updateType, $onlineMaxRelease->getReleaseNoteUrl()]);
+                array_unshift($rows, [$destinationVersion, UpdateConfiguration::CHANNEL_ONLINE, $updateType, $onlineMaxRelease->getReleaseNoteUrl()]);
             }
 
             if ($onlineRecommendedRelease) {
                 $destinationVersion = $onlineRecommendedRelease->getVersion();
                 $updateType = VersionUtils::getUpdateType($currentVersion, $destinationVersion);
-                array_unshift($rows, [$destinationVersion, UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED, $updateType, $onlineRecommendedRelease->getReleaseNoteUrl()]);
+                array_unshift($rows, [$destinationVersion, UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED, $updateType, $onlineRecommendedRelease->getReleaseNoteUrl()]);
             }
 
             $table = new Table($output);

@@ -87,7 +87,7 @@ class RestoreDatabase extends AbstractTask
 
         $time_elapsed = time() - $startTime;
 
-        while ($time_elapsed < $this->container->getUpdateConfiguration()->getTimePerCall() && $queriesBacklog->getRemainingTotal() > 0) {
+        while ($time_elapsed < $this->container->getRestoreConfiguration()->getMaxSecondsPerBatch() && $queriesBacklog->getRemainingTotal() > 0) {
             $query = trim($queriesBacklog->getNext());
             if (!empty($query) && !$db->execute($query, false)) {
                 $this->logger->error($this->translator->trans('Error during database restoration: ') . ' ' . $query . ' - ' . $this->container->getDb()->getMsgError());

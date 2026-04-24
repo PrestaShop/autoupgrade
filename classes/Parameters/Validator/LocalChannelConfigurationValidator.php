@@ -18,19 +18,15 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Parameters;
+namespace PrestaShop\Module\AutoUpgrade\Parameters\Validator;
 
 use Exception;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Services\PrestashopVersionService;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 
-class LocalChannelConfigurationValidator
+class LocalChannelConfigurationValidator extends AbstractConfigurationValidator
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
-
     /**
      * @var PrestashopVersionService
      */
@@ -53,7 +49,8 @@ class LocalChannelConfigurationValidator
 
     public function __construct(Translator $translator, PrestashopVersionService $versionService, string $downloadPath)
     {
-        $this->translator = $translator;
+        parent::__construct($translator);
+
         $this->downloadPath = $downloadPath;
         $this->versionService = $versionService;
     }
@@ -78,12 +75,12 @@ class LocalChannelConfigurationValidator
             return $errors;
         }
 
-        $zipErrors = $this->validateZipFile($array[UpgradeConfiguration::ARCHIVE_ZIP]);
+        $zipErrors = $this->validateZipFile($array[UpdateConfiguration::ARCHIVE_ZIP]);
         if ($zipErrors) {
             $errors[] = $zipErrors;
         }
 
-        $xmlErrors = $this->validateXmlFile($array[UpgradeConfiguration::ARCHIVE_XML]);
+        $xmlErrors = $this->validateXmlFile($array[UpdateConfiguration::ARCHIVE_XML]);
         if ($xmlErrors) {
             $errors[] = $xmlErrors;
         }
@@ -105,8 +102,8 @@ class LocalChannelConfigurationValidator
      */
     private function validateConfigExist(array $config): ?array
     {
-        $zipExist = isset($config[UpgradeConfiguration::ARCHIVE_ZIP]);
-        $xmlExist = isset($config[UpgradeConfiguration::ARCHIVE_XML]);
+        $zipExist = isset($config[UpdateConfiguration::ARCHIVE_ZIP]);
+        $xmlExist = isset($config[UpdateConfiguration::ARCHIVE_XML]);
 
         if (!$zipExist || !$xmlExist) {
             return [
@@ -127,7 +124,7 @@ class LocalChannelConfigurationValidator
         if (!file_exists($fullFilePath)) {
             return [
                 'message' => $this->translator->trans('File %s does not exist. Unable to select that channel.', [$file]),
-                'target' => UpgradeConfiguration::ARCHIVE_ZIP,
+                'target' => UpdateConfiguration::ARCHIVE_ZIP,
             ];
         }
 
@@ -136,7 +133,7 @@ class LocalChannelConfigurationValidator
         } catch (Exception $exception) {
             return [
                 'message' => $this->translator->trans('We couldn\'t find a PrestaShop version in the .zip file that was uploaded in your local archive. Please try again.'),
-                'target' => UpgradeConfiguration::ARCHIVE_ZIP,
+                'target' => UpdateConfiguration::ARCHIVE_ZIP,
             ];
         }
 
@@ -153,7 +150,7 @@ class LocalChannelConfigurationValidator
         if (!file_exists($fullXmlPath)) {
             return [
                 'message' => $this->translator->trans('File %s does not exist. Unable to select that channel.', [$file]),
-                'target' => UpgradeConfiguration::ARCHIVE_XML,
+                'target' => UpdateConfiguration::ARCHIVE_XML,
             ];
         }
 
@@ -162,7 +159,7 @@ class LocalChannelConfigurationValidator
         } catch (Exception $exception) {
             return [
                 'message' => $this->translator->trans('We couldn\'t find a PrestaShop version in the XML file that was uploaded in your local archive. Please try again.'),
-                'target' => UpgradeConfiguration::ARCHIVE_XML,
+                'target' => UpdateConfiguration::ARCHIVE_XML,
             ];
         }
 

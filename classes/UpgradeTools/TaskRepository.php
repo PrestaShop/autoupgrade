@@ -27,7 +27,6 @@ use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupComplete;
 use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupDatabase;
 use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupFiles;
 use PrestaShop\Module\AutoUpgrade\Task\Backup\BackupInitialization;
-use PrestaShop\Module\AutoUpgrade\Task\Miscellaneous\UpdateConfig;
 use PrestaShop\Module\AutoUpgrade\Task\NullTask;
 use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreComplete;
 use PrestaShop\Module\AutoUpgrade\Task\Restore\RestoreDatabase;
@@ -55,10 +54,6 @@ class TaskRepository
     public static function get(string $step, UpgradeContainer $container): AbstractTask
     {
         switch ($step) {
-            // MISCELLANEOUS (upgrade configuration, checks etc.)
-            case TaskName::TASK_UPDATE_CONFIG:
-                return new UpdateConfig($container);
-
             // RESTORE
             case TaskName::TASK_RESTORE_INITIALIZATION:
                 return new RestoreInitialization($container);

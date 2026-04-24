@@ -20,7 +20,8 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class FilesystemAdapterTest extends TestCase
@@ -49,7 +50,12 @@ class FilesystemAdapterTest extends TestCase
     {
         parent::setUp();
         $this->container = new UpgradeContainer(__DIR__, __DIR__ . '/..');     // We expect in these tests to NOT update the theme
-        $this->filesystemAdapter = $this->container->getFilesystemAdapter();
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->container->getFileStorage()->clean(UpgradeFileNames::BACKUP_CONFIG_FILENAME);
     }
 
     public function testListFilesInDirForUpgrade()
@@ -59,7 +65,7 @@ class FilesystemAdapterTest extends TestCase
             self::$pathToFakeRelease
         );
 
-        $actual = $this->filesystemAdapter->listFilesInDir(
+        $actual = $this->container->getFilesystemAdapter()->listFilesInDir(
             self::$pathToFakeRelease,
             'upgrade',
             true
@@ -72,8 +78,8 @@ class FilesystemAdapterTest extends TestCase
     public function testListFilesInDirForBackupWithImages()
     {
         $configurationStorage = $this->container->getConfigurationStorage();
-        $configuration = $this->container->getUpdateConfiguration();
-        $configuration->merge([UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => true]);
+        $configuration = $this->container->getBackupConfiguration();
+        $configuration->merge([BackupConfiguration::KEEP_IMAGES => true]);
         $configurationStorage->save($configuration);
 
         $expected = $this->loadFixtureAndAddPrefixToFilePaths(
@@ -81,7 +87,7 @@ class FilesystemAdapterTest extends TestCase
             self::$pathToFakeShop
         );
 
-        $actual = $this->filesystemAdapter->listFilesInDir(
+        $actual = $this->container->getFilesystemAdapter()->listFilesInDir(
             self::$pathToFakeShop,
             'backup'
         );
@@ -93,8 +99,8 @@ class FilesystemAdapterTest extends TestCase
     public function testListFilesInDirForBackupWithoutImages()
     {
         $configurationStorage = $this->container->getConfigurationStorage();
-        $configuration = $this->container->getUpdateConfiguration();
-        $configuration->merge([UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES => false]);
+        $configuration = $this->container->getBackupConfiguration();
+        $configuration->merge([BackupConfiguration::KEEP_IMAGES => false]);
         $configurationStorage->save($configuration);
 
         $expected = $this->loadFixtureAndAddPrefixToFilePaths(
@@ -102,7 +108,7 @@ class FilesystemAdapterTest extends TestCase
             self::$pathToFakeShop
         );
 
-        $actual = $this->filesystemAdapter->listFilesInDir(
+        $actual = $this->container->getFilesystemAdapter()->listFilesInDir(
             self::$pathToFakeShop,
             'backup'
         );
@@ -119,7 +125,7 @@ class FilesystemAdapterTest extends TestCase
             self::$pathToFakeShop
         );
 
-        $actual = $this->filesystemAdapter->listFilesInDir(
+        $actual = $this->container->getFilesystemAdapter()->listFilesInDir(
             self::$pathToFakeShop,
             'restore'
         );
@@ -134,7 +140,7 @@ class FilesystemAdapterTest extends TestCase
     public function testFileIsIgnored($file, $fullpath, $process)
     {
         $this->assertTrue(
-            $this->filesystemAdapter->isFileSkipped(
+            $this->container->getFilesystemAdapter()->isFileSkipped(
                 $file,
                 $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fullpath,
                 $process,
@@ -152,7 +158,7 @@ class FilesystemAdapterTest extends TestCase
     public function testFileFromReleaseIsIgnored($file, $fullpath, $process)
     {
         $this->assertTrue(
-            $this->filesystemAdapter->isFileSkipped(
+            $this->container->getFilesystemAdapter()->isFileSkipped(
                 $file,
                 $this->container->getProperty(UpgradeContainer::TMP_FILES_PATH) . $fullpath,
                 $process,
@@ -167,7 +173,7 @@ class FilesystemAdapterTest extends TestCase
     public function testFileIsNotIgnored($file, $fullpath, $process)
     {
         $this->assertFalse(
-            $this->filesystemAdapter->isFileSkipped(
+            $this->container->getFilesystemAdapter()->isFileSkipped(
                 $file,
                 $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fullpath,
                 $process,
@@ -220,7 +226,7 @@ class FilesystemAdapterTest extends TestCase
     public function testRandomFolderIsNotAPrestashopRelease()
     {
         $this->assertFalse(
-            $this->filesystemAdapter->isReleaseValid(__DIR__)
+            $this->container->getFilesystemAdapter()->isReleaseValid(__DIR__)
         );
     }
 
@@ -231,7 +237,7 @@ class FilesystemAdapterTest extends TestCase
         $this->fillFolderWithPsAssets($folder);
 
         $this->assertTrue(
-            $this->filesystemAdapter->isReleaseValid($folder)
+            $this->container->getFilesystemAdapter()->isReleaseValid($folder)
         );
     }
 
@@ -247,7 +253,7 @@ class FilesystemAdapterTest extends TestCase
         touch($folder . DIRECTORY_SEPARATOR . 'classes');
 
         $this->assertFalse(
-            $this->filesystemAdapter->isReleaseValid($folder)
+            $this->container->getFilesystemAdapter()->isReleaseValid($folder)
         );
     }
 

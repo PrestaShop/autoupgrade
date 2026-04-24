@@ -23,7 +23,7 @@ namespace PrestaShop\Module\AutoUpgrade\Commands;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Models\Module\Marketplace\ModuleUpgradeCompatibility;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\Services\PhpVersionResolverService;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
@@ -50,7 +50,7 @@ class CheckModulesCommand extends AbstractCommand
                 'channel',
                 null,
                 InputOption::VALUE_REQUIRED,
-                "Select which update channel to use ('" . UpgradeConfiguration::CHANNEL_LOCAL . "' / '" . UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED . "' / '" . UpgradeConfiguration::CHANNEL_ONLINE . "')"
+                "Select which update channel to use ('" . UpdateConfiguration::CHANNEL_LOCAL . "' / '" . UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED . "' / '" . UpdateConfiguration::CHANNEL_ONLINE . "')"
             )
             ->addOption('zip', null, InputOption::VALUE_REQUIRED, 'Sets the archive zip file for a local channel.')
             ->addOption('xml', null, InputOption::VALUE_REQUIRED, 'Sets the archive xml file for a local update.')
@@ -69,9 +69,9 @@ class CheckModulesCommand extends AbstractCommand
             $this->upgradeContainer->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
 
             $options = [
-                UpgradeConfiguration::ARCHIVE_ZIP => 'zip',
-                UpgradeConfiguration::ARCHIVE_XML => 'xml',
-                UpgradeConfiguration::CHANNEL => 'channel',
+                UpdateConfiguration::ARCHIVE_ZIP => 'zip',
+                UpdateConfiguration::ARCHIVE_XML => 'xml',
+                UpdateConfiguration::CHANNEL => 'channel',
             ];
             foreach ($options as $configKey => $optionName) {
                 $optionValue = $input->getOption($optionName);
@@ -81,7 +81,8 @@ class CheckModulesCommand extends AbstractCommand
             }
 
             $configPath = $input->getOption('config-file-path');
-            $exitCode = $this->loadConfiguration($configPath);
+            $loader = $this->upgradeContainer->getUpdateConfigurationLoader();
+            $exitCode = $this->loadConfiguration($loader, $configPath);
             if ($exitCode !== ExitCode::SUCCESS) {
                 return $exitCode;
             }
@@ -92,7 +93,7 @@ class CheckModulesCommand extends AbstractCommand
             $config = $this->upgradeContainer->getUpdateConfiguration();
             $channel = $config->getChannelOrDefault();
 
-            if ($channel === UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED || $channel === UpgradeConfiguration::CHANNEL_ONLINE) {
+            if ($channel === UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED || $channel === UpdateConfiguration::CHANNEL_ONLINE) {
                 $targetPsVersion = $this->upgradeContainer->getUpgrader()->getOnlineDestinationVersionForChannel($channel);
             } else {
                 $zip = $config->getChannelZip();
@@ -146,6 +147,8 @@ class CheckModulesCommand extends AbstractCommand
         } catch (Exception $e) {
             $this->logger->error("An error occurred during the check process:\n" . $e);
             throw $e;
+        } finally {
+            $this->upgradeContainer->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
         }
     }
 

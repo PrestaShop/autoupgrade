@@ -126,7 +126,7 @@ abstract class AbstractTask
             ->setStepDone($this->stepDone)
             ->setNext($this->next)
             ->setNextParams($this->nextParams)
-            ->setUpgradeConfiguration($this->container->getUpdateConfiguration());
+            ->setUpdateConfiguration($this->container->getUpdateConfiguration());
     }
 
     public function setErrorFlag(): void

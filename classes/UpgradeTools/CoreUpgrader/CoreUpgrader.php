@@ -30,7 +30,7 @@ use PrestaShop\Module\AutoUpgrade\Database\MysqlErrorCode;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\ThemeAdapter;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
@@ -135,7 +135,7 @@ abstract class CoreUpgrader
         $this->logger->info($this->container->getTranslator()->trans('Cleaning XML files'));
         $this->cleanXmlFiles();
 
-        if (UpgradeConfiguration::isOverrideAllowed()) {
+        if (UpdateConfiguration::isOverrideAllowed()) {
             $this->logger->info($this->container->getTranslator()->trans('Keeping overrides in place'));
         } else {
             $this->logger->info($this->container->getTranslator()->trans('Disabling overrides'));

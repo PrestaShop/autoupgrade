@@ -34,7 +34,7 @@
   </button>
 
   <form id="{{ form_name }}" name="{{ form_name }}" data-route-to-submit="{{ form_route_to_confirm_restore }}">
-    <input type="hidden" name="{{ form_fields.BACKUP_NAME }}" value="{{ backup_name }}" />
+    <input type="hidden" name="{{ form_fields.backup_name }}" value="{{ backup_name }}" />
     <button type="submit" class="btn btn-primary">
       {{ 'Restore'|trans({}) }}
     </button>

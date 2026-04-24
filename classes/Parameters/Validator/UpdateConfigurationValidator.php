@@ -19,50 +19,38 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-namespace PrestaShop\Module\AutoUpgrade\Parameters;
+namespace PrestaShop\Module\AutoUpgrade\Parameters\Validator;
 
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
 
-class ConfigurationValidator
+class UpdateConfigurationValidator extends AbstractConfigurationValidator
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
-
-    public function __construct(Translator $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
-     * @param array<string, mixed> $array
-     *
-     * @return array<array{'message': string, 'target': string}>
-     */
     public function validate(array $array = []): array
     {
         $errors = [];
 
-        $isLocal = isset($array[UpgradeConfiguration::CHANNEL]) && $array[UpgradeConfiguration::CHANNEL] === UpgradeConfiguration::CHANNEL_LOCAL;
+        $isLocal = isset($array[UpdateConfiguration::CHANNEL]) && $array[UpdateConfiguration::CHANNEL] === UpdateConfiguration::CHANNEL_LOCAL;
 
         foreach ($array as $key => $value) {
             switch ($key) {
-                case UpgradeConfiguration::CHANNEL:
+                case UpdateConfiguration::CHANNEL:
                     $error = $this->validateChannel($value);
                     break;
-                case UpgradeConfiguration::ARCHIVE_ZIP:
+                case UpdateConfiguration::ARCHIVE_ZIP:
                     $error = $this->validateArchiveZip($value, $isLocal);
                     break;
-                case UpgradeConfiguration::ARCHIVE_XML:
+                case UpdateConfiguration::ARCHIVE_XML:
                     $error = $this->validateArchiveXml($value, $isLocal);
                     break;
-                case UpgradeConfiguration::PS_AUTOUP_CUSTOM_MOD_DESACT:
-                case UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL:
-                case UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES:
-                case UpgradeConfiguration::PS_DISABLE_OVERRIDES:
+                case UpdateConfiguration::DISABLE_NON_NATIVE_MODULES:
+                case UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES:
+                case UpdateConfiguration::DISABLE_OVERRIDES:
                     $error = $this->validateBool($value, $key);
                     break;
+                case UpdateConfiguration::MAX_FILES_PER_BATCH:
+                    $error = $this->validateInt($value, $key);
+                    break;
+                default:
             }
 
             if (isset($error)) {
@@ -81,9 +69,9 @@ class ConfigurationValidator
     private function validateChannel(string $channel): ?string
     {
         if (!in_array($channel, [
-            UpgradeConfiguration::CHANNEL_LOCAL,
-            UpgradeConfiguration::CHANNEL_ONLINE,
-            UpgradeConfiguration::CHANNEL_ONLINE_RECOMMENDED,
+            UpdateConfiguration::CHANNEL_LOCAL,
+            UpdateConfiguration::CHANNEL_ONLINE,
+            UpdateConfiguration::CHANNEL_ONLINE_RECOMMENDED,
         ], true)) {
             return $this->translator->trans('Unknown channel %s', [$channel]);
         }
@@ -110,18 +98,6 @@ class ConfigurationValidator
     }
 
     /**
-     * @param string|bool $boolValue
-     */
-    private function validateBool($boolValue, string $key): ?string
-    {
-        if (!is_bool($boolValue) && ($boolValue === '' || filter_var($boolValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === null)) {
-            return $this->translator->trans('Value must be a boolean for %s', [$key]);
-        }
-
-        return null;
-    }
-
-    /**
      * @param array<string, mixed> $array
      *
      * @return array{'message': string, 'target': string}|null
@@ -129,14 +105,14 @@ class ConfigurationValidator
     private function validateArchivesOnlyForLocalChannel(array $array, bool $isLocal): ?array
     {
         // We didn't want to return an error if the customer hadn't entered a channel.
-        if (!isset($array[UpgradeConfiguration::CHANNEL]) || $isLocal) {
+        if (!isset($array[UpdateConfiguration::CHANNEL]) || $isLocal) {
             return null;
         }
 
-        if (!empty($array[UpgradeConfiguration::ARCHIVE_ZIP] ?? null) || !empty($array[UpgradeConfiguration::ARCHIVE_XML] ?? null)) {
+        if (!empty($array[UpdateConfiguration::ARCHIVE_ZIP] ?? null) || !empty($array[UpdateConfiguration::ARCHIVE_XML] ?? null)) {
             return [
                 'message' => $this->translator->trans('Zip or XML archives are only allowed with the local channel'),
-                'target' => UpgradeConfiguration::CHANNEL,
+                'target' => UpdateConfiguration::CHANNEL,
             ];
         }
 

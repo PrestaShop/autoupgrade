@@ -32,7 +32,7 @@ export const BackupDelete = {
     form_name: "delete-backup",
     form_route_to_confirm_delete: "/",
     form_fields: {
-      BACKUP_NAME: "backup_name",
+      backup_name: "backup_name",
     },
   },
   play: async () => {

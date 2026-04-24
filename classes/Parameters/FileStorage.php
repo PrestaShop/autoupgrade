@@ -47,7 +47,7 @@ class FileStorage
     }
 
     /**
-     * UpgradeConfiguration loader.
+     * Configuration loader.
      *
      * @param string $fileName File name to load
      *

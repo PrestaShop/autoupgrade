@@ -28,14 +28,19 @@ use PrestaShop\Module\AutoUpgrade\Backup\BackupManager;
 use PrestaShop\Module\AutoUpgrade\Environment as UpdateEnvironment;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Log\WebLogger;
+use PrestaShop\Module\AutoUpgrade\Parameters\BackupConfiguration;
 use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationStorage;
-use PrestaShop\Module\AutoUpgrade\Parameters\ConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Parameters\FileStorage;
 use PrestaShop\Module\AutoUpgrade\Parameters\LanguageConfiguration;
-use PrestaShop\Module\AutoUpgrade\Parameters\LocalChannelConfigurationValidator;
+use PrestaShop\Module\AutoUpgrade\Parameters\Loader\BackupConfigurationLoader;
+use PrestaShop\Module\AutoUpgrade\Parameters\Loader\RestoreConfigurationLoader;
+use PrestaShop\Module\AutoUpgrade\Parameters\Loader\UpdateConfigurationLoader;
 use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfiguration;
-use PrestaShop\Module\AutoUpgrade\Parameters\RestoreConfigurationValidator;
-use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpdateConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\Validator\BackupConfigurationValidator;
+use PrestaShop\Module\AutoUpgrade\Parameters\Validator\LocalChannelConfigurationValidator;
+use PrestaShop\Module\AutoUpgrade\Parameters\Validator\RestoreConfigurationValidator;
+use PrestaShop\Module\AutoUpgrade\Parameters\Validator\UpdateConfigurationValidator;
 use PrestaShop\Module\AutoUpgrade\Progress\CompletionCalculator;
 use PrestaShop\Module\AutoUpgrade\Router\UrlGenerator;
 use PrestaShop\Module\AutoUpgrade\Services\ComposerService;
@@ -149,11 +154,14 @@ class UpgradeContainer
     /** @var ConfigurationStorage */
     private $configurationStorage;
 
-    /** @var UpgradeConfiguration */
-    private $updateConfiguration;
+    /** @var UpdateConfigurationLoader */
+    private $updateConfigurationLoader;
 
-    /** @var RestoreConfiguration */
-    private $restoreConfiguration;
+    /** @var BackupConfigurationLoader */
+    private $backupConfigurationLoader;
+
+    /** @var RestoreConfigurationLoader */
+    private $restoreConfigurationLoader;
 
     /** @var LanguageConfiguration */
     private $languageConfiguration;
@@ -209,11 +217,14 @@ class UpgradeContainer
     /** @var AssetsEnvironment */
     private $assetsEnvironment;
 
-    /** @var ConfigurationValidator */
-    private $configurationValidator;
+    /** @var UpdateConfigurationValidator */
+    private $updateConfigurationValidator;
 
     /** @var LocalChannelConfigurationValidator */
     private $localChannelConfigurationValidator;
+
+    /** @var BackupConfigurationValidator */
+    private $backupConfigurationValidator;
 
     /**
      * @var RestoreConfigurationValidator
@@ -356,13 +367,17 @@ class UpgradeContainer
         return $this->getProperty(self::TMP_RELEASES_DIR) . $fileName;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getAnalytics(): Analytics
     {
         if (null === $this->analytics) {
-            // The identifier shoudl be a value a value always different between two shops
-            // But equal between two upgrade processes
+            // The identifier should be a value a value always different between two shops
+            // But equal between two update processes
             $this->analytics = new Analytics(
                 $this->getUpdateConfiguration(),
+                $this->getBackupConfiguration(),
                 $this->getEnvironment(),
                 [
                     'update' => $this->getUpdateState(),
@@ -377,7 +392,7 @@ class UpgradeContainer
                             'php_context' => php_sapi_name() === 'cli' ? 'cli' : 'web',
                         ],
                         Analytics::WITH_UPDATE_PROPERTIES => [
-                            'disable_all_overrides' => class_exists('\Configuration', false) ? UpgradeConfiguration::isOverrideAllowed() : null,
+                            'disable_all_overrides' => class_exists('\Configuration', false) ? UpdateConfiguration::isOverrideAllowed() : null,
                             'regenerate_rtl_stylesheet' => class_exists('\Language', false) ? $this->shouldUpdateRTLFiles() : null,
                         ],
                     ],
@@ -486,6 +501,7 @@ class UpgradeContainer
         if (null === $this->fileFilter) {
             $this->fileFilter = new FileFilter(
                 $this->getUpdateConfiguration(),
+                $this->getBackupConfiguration(),
                 $this->getComposerService(),
                 $this->getProperty(self::PS_ROOT_PATH)
             );
@@ -808,13 +824,58 @@ class UpgradeContainer
     /**
      * @throws Exception
      */
-    public function getUpdateConfiguration(): UpgradeConfiguration
+    public function getUpdateConfiguration(): UpdateConfiguration
     {
-        if (null === $this->updateConfiguration) {
-            $this->updateConfiguration = $this->getConfigurationStorage()->loadUpdateConfiguration();
+        return $this->getConfigurationStorage()->loadUpdateConfiguration();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getUpdateConfigurationLoader(): UpdateConfigurationLoader
+    {
+        if (null === $this->updateConfigurationLoader) {
+            $this->updateConfigurationLoader = new UpdateConfigurationLoader(
+                $this->getLogger(),
+                $this->getTranslator(),
+                $this->getConfigurationStorage(),
+                [
+                    'updateConfigurationValidator' => $this->getUpdateConfigurationValidator(),
+                    'localChannelConfigurationValidator' => $this->getLocalChannelConfigurationValidator(),
+                ],
+                $this->getProperty(UpgradeContainer::DOWNLOAD_PATH),
+                $this->getPrestaShopVersionService()
+            );
         }
 
-        return $this->updateConfiguration;
+        return $this->updateConfigurationLoader;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getBackupConfiguration(): BackupConfiguration
+    {
+        return $this->getConfigurationStorage()->loadBackupConfiguration();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getBackupConfigurationLoader(): BackupConfigurationLoader
+    {
+        if (null === $this->backupConfigurationLoader) {
+            $this->backupConfigurationLoader = new BackupConfigurationLoader(
+                $this->getLogger(),
+                $this->getTranslator(),
+                $this->getConfigurationStorage(),
+                [
+                    'backupConfigurationValidator' => $this->getBackupConfigurationValidator(),
+                ]
+            );
+        }
+
+        return $this->backupConfigurationLoader;
     }
 
     /**
@@ -822,11 +883,26 @@ class UpgradeContainer
      */
     public function getRestoreConfiguration(): RestoreConfiguration
     {
-        if (null === $this->restoreConfiguration) {
-            $this->restoreConfiguration = $this->getConfigurationStorage()->loadRestoreConfiguration();
+        return $this->getConfigurationStorage()->loadRestoreConfiguration();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getRestoreConfigurationLoader(): RestoreConfigurationLoader
+    {
+        if (null === $this->restoreConfigurationLoader) {
+            $this->restoreConfigurationLoader = new RestoreConfigurationLoader(
+                $this->getLogger(),
+                $this->getTranslator(),
+                $this->getConfigurationStorage(),
+                [
+                    'restoreConfigurationValidator' => $this->getRestoreConfigurationValidator(),
+                ]
+            );
         }
 
-        return $this->restoreConfiguration;
+        return $this->restoreConfigurationLoader;
     }
 
     public function getUpdateNotificationService(): UpdateNotificationService
@@ -955,7 +1031,7 @@ class UpgradeContainer
                 $this->getFileSystem(),
                 $this->getTranslator(),
                 $this->getLogger(),
-                $this->getUpdateConfiguration(),
+                $this->getBackupConfiguration(),
                 $this->getProperty(self::PS_ROOT_PATH));
         }
 
@@ -977,21 +1053,21 @@ class UpgradeContainer
     }
 
     /**
-     * @return ConfigurationValidator
+     * @throws Exception
      */
-    public function getConfigurationValidator(): ConfigurationValidator
+    public function getUpdateConfigurationValidator(): UpdateConfigurationValidator
     {
-        if (null === $this->configurationValidator) {
-            $this->configurationValidator = new ConfigurationValidator(
+        if (null === $this->updateConfigurationValidator) {
+            $this->updateConfigurationValidator = new UpdateConfigurationValidator(
                 $this->getTranslator()
             );
         }
 
-        return $this->configurationValidator;
+        return $this->updateConfigurationValidator;
     }
 
     /**
-     * @return LocalChannelConfigurationValidator
+     * @throws Exception
      */
     public function getLocalChannelConfigurationValidator(): LocalChannelConfigurationValidator
     {
@@ -1006,6 +1082,23 @@ class UpgradeContainer
         return $this->localChannelConfigurationValidator;
     }
 
+    /**
+     * @throws Exception
+     */
+    public function getBackupConfigurationValidator(): BackupConfigurationValidator
+    {
+        if (null === $this->backupConfigurationValidator) {
+            $this->backupConfigurationValidator = new BackupConfigurationValidator(
+                $this->getTranslator()
+            );
+        }
+
+        return $this->backupConfigurationValidator;
+    }
+
+    /**
+     * @throws Exception
+     */
     public function getRestoreConfigurationValidator(): RestoreConfigurationValidator
     {
         if (null === $this->restoreConfigurationValidator) {

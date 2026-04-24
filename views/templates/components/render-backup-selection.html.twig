@@ -20,12 +20,12 @@
 
 {% block action_content %}
   <div class="render-field__backup-selection">
-    <label for="{{ form_fields.BACKUP_NAME }}">
+    <label for="{{ form_fields.backup_name }}">
       {{ 'Select the backup you want to restore to'|trans({}) }}
     </label>
 
     <div class="render-field__backup-selection-wrapper">
-      <select class="form-control render-field__backup-selection-select" id="{{ form_fields.BACKUP_NAME }}" name="{{ form_fields.BACKUP_NAME }}">
+      <select class="form-control render-field__backup-selection-select" id="{{ form_fields.backup_name }}" name="{{ form_fields.backup_name }}">
         {% for backup in backups_available %}
           <option
             value="{{ backup.filename }}"
