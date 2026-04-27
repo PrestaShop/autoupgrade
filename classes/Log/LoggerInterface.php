@@ -1,5 +1,10 @@
 <?php
 /**
+ * For the full copyright and license information, please view the
+ * LICENSE.md file that was distributed with this source code.
+ */
+
+/**
  * IMPORTANT NOTE.
  *
  * This class is taken from the composer dependency psr/log.

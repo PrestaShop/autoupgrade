@@ -48,6 +48,12 @@
         ],
         "post-update-cmd": [
             "@composer update --working-dir=sub-vendors/php8"
+        ],
+        "header-stamp": [
+            "@php ./tests/vendor/bin/header-stamp --config=.header-stamp-config.yml --dry-run"
+        ],
+        "header-stamp-fix": [
+            "@php ./tests/vendor/bin/header-stamp --config=.header-stamp-config.yml"
         ]
     }
 }
