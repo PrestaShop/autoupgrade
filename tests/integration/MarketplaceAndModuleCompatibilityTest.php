@@ -68,4 +68,31 @@ class MarketplaceAndModuleCompatibilityTest extends TestCase
         $this->assertEquals(['ps_edition_basic'], $result['incompatible_modules']);
         $this->assertEquals(['iqitpopup', 'monetico', 'lghidesubcat', 'systempay'], $result['uncertain_modules']);
     }
+
+    public function testModulesWithOfflinePageAndNoCompatibleReleaseAreUncertainOnSameMajorVersion(): void
+    {
+        $modules = [
+            // Compatible and active modules
+            ['name' => 'ps_mcp_tools',      'currentVersion' => '1.0.0'],
+            ['name' => 'paypal',            'currentVersion' => '1.0.0'],
+            ['name' => 'chronopost',        'currentVersion' => '1.0.0'],
+
+            // Modules for PrestaShop 1.7. Updates from and to PS 8 tell if the modules has been made compliant.
+            ['name' => 'anscrolltop',       'currentVersion' => '1.0.0'],
+            ['name' => 'ps_buybuttonlite',  'currentVersion' => '1.0.0'],
+            ['name' => 'psaddonsconnect',   'currentVersion' => '1.0.0'],
+            ['name' => 'welcome',           'currentVersion' => '1.0.0'],
+        ];
+
+        $translator = new Translator('en');
+        $checker = new ModuleCompatibilityChecker(
+            new DistributionApiService($translator),
+            new MarketplaceService($translator)
+        );
+
+        $result = $checker->getModulesRequiringAttention($modules, '8.2.5', '8.2.1', ModuleCompatibilityChecker::COMPLETE_SEARCH);
+
+        $this->assertEquals([], $result['incompatible_modules']);
+        $this->assertEquals(['anscrolltop', 'ps_buybuttonlite', 'psaddonsconnect', 'welcome'], $result['uncertain_modules']);
+    }
 }
