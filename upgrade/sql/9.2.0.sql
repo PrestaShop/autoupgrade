@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `PREFIX_business_identifier` (
   `id_business_identifier` INT UNSIGNED AUTO_INCREMENT NOT NULL,
   `label` VARCHAR(255) NOT NULL,
   `unremovable` TINYINT(1) NOT NULL DEFAULT 0,
-  `id_zone` INT UNSIGNED NOT NULL,
+  `id_zone` INT UNSIGNED DEFAULT NULL,
   `deleted` TINYINT(1) NOT NULL DEFAULT 0,
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
