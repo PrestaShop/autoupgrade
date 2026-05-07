@@ -55,7 +55,7 @@ class ModuleCompatibilityChecker
      *
      * @return array{incompatible_modules: string[], uncertain_modules: string[], compatibility: array<string, ?ModuleUpgradeCompatibility>}
      */
-    public function getModulesRequiringAttention(array $modulesInstalled, string $targetVersion, $mode = self::COMPLETE_SEARCH): array
+    public function getModulesRequiringAttention(array $modulesInstalled, string $targetVersion, ?string $sourceVersion = null, $mode = self::COMPLETE_SEARCH): array
     {
         $result = [
             'incompatible_modules' => [],
@@ -111,7 +111,11 @@ class ModuleCompatibilityChecker
                 }
             } elseif (!$moduleCompatibility->isCompatible()) {
                 if (!$moduleIsNative) {
-                    $result['incompatible_modules'][] = $localModuleName;
+                    if ($sourceVersion && !$this->marketplaceService->findCompatibleModuleUpgrade($moduleDetails, $sourceVersion, $localVersion)->isCompatible()) {
+                        $result['uncertain_modules'][] = $localModuleName;
+                    } else {
+                        $result['incompatible_modules'][] = $localModuleName;
+                    }
                 }
 
                 if ($mode === self::QUICK_SEARCH) {
