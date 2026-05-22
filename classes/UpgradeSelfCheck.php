@@ -774,7 +774,7 @@ class UpgradeSelfCheck
     {
         $modulesInstalled = $this->moduleAdapter->listModulesPresentInFolderAndInstalled();
 
-        return $this->moduleCompatibilityChecker->getModulesRequiringAttention($modulesInstalled, $this->destinationVersion, $mode);
+        return $this->moduleCompatibilityChecker->getModulesRequiringAttention($modulesInstalled, $this->destinationVersion, $this->currentVersion, $mode);
     }
 
     /**

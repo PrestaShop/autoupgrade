@@ -127,7 +127,8 @@ class UninstallModules extends AbstractTask
 
             $checkResult = $this->container->getModuleCompatibilityChecker()->getModulesRequiringAttention(
                 $modulesList,
-                $targetVersion
+                $targetVersion,
+                $this->container->getUpdateState()->getCurrentVersion()
             );
 
             foreach ($checkResult['uncertain_modules'] as $moduleName) {
