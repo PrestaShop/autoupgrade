@@ -225,12 +225,12 @@
       <trans-unit id="7936efd0bb368052d140848962efbde8">
         <source>Could not check compatibility of module %s with the Marketplace API.</source>
         <target>Could not check compatibility of module %s with the Marketplace API.</target>
-        <note>classes/Task/Update/UninstallModules.php:134</note>
+        <note>classes/Task/Update/UninstallModules.php:135</note>
       </trans-unit>
       <trans-unit id="1bb3417aa4ddeb45d58d8cfa775c0a25">
         <source>%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.</source>
         <target>%nbOfModules% incompatible modules with PrestaShop %version% will be uninstalled.</target>
-        <note>classes/Task/Update/UninstallModules.php:155</note>
+        <note>classes/Task/Update/UninstallModules.php:156</note>
       </trans-unit>
       <trans-unit id="78c6e760441165ec762746a0ab4b64cd">
         <source>Checking updates of module %module%...</source>
