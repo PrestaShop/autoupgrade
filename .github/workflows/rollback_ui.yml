@@ -93,14 +93,6 @@ jobs:
           docker exec -t prestashop bash -c 'cd /var/www/html/modules/autoupgrade/_dev && npm install && npm run vite:build'
           docker exec -t prestashop chmod 777 -R /var/www/html/admin-dev/autoupgrade
 
-      - name: Install dependencies
-        working-directory: tests/UI/
-        run: npm ci
-
-      - name: Install Playwright Browsers
-        working-directory: tests/UI/
-        run: npx playwright install chromium --with-deps
-
       - name: Install canvas system dependencies
         run: |
           sudo apt-get update
@@ -111,6 +103,18 @@ jobs:
             libjpeg-dev \
             libgif-dev \
             librsvg2-dev
+
+      - name: Install dependencies
+        working-directory: tests/UI/
+        run: npm ci
+
+      - name: Install canvas
+        run: npm install canvas --save-optional
+        working-directory: tests/UI
+
+      - name: Install Playwright Browsers
+        working-directory: tests/UI/
+        run: npx playwright install chromium --with-deps
 
       - name: Rollback
         working-directory: tests/UI/
