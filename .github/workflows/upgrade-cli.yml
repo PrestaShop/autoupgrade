@@ -121,6 +121,17 @@ jobs:
         working-directory: tests/UI/
         run: npx playwright install chromium --with-deps
 
+      - name: Install canvas system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+          build-essential \
+          libcairo2-dev \
+          libpango1.0-dev \
+          libjpeg-dev \
+          libgif-dev \
+          librsvg2-dev
+
       - name: Get PS version
         run: |
           echo "PS_VERSION_DB=$(docker exec --tty prestashop-mysql sh -c "mysql -pprestashop prestashop -e \"select value from ps_configuration where name LIKE 'PS_VERSION_DB'\" 2>&1 | grep '[0-9]' | tr -d [:space:]")" >> "$GITHUB_ENV"
