@@ -54,9 +54,8 @@ UPDATE `PREFIX_smarty_lazy_cache` SET `cache_id` = SUBSTRING(`cache_id`, 1, 191)
 ALTER TABLE `PREFIX_smarty_lazy_cache` CHANGE `cache_id` `cache_id` VARCHAR(191) NOT NULL DEFAULT '';
 
 /* improve performance of lookup by product reference/product_supplier avoiding full table scan */
-ALTER TABLE PREFIX_product
-    ADD INDEX reference_idx(reference),
-    ADD INDEX supplier_reference_idx(supplier_reference);
+/* PHP:add_index_if_not_exists('product', 'reference_idx', '(reference)'); */;
+/* PHP:add_index_if_not_exists('product', 'supplier_reference_idx', '(supplier_reference)'); */;
 
 /* Add fields for currencies */
 /* PHP:add_column('currency', 'unofficial', 'TINYINT(1) UNSIGNED NOT NULL DEFAULT \'0\' AFTER `active`'); */;

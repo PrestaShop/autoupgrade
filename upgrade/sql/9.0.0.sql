@@ -57,6 +57,7 @@ ALTER TABLE `PREFIX_customized_data` MODIFY `value` varchar(1024) NOT NULL;
 
 /* Request optimization for back office KPI and others */
 ALTER TABLE `PREFIX_orders` ADD INDEX `invoice_date` (`invoice_date`);
+/* PHP:add_index_if_not_exists('customer_message', 'id_product', '(`id_product`)'); */;
 
 /* Remove obsolete enable/disable module on mobile feature, obsolete hooks are removed below */
 /* https://github.com/PrestaShop/PrestaShop/pull/31151 */
@@ -436,7 +437,7 @@ ALTER TABLE `PREFIX_attachment_lang` MODIFY COLUMN `name` varchar(255) DEFAULT N
 /* Add id_product in customer message table */
 /* https://github.com/PrestaShop/PrestaShop/pull/37861 */
 /* PHP:add_column('customer_message', 'id_product', 'INT UNSIGNED DEFAULT NULL AFTER `id_employee`'); */;
-ALTER TABLE `PREFIX_customer_message` ADD INDEX `id_product` (`id_product`);
+/* PHP:add_index_if_not_exists('customer_message', 'id_product', '(`id_product`)'); */;
 
 /* Update Admin API tabs and roles */
 UPDATE `PREFIX_tab` SET `wording`='Admin API', `wording_domain`='Admin.Navigation.Menu', `class_name`='AdminAdminAPI', `route_name`='admin_api_index', `active`=1 WHERE `class_name`='AdminAuthorizationServer';
