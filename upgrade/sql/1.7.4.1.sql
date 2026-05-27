@@ -1,4 +1,5 @@
 SET SESSION sql_mode = '';
 SET NAMES 'utf8';
 
-ALTER TABLE `PREFIX_cart_rule` ADD KEY `date_from` (`date_from`), ADD KEY `date_to` (`date_to`);
+/* PHP:add_index_if_not_exists('cart_rule', 'date_from', '(`date_from`)', 'KEY'); */;
+/* PHP:add_index_if_not_exists('cart_rule', 'date_to', '(`date_to`)', 'KEY'); */;

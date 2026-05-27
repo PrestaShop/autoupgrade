@@ -1,7 +1,8 @@
 SET SESSION sql_mode = '';
 SET NAMES 'utf8';
 
-ALTER TABLE `PREFIX_order_detail` DROP KEY product_id, ADD KEY product_id (product_id, product_attribute_id);
+/* PHP:drop_index_if_exists('order_detail', 'product_id', 'KEY'); */;
+/* PHP:add_index_if_not_exists('order_detail', 'product_id', '(product_id, product_attribute_id)', 'KEY'); */;
 
 /* PHP:add_configuration_if_not_exists('PS_SSL_ENABLED_EVERYWHERE', '0'); */;
 

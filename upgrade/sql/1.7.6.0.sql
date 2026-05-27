@@ -3,7 +3,7 @@ SET NAMES 'utf8';
 
 /* PHP:add_column('currency', 'numeric_iso_code', 'varchar(3) DEFAULT NULL AFTER `iso_code`'); */;
 /* PHP:add_column('currency', 'precision', 'int(2) NOT NULL DEFAULT 6 AFTER `numeric_iso_code`'); */;
-ALTER TABLE `PREFIX_currency` ADD KEY `currency_iso_code` (`iso_code`);
+/* PHP:add_index_if_not_exists('currency', 'currency_iso_code', '(`iso_code`)', 'KEY'); */;
 
 /* Localized currency information */
 CREATE TABLE IF NOT EXISTS `PREFIX_currency_lang` (

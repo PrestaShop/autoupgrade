@@ -20,7 +20,7 @@
 
 use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
 
-function drop_index_if_exists(string $table, string $index): bool
+function drop_index_if_exists(string $table, string $index, string $indexType = 'INDEX'): bool
 {
   // Verify if we need to drop the index
   $keys = DbWrapper::executeS(
@@ -31,5 +31,5 @@ function drop_index_if_exists(string $table, string $index): bool
     return true;
   }
 
-  return DbWrapper::execute('ALTER TABLE `' . _DB_PREFIX_ . pSQL($table) . '` DROP INDEX `' . pSQL($index) . '`');
+  return DbWrapper::execute('ALTER TABLE `' . _DB_PREFIX_ . pSQL($table) . '` DROP ' . pSQL($indexType) . ' `' . pSQL($index) . '`');
 }

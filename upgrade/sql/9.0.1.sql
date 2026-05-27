@@ -23,7 +23,7 @@ ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`descr
 /* PHP:ps_901_set_unicity_on_image_type(); */;
 /* PHP:drop_index_if_exists('image_type', 'UNIQ_907C95215E237E0614E48A3B'); */;
 /* PHP:drop_column_if_exists('image_type', 'theme_name'); */;
-ALTER TABLE `PREFIX_image_type` ADD UNIQUE KEY `UNIQ_907C95215E237E06` (`name`);
+/* PHP:add_index_if_not_exists('image_type', 'UNIQ_907C95215E237E06', '(`name`)', 'UNIQUE KEY'); */;
 
 -- https://github.com/PrestaShop/PrestaShop/pull/39012
 UPDATE `PREFIX_state` s

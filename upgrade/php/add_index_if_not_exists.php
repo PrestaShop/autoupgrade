@@ -27,7 +27,7 @@ use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
  *
  * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException
  */
-function add_index_if_not_exists(string $table, string $index, string $parameters): bool
+function add_index_if_not_exists(string $table, string $index, string $parameters, string $indexType = 'INDEX'): bool
 {
     // Verify if we need to create unique key
     $keys = DbWrapper::executeS(
@@ -38,5 +38,5 @@ function add_index_if_not_exists(string $table, string $index, string $parameter
         return true;
     }
 
-    return DbWrapper::execute('ALTER TABLE `' . _DB_PREFIX_ . pSQL($table) . '` ADD INDEX `' . pSQL($index) . '` ' . pSQL($parameters));
+    return DbWrapper::execute('ALTER TABLE `' . _DB_PREFIX_ . pSQL($table) . '` ADD ' . pSQL($indexType) . ' `' . pSQL($index) . '` ' . pSQL($parameters));
 }

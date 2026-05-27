@@ -78,23 +78,23 @@ INSERT INTO `PREFIX_operating_system` (`name`) VALUES ('Windows 8.1'), ('Windows
 /* UPDATE TO DOCTRINE */
 ALTER TABLE `PREFIX_attribute` CHANGE `id_attribute` `id_attribute` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `PREFIX_attribute` CHANGE `id_attribute_group` `id_attribute_group` INT(11) NOT NULL;
-ALTER TABLE `PREFIX_attribute` ADD KEY `attribute_group` (`id_attribute_group`);
-ALTER TABLE `PREFIX_attribute` DROP KEY IDX_6C3355F967A664FB;
+/* PHP:add_index_if_not_exists('attribute', 'attribute_group', '(`id_attribute_group`)', 'KEY'); */;
+/* PHP:drop_index_if_exists('attribute', 'IDX_6C3355F967A664FB', 'KEY'); */;
 
 ALTER TABLE `PREFIX_attribute_group` CHANGE `id_attribute_group` `id_attribute_group` INT(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `PREFIX_attribute_group_lang` CHANGE `id_attribute_group` `id_attribute_group` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_attribute_group_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
-ALTER TABLE `PREFIX_attribute_group_lang` DROP FOREIGN KEY FK_4653726CBA299860;
-ALTER TABLE `PREFIX_attribute_group_lang` DROP KEY IDX_4653726CBA299860;
+/* PHP:drop_index_if_exists('attribute_group_lang', 'FK_4653726CBA299860', 'FOREIGN KEY'); */;
+/* PHP:drop_index_if_exists('attribute_group_lang', 'IDX_4653726CBA299860', 'KEY'); */;
 
 ALTER TABLE `PREFIX_attribute_group_shop` CHANGE `id_attribute_group` `id_attribute_group` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_attribute_group_shop` CHANGE `id_shop` `id_shop` INT(11) NOT NULL;
 
 ALTER TABLE `PREFIX_attribute_lang` CHANGE `id_attribute` `id_attribute` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_attribute_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
-ALTER TABLE `PREFIX_attribute_lang` DROP FOREIGN KEY FK_3ABE46A7BA299860;
-ALTER TABLE `PREFIX_attribute_lang` DROP KEY IDX_3ABE46A7BA299860;
+/* PHP:drop_index_if_exists('attribute_lang', 'FK_3ABE46A7BA299860', 'FOREIGN KEY'); */;
+/* PHP:drop_index_if_exists('attribute_lang', 'IDX_3ABE46A7BA299860', 'KEY'); */;
 
 ALTER TABLE `PREFIX_attribute_shop` CHANGE `id_attribute` `id_attribute` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_attribute_shop` CHANGE `id_shop` `id_shop` INT(11) NOT NULL;
@@ -122,14 +122,14 @@ ALTER TABLE `PREFIX_tab` CHANGE `module` `module` varchar(64) COLLATE utf8_unico
 ALTER TABLE `PREFIX_tab` CHANGE `position` `position` int(11) NOT NULL;
 ALTER TABLE `PREFIX_tab` CHANGE `class_name` `class_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL;
 ALTER TABLE `PREFIX_tab` CHANGE `icon` `icon` varchar(32) NOT NULL;
-ALTER TABLE `PREFIX_tab` DROP KEY `class_name`;
-ALTER TABLE `PREFIX_tab` DROP KEY `id_parent`;
+/* PHP:drop_index_if_exists('tab', 'class_name', 'KEY'); */;
+/* PHP:drop_index_if_exists('tab', 'id_parent', 'KEY'); */;
 
 ALTER TABLE `PREFIX_tab_lang` COLLATE=utf8_unicode_ci;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `id_tab` `id_tab` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_tab_lang` CHANGE `name` `name` varchar(128) NOT NULL;
-ALTER TABLE `PREFIX_tab_lang` ADD KEY `IDX_CFD9262DED47AB56` (`id_tab`);
+/* PHP:add_index_if_not_exists('tab_lang', 'IDX_CFD9262DED47AB56', '(`id_tab`)', 'KEY'); */;
 
 /* PHP:drop_index_if_exists('translation', 'theme'); */;
 

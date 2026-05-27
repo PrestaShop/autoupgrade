@@ -88,14 +88,9 @@ ALTER TABLE `PREFIX_product_lang`
 ALTER TABLE `PREFIX_customer_thread`
   CHANGE `email` `email` varchar(255) NOT NULL;
 
-ALTER TABLE `PREFIX_attribute_group_lang`
-    ADD KEY `IDX_4653726CBA299860` (`id_lang`);
-
-ALTER TABLE `PREFIX_attribute_lang`
-    ADD KEY `IDX_3ABE46A7BA299860` (`id_lang`);
-
-ALTER TABLE `PREFIX_tab_lang`
-    ADD KEY `IDX_CFD9262DBA299860` (`id_lang`);
+/* PHP:add_index_if_not_exists('attribute_group_lang', 'IDX_4653726CBA299860', '(`id_lang`)', 'KEY'); */;
+/* PHP:add_index_if_not_exists('attribute_lang', 'IDX_3ABE46A7BA299860', '(`id_lang`)', 'KEY'); */;
+/* PHP:add_index_if_not_exists('tab_lang', 'IDX_CFD9262DBA299860', '(`id_lang`)', 'KEY'); */;
 
 INSERT INTO `PREFIX_hook` (`name`, `title`, `description`, `position`) VALUES
   ('actionBackupGridDefinitionModifier', 'Modifying DB Backup grid definition', 'This hook allows to alter DB Backup grid columns, actions and filters', 1),

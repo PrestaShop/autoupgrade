@@ -56,7 +56,7 @@ UPDATE `PREFIX_category` SET `redirect_type` = '404' WHERE `is_root_category` = 
 ALTER TABLE `PREFIX_customized_data` MODIFY `value` varchar(1024) NOT NULL;
 
 /* Request optimization for back office KPI and others */
-ALTER TABLE `PREFIX_orders` ADD INDEX `invoice_date` (`invoice_date`);
+/* PHP:add_index_if_not_exists('orders', 'invoice_date', '(`invoice_date`)'); */;
 /* PHP:add_index_if_not_exists('customer_message', 'id_product', '(`id_product`)'); */;
 
 /* Remove obsolete enable/disable module on mobile feature, obsolete hooks are removed below */
@@ -162,9 +162,9 @@ ALTER TABLE `PREFIX_image_type`
     CHANGE `height` `height` int(10) unsigned NOT NULL,
     CHANGE `products` `products`  tinyint(1) NOT NULL DEFAULT '1',
     CHANGE `manufacturers` `manufacturers`  tinyint(1) NOT NULL DEFAULT '1',
-    CHANGE `stores` `stores` tinyint(1) NOT NULL DEFAULT '1',
-    DROP key `image_type_name`,
-    ADD UNIQUE KEY `UNIQ_907C95215E237E06` (`name`);
+    CHANGE `stores` `stores` tinyint(1) NOT NULL DEFAULT '1';
+/* PHP:drop_index_if_exists('image_type', 'image_type_name', 'KEY'); */;
+/* PHP:add_index_if_not_exists('image_type', 'UNIQ_907C95215E237E06', '(`name`)', 'UNIQUE KEY'); */;
 
 CREATE TABLE IF NOT EXISTS `PREFIX_mutation` (
    `id_mutation` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -178,19 +178,18 @@ CREATE TABLE IF NOT EXISTS `PREFIX_mutation` (
    PRIMARY KEY (`id_mutation`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `PREFIX_access` ADD KEY `IDX_564352A15FCA037F` (`id_profile`);
-ALTER TABLE `PREFIX_access` ADD KEY `IDX_564352A18C6DE0E5` (`id_authorization_role`);
+/* PHP:add_index_if_not_exists('access', 'IDX_564352A15FCA037F', '(`id_profile`)', 'KEY'); */;
+/* PHP:add_index_if_not_exists('access', 'IDX_564352A18C6DE0E5', '(`id_authorization_role`)', 'KEY'); */;
 ALTER TABLE `PREFIX_accessory` CHARSET=utf8mb4;
-ALTER TABLE `PREFIX_employee` ADD KEY `IDX_1D8DF9EBBA299860` (`id_lang`);
-ALTER TABLE `PREFIX_employee_session` ADD KEY `IDX_B10E26A1D449934` (`id_employee`);
-ALTER TABLE `PREFIX_product_download` ADD KEY `product_active` (`id_product`,`active`);
-ALTER TABLE `PREFIX_product_download` ADD UNIQUE KEY `id_product` (`id_product`);
-
+/* PHP:add_index_if_not_exists('employee', 'IDX_1D8DF9EBBA299860', '(`id_lang`)', 'KEY'); */;
+/* PHP:add_index_if_not_exists('employee_session', 'IDX_B10E26A1D449934', '(`id_employee`)', 'KEY'); */;
+/* PHP:add_index_if_not_exists('product_download', 'product_active', '(`id_product`,`active`)', 'KEY'); */;
+/* PHP:add_index_if_not_exists('product_download', 'id_product', '(`id_product`)', 'UNIQUE KEY'); */;
 ALTER TABLE `PREFIX_shop_url` CHANGE `id_shop_url` `id_shop_url` int(11) unsigned NOT NULL AUTO_INCREMENT;
 ALTER TABLE `PREFIX_shop_url` CHANGE `id_shop` `id_shop` int(11) unsigned NOT NULL;
-ALTER TABLE `PREFIX_shop_url` ADD UNIQUE KEY `full_shop_url` (`domain`,`physical_uri`,`virtual_uri`);
-ALTER TABLE `PREFIX_shop_url` ADD UNIQUE KEY `full_shop_url_ssl` (`domain_ssl`,`physical_uri`,`virtual_uri`);
-ALTER TABLE `PREFIX_shop_url` ADD KEY `id_shop` (`id_shop`,`main`);
+/* PHP:add_index_if_not_exists('shop_url', 'full_shop_url', '(`domain`,`physical_uri`,`virtual_uri`)', 'UNIQUE KEY'); */;
+/* PHP:add_index_if_not_exists('shop_url', 'full_shop_url_ssl', '(`domain_ssl`,`physical_uri`,`virtual_uri`)', 'UNIQUE KEY'); */;
+/* PHP:add_index_if_not_exists('shop_url', 'id_shop', '(`id_shop`,`main`)', 'KEY'); */;
 
 /* Unify varchar limits */
 /* https://github.com/PrestaShop/PrestaShop/pull/35882 */
@@ -459,7 +458,7 @@ UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_DELETE
 /* Add theme_name in image type table */
 /* https://github.com/PrestaShop/PrestaShop/pull/38745 */
 /* https://github.com/PrestaShop/PrestaShop/pull/38767 */
-ALTER TABLE `PREFIX_image_type`
-    ADD COLUMN `theme_name` VARCHAR(255) DEFAULT NULL AFTER `stores`,
-    ADD UNIQUE KEY `UNIQ_907C95215E237E0614E48A3B` (`name`,`theme_name`);
+
+/* PHP:add_column('image_type', 'theme_name', 'VARCHAR(255) DEFAULT NULL AFTER `stores`'); */;
+/* PHP:add_index_if_not_exists('image_type', 'UNIQ_907C95215E237E0614E48A3B', '(`name`,`theme_name`)', 'UNIQUE KEY'); */;
 /* PHP:drop_index_if_exists('image_type', 'UNIQ_907C95215E237E06'); */;
