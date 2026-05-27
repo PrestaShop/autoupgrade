@@ -85,7 +85,7 @@ ALTER TABLE `PREFIX_attribute_group` CHANGE `id_attribute_group` `id_attribute_g
 
 ALTER TABLE `PREFIX_attribute_group_lang` CHANGE `id_attribute_group` `id_attribute_group` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_attribute_group_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
-/* PHP:drop_index_if_exists('attribute_group_lang', 'FK_4653726CBA299860', 'FOREIGN KEY'); */;
+/* PHP:drop_foreign_key_if_exists('attribute_group_lang', 'FK_4653726CBA299860'); */;
 /* PHP:drop_index_if_exists('attribute_group_lang', 'IDX_4653726CBA299860', 'KEY'); */;
 
 ALTER TABLE `PREFIX_attribute_group_shop` CHANGE `id_attribute_group` `id_attribute_group` INT(11) NOT NULL;
@@ -93,7 +93,7 @@ ALTER TABLE `PREFIX_attribute_group_shop` CHANGE `id_shop` `id_shop` INT(11) NOT
 
 ALTER TABLE `PREFIX_attribute_lang` CHANGE `id_attribute` `id_attribute` INT(11) NOT NULL;
 ALTER TABLE `PREFIX_attribute_lang` CHANGE `id_lang` `id_lang` INT(11) NOT NULL;
-/* PHP:drop_index_if_exists('attribute_lang', 'FK_3ABE46A7BA299860', 'FOREIGN KEY'); */;
+/* PHP:drop_foreign_key_if_exists('attribute_lang', 'FK_3ABE46A7BA299860'); */;
 /* PHP:drop_index_if_exists('attribute_lang', 'IDX_3ABE46A7BA299860', 'KEY'); */;
 
 ALTER TABLE `PREFIX_attribute_shop` CHANGE `id_attribute` `id_attribute` INT(11) NOT NULL;

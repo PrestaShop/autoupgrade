@@ -20,23 +20,21 @@
 
 use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
 
-/**
- * This function creates an index if it does not exist. Particularly useful for catch-up scripts where the creation could be run twice.
- *
- * Note: if the index already exists, the script does not check if the requested columns are the same as the existing ones. It just returns.
- *
- * @throws \PrestaShop\Module\AutoUpgrade\Exceptions\UpdateDatabaseException
- */
-function add_index_if_not_exists(string $table, string $index, string $parameters, string $indexType = 'INDEX'): bool
+function drop_foreign_key_if_exists(string $table, string $foreignKey): bool
 {
-    // Verify if we need to create the key
-    $keys = DbWrapper::executeS(
-        'SHOW KEYS FROM `' . _DB_PREFIX_ . pSQL($table) . "` WHERE Key_name='" . pSQL($index) . "'"
-    );
+  $exists = DbWrapper::executeS('SELECT CONSTRAINT_NAME
+    FROM information_schema.TABLE_CONSTRAINTS
+    WHERE CONSTRAINT_SCHEMA = DATABASE()
+    AND TABLE_NAME = \'' . _DB_PREFIX_ . pSQL($table) . '\'
+    AND CONSTRAINT_NAME = \'' . pSQL($foreignKey) . '\'
+    AND CONSTRAINT_TYPE = \'FOREIGN KEY\''
+  );
 
-    if (!empty($keys)) {
-        return true;
-    }
+  if (empty($exists)) {
+    return true;
+  }
 
-    return DbWrapper::execute('ALTER TABLE `' . _DB_PREFIX_ . pSQL($table) . '` ADD ' . pSQL($indexType) . ' `' . pSQL($index) . '` ' . pSQL($parameters));
+  return DbWrapper::execute(
+    'ALTER TABLE `' . _DB_PREFIX_ . pSQL($table) . '` DROP FOREIGN KEY `' . pSQL($foreignKey) . '`'
+  );
 }

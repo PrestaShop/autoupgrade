@@ -29,7 +29,7 @@ use PrestaShop\Module\AutoUpgrade\Database\DbWrapper;
  */
 function add_missing_unique_key_from_authorization_role()
 {
-    // Verify if we need to create unique key
+    // Verify if we need to create the key
     $keys = DbWrapper::executeS(
         'SHOW KEYS FROM ' . _DB_PREFIX_ . "authorization_role WHERE Key_name='slug'"
     );

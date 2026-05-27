@@ -57,7 +57,6 @@ ALTER TABLE `PREFIX_customized_data` MODIFY `value` varchar(1024) NOT NULL;
 
 /* Request optimization for back office KPI and others */
 /* PHP:add_index_if_not_exists('orders', 'invoice_date', '(`invoice_date`)'); */;
-/* PHP:add_index_if_not_exists('customer_message', 'id_product', '(`id_product`)'); */;
 
 /* Remove obsolete enable/disable module on mobile feature, obsolete hooks are removed below */
 /* https://github.com/PrestaShop/PrestaShop/pull/31151 */
@@ -185,6 +184,7 @@ ALTER TABLE `PREFIX_accessory` CHARSET=utf8mb4;
 /* PHP:add_index_if_not_exists('employee_session', 'IDX_B10E26A1D449934', '(`id_employee`)', 'KEY'); */;
 /* PHP:add_index_if_not_exists('product_download', 'product_active', '(`id_product`,`active`)', 'KEY'); */;
 /* PHP:add_index_if_not_exists('product_download', 'id_product', '(`id_product`)', 'UNIQUE KEY'); */;
+
 ALTER TABLE `PREFIX_shop_url` CHANGE `id_shop_url` `id_shop_url` int(11) unsigned NOT NULL AUTO_INCREMENT;
 ALTER TABLE `PREFIX_shop_url` CHANGE `id_shop` `id_shop` int(11) unsigned NOT NULL;
 /* PHP:add_index_if_not_exists('shop_url', 'full_shop_url', '(`domain`,`physical_uri`,`virtual_uri`)', 'UNIQUE KEY'); */;
@@ -458,7 +458,6 @@ UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_DELETE
 /* Add theme_name in image type table */
 /* https://github.com/PrestaShop/PrestaShop/pull/38745 */
 /* https://github.com/PrestaShop/PrestaShop/pull/38767 */
-
 /* PHP:add_column('image_type', 'theme_name', 'VARCHAR(255) DEFAULT NULL AFTER `stores`'); */;
 /* PHP:add_index_if_not_exists('image_type', 'UNIQ_907C95215E237E0614E48A3B', '(`name`,`theme_name`)', 'UNIQUE KEY'); */;
 /* PHP:drop_index_if_exists('image_type', 'UNIQ_907C95215E237E06'); */;

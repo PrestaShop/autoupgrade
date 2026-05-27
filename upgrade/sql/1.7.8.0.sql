@@ -235,9 +235,8 @@ VALUES
 /* PHP:drop_index_if_exists('shop_url', 'id_shop'); */;
 /* PHP:drop_index_if_exists('shop_url', 'full_shop_url'); */;
 /* PHP:drop_index_if_exists('shop_url', 'full_shop_url_ssl'); */;
-
 ALTER TABLE `PREFIX_shop_url` CHANGE id_shop_url id_shop_url INT AUTO_INCREMENT NOT NULL;
 ALTER TABLE `PREFIX_shop_url` CHANGE id_shop id_shop INT NOT NULL;
-CREATE INDEX IDX_279F19DA274A50A0 ON `PREFIX_shop_url` (id_shop);
+/* PHP:add_index_if_not_exists('shop_url', 'IDX_279F19DA274A50A0', '(`id_shop`)'); */;
 /* PHP:add_column('shop', 'color', 'VARCHAR(50) NOT NULL'); */;
 /* PHP:add_column('shop_group', 'color', 'VARCHAR(50) NOT NULL'); */;
