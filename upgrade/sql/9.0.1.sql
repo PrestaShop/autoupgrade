@@ -16,9 +16,7 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionDatabaseLogsSave', 'Modify database logs options form saved data', 'This hook allows to modify data of database logs options form after it was saved', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
-  ('PS_MIN_LOGGER_LEVEL_IN_DB', '1', NOW(), NOW())
-ON DUPLICATE KEY UPDATE `value` = VALUES(`value`);
+/* PHP:add_configuration_if_not_exists('PS_MIN_LOGGER_LEVEL_IN_DB', '1'); */;
 
 /* Remove theme_name field from image_type table */
 /* https://github.com/PrestaShop/PrestaShop/pull/39554 */

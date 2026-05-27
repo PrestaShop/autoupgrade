@@ -447,10 +447,9 @@ UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_CREATE
 UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_READ' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_READ';
 UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_UPDATE' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_UPDATE';
 UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_DELETE' WHERE `slug`='ROLE_MOD_TAB_ADMINAUTHORIZATIONSERVER_DELETE';
-INSERT INTO `PREFIX_configuration` (`name`, `value`, `date_add`, `date_upd`) VALUES
-    ('PS_ENABLE_ADMIN_API', '1', NOW(), NOW()),
-    ('PS_ADMIN_API_FORCE_DEBUG_SECURED', '1', NOW(), NOW())
-;
+/* PHP:add_configuration_if_not_exists('PS_ENABLE_ADMIN_API', '1'); */;
+/* PHP:add_configuration_if_not_exists('PS_ADMIN_API_FORCE_DEBUG_SECURED', '1'); */;
+
 /* PHP:install_ps_apiresources(); */;
 
 /* Reorganize search aliases */
