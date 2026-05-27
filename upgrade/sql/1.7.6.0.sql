@@ -275,9 +275,9 @@ INSERT IGNORE INTO `PREFIX_authorization_role` (`slug`) VALUES
   ('ROLE_MOD_TAB_ADMINPARENTMODULESCATALOG_UPDATE'),
   ('ROLE_MOD_TAB_ADMINPARENTMODULESCATALOG_DELETE');
 
-DROP INDEX admin_filter_search_idx ON `PREFIX_admin_filter`;
+/* PHP:drop_index_if_exists('admin_filter', 'admin_filter_search_idx'); */;
 /* PHP:add_column('admin_filter', 'filter_id', 'VARCHAR(255) NOT NULL'); */;
 
 CREATE UNIQUE INDEX admin_filter_search_id_idx ON `PREFIX_admin_filter` (employee, shop, controller, action, filter_id);
-DROP INDEX id_product ON `PREFIX_product_download`;
-DROP INDEX product_active ON `PREFIX_product_download`;
+/* PHP:drop_index_if_exists('product_download', 'id_product'); */;
+/* PHP:drop_index_if_exists('product_download', 'product_active'); */;

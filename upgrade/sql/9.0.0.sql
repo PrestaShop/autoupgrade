@@ -461,5 +461,5 @@ UPDATE `PREFIX_authorization_role` SET `slug`='ROLE_MOD_TAB_ADMINADMINAPI_DELETE
 /* https://github.com/PrestaShop/PrestaShop/pull/38767 */
 ALTER TABLE `PREFIX_image_type`
     ADD COLUMN `theme_name` VARCHAR(255) DEFAULT NULL AFTER `stores`,
-    ADD UNIQUE KEY `UNIQ_907C95215E237E0614E48A3B` (`name`,`theme_name`),
-    DROP INDEX `UNIQ_907C95215E237E06`;
+    ADD UNIQUE KEY `UNIQ_907C95215E237E0614E48A3B` (`name`,`theme_name`);
+/* PHP:drop_index_if_exists('image_type', 'UNIQ_907C95215E237E06'); */;
