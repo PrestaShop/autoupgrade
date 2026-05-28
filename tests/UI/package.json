@@ -45,5 +45,8 @@
         "maildev": "^2.2.1",
         "mysql2": "^3.10.0",
         "semver": "^7.6.2"
+    },
+    "optionalDependencies": {
+        "canvas": "^2.11.2"
     }
 }
