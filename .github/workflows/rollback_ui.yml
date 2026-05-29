@@ -93,6 +93,17 @@ jobs:
           docker exec -t prestashop bash -c 'cd /var/www/html/modules/autoupgrade/_dev && npm install && npm run vite:build'
           docker exec -t prestashop chmod 777 -R /var/www/html/admin-dev/autoupgrade
 
+      - name: Install canvas system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            libcairo2-dev \
+            libpango1.0-dev \
+            libjpeg-dev \
+            libgif-dev \
+            librsvg2-dev
+
       - name: Install dependencies
         working-directory: tests/UI/
         run: npm ci
