@@ -57,6 +57,6 @@
     "dependencies": {
         "@segment/analytics-next": "^1.77.0",
         "@sentry/browser": "^8.41.0",
-        "axios": "^1.15.2"
+        "axios": "^1.16.0"
     }
 }
