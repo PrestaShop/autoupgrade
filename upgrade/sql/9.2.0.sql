@@ -1,9 +1,14 @@
-/* https://github.com/PrestaShop/PrestaShop/pull/40224 */
+-- https://github.com/PrestaShop/PrestaShop/pull/40224
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
   ('improved_b2b', 'env,dotenv,db', 'Improved B2B', 'Admin.Advparameters.Feature', 'Enable / Disable the improved B2B mode. To use the feature activate the B2B mode in General Settings', 'Admin.Advparameters.Help', 0, 'beta');
 
-/* https://github.com/PrestaShop/PrestaShop/pull/40632 */
-/* Insert B2B foundation */
+-- https://github.com/PrestaShop/PrestaShop/pull/41407
+-- Insert new feature flag introduced for the migration of the Hook a module page
+INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
+  ('hook_module_v2', 'env,dotenv,db', 'Hook a module', 'Admin.Design.Feature', 'Enable / Disable the migrated Hook a module form page.', 'Admin.Design.Help', 0, 'beta');
+
+-- https://github.com/PrestaShop/PrestaShop/pull/40632
+-- Insert B2B foundation
 CREATE TABLE IF NOT EXISTS `PREFIX_business_entity` (
   `id_business_entity` INT UNSIGNED AUTO_INCREMENT NOT NULL,
   `id_shop` INT UNSIGNED NOT NULL,
