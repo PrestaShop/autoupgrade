@@ -1,6 +1,10 @@
 SET SESSION sql_mode='';
 SET NAMES 'utf8mb4';
 
+-- https://github.com/PrestaShop/PrestaShop/pull/40867
+-- Change date_to field to make it nullable in cart_rule
+ALTER TABLE `PREFIX_cart_rule` CHANGE `date_to` `date_to` datetime DEFAULT NULL;
+
 -- https://github.com/PrestaShop/PrestaShop/pull/40830
 /* PHP:add_column('cart_rule', 'total_quantity', 'int(10) UNSIGNED DEFAULT NULL AFTER `minimum_product_quantity`'); */;
 
@@ -140,9 +144,6 @@ CREATE TABLE IF NOT EXISTS `PREFIX_b2b_role_authorization_role` (
   KEY `b2b_role_authorization_role_role_idx` (`id_role`),
   KEY `b2b_role_authorization_role_auth_role_idx` (`id_authorization_role`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Change date_to field to make it nullable in cart_rule, see https://github.com/PrestaShop/PrestaShop/pull/40867
-ALTER TABLE `PREFIX_cart_rule` CHANGE `date_to` `date_to` datetime DEFAULT NULL;
 
 -- https://github.com/PrestaShop/PrestaShop/pull/41028
 /* PHP:ps_920_business_entities_tabs(); */;
