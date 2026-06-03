@@ -1,11 +1,43 @@
--- https://github.com/PrestaShop/PrestaShop/pull/40224
-INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
-  ('improved_b2b', 'env,dotenv,db', 'Improved B2B', 'Admin.Advparameters.Feature', 'Enable / Disable the improved B2B mode. To use the feature activate the B2B mode in General Settings', 'Admin.Advparameters.Help', 0, 'beta');
+SET SESSION sql_mode='';
+SET NAMES 'utf8mb4';
+
+-- https://github.com/PrestaShop/PrestaShop/pull/40830
+/* PHP:add_column('cart_rule', 'total_quantity', 'int(10) UNSIGNED DEFAULT NULL AFTER `minimum_product_quantity`'); */;
+
+-- Populate the new total_quantity column for existing cart rules.
+-- Previously, the `quantity` field represented the number of uses LEFT (decremented on each use).
+-- The new `total_quantity` field represents the ORIGINAL total number of allowed uses.
+-- Formula: total_quantity = quantity (remaining) + quantityUsed (consumed in non-error orders)
+-- Cart rules with quantity IS NULL are unlimited and keep total_quantity as NULL.
+-- The subquery mirrors the logic from DiscountRepository::getQuantityUsedInOrders,
+-- counting non-deleted order_cart_rule entries on orders not in error state.
+UPDATE `PREFIX_cart_rule` cr
+LEFT JOIN (
+    SELECT ocr.`id_cart_rule`, COUNT(*) as quantity_used
+    FROM `PREFIX_order_cart_rule` ocr
+    INNER JOIN `PREFIX_orders` o ON ocr.`id_order` = o.`id_order`
+    WHERE ocr.`deleted` = 0
+    AND o.`current_state` != (
+        SELECT CAST(`value` AS UNSIGNED)
+        FROM `PREFIX_configuration`
+        WHERE `name` = 'PS_OS_ERROR'
+    )
+    GROUP BY ocr.`id_cart_rule`
+) used ON used.`id_cart_rule` = cr.`id_cart_rule`
+SET cr.`total_quantity` = cr.`quantity` + COALESCE(used.`quantity_used`, 0)
+WHERE cr.`quantity` IS NOT NULL;
 
 -- https://github.com/PrestaShop/PrestaShop/pull/41407
 -- Insert new feature flag introduced for the migration of the Hook a module page
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
   ('hook_module_v2', 'env,dotenv,db', 'Hook a module', 'Admin.Design.Feature', 'Enable / Disable the migrated Hook a module form page.', 'Admin.Design.Help', 0, 'beta');
+
+
+-- New B2B feature
+
+-- https://github.com/PrestaShop/PrestaShop/pull/40224
+INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
+  ('improved_b2b', 'env,dotenv,db', 'Improved B2B', 'Admin.Advparameters.Feature', 'Enable / Disable the improved B2B mode. To use the feature activate the B2B mode in General Settings', 'Admin.Advparameters.Help', 0, 'beta');
 
 -- https://github.com/PrestaShop/PrestaShop/pull/40632
 -- Insert B2B foundation
@@ -109,8 +141,13 @@ CREATE TABLE IF NOT EXISTS `PREFIX_b2b_role_authorization_role` (
   KEY `b2b_role_authorization_role_auth_role_idx` (`id_authorization_role`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Change date_to field to make it nullable in cart_rule, see https://github.com/PrestaShop/PrestaShop/pull/40867
+ALTER TABLE `PREFIX_cart_rule` CHANGE `date_to` `date_to` datetime DEFAULT NULL;
+
 -- https://github.com/PrestaShop/PrestaShop/pull/41028
 /* PHP:ps_920_business_entities_tabs(); */;
+
+-- End of B2B feature
 
 -- https://github.com/PrestaShop/PrestaShop/pull/41047
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
