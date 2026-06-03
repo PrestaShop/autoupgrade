@@ -404,17 +404,17 @@ ALTER TABLE `PREFIX_order_cart_rule` CHANGE `value_tax_excl` `value_tax_excl` DE
 
 UPDATE
     `PREFIX_order_detail` `od`
+LEFT JOIN (
+    SELECT
+        `id_order_detail`,
+        SUM(`amount_tax_excl`) AS `total_tax_excl`,
+        SUM(`amount_tax_incl`) AS `total_tax_incl`
+    FROM `PREFIX_order_slip_detail`
+    GROUP BY `id_order_detail`
+) `osd` ON `osd`.`id_order_detail` = `od`.`id_order_detail`
 SET
-    `od`.`total_refunded_tax_excl` = IFNULL((
-        SELECT SUM(`osd`.`amount_tax_excl`)
-        FROM `PREFIX_order_slip_detail` `osd`
-        WHERE `osd`.`id_order_detail` = `od`.`id_order_detail`
-    ), 0),
-    `od`.`total_refunded_tax_incl` = IFNULL((
-        SELECT SUM(`osd`.`amount_tax_incl`)
-        FROM `PREFIX_order_slip_detail` `osd`
-        WHERE `osd`.`id_order_detail` = `od`.`id_order_detail`
-    ), 0)
+    `od`.`total_refunded_tax_excl` = IFNULL(`osd`.`total_tax_excl`, 0),
+    `od`.`total_refunded_tax_incl` = IFNULL(`osd`.`total_tax_incl`, 0)
 ;
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`)
 VALUES (NULL, 'actionOrderMessageFormBuilderModifier', 'Modify order message identifiable object form',
