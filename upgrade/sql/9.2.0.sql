@@ -106,3 +106,6 @@ CREATE TABLE IF NOT EXISTS `PREFIX_b2b_role_authorization_role` (
 
 -- https://github.com/PrestaShop/PrestaShop/pull/41028
 /* PHP:ps_920_business_entities_tabs(); */;
+
+-- https://github.com/PrestaShop/PrestaShop/issues/32743
+/* PHP:ps_920_add_order_creation_error_state(); */;
