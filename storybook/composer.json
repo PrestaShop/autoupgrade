@@ -19,7 +19,7 @@
         "symfony/dotenv": "7.1.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.1.*",
-        "symfony/runtime": "7.1.*",
+        "symfony/runtime": "7.4.*",
         "symfony/ux-twig-component": "^2.18",
         "symfony/yaml": "7.4.*"
     },
