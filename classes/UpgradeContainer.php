@@ -611,10 +611,10 @@ class UpgradeContainer
         if (null === $this->moduleSourceProviders) {
             $this->moduleSourceProviders = [
                 new LocalSourceProvider($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . 'modules', $this->getFileStorage()),
-                new MarketplaceSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileStorage()),
-                new DistributionApiSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getDistributionApiService(), $this->getFileStorage()),
                 new ComposerSourceProvider($this->getProperty(self::TMP_FILES_PATH), $this->getComposerService(), $this->getFileStorage()),
                 new PrestaShopArchiveSourceProvider($this->getProperty(self::TMP_FILES_PATH), $this->getComposerService(), $this->getFileStorage(), $this->getModuleAdapter()),
+                new MarketplaceSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileStorage()),
+                new DistributionApiSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getDistributionApiService(), $this->getFileStorage()),
             ];
         }
 
