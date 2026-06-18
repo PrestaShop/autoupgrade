@@ -222,4 +222,5 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 -- https://github.com/PrestaShop/PrestaShop/pull/41433
 -- https://github.com/PrestaShop/PrestaShop/pull/41627
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
-  ('email_body_translation', 'env,dotenv,db', 'Email body translations', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated email body translations page.', 'Admin.Advparameters.Help', 1, 'stable');
+  ('email_body_translation', 'env,dotenv,db', 'Email body translations', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated email body translations page.', 'Admin.Advparameters.Help', 0, 'stable');
+  
