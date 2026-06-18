@@ -36,6 +36,14 @@ WHERE cr.`quantity` IS NOT NULL;
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
   ('hook_module_v2', 'env,dotenv,db', 'Hook a module', 'Admin.Design.Feature', 'Enable / Disable the migrated Hook a module form page.', 'Admin.Design.Help', 1, 'stable');
 
+-- https://github.com/PrestaShop/PrestaShop/pull/41508
+-- Insert new feature flag introduced for the migration of the Quick Access page
+INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
+  ('quick_access', 'env,dotenv,db', 'Quick access', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated quick access page.', 'Admin.Advparameters.Help', 0, 'stable');
+
+-- Move the AdminQuickAccesses tab under Advanced Parameters and create the authorization roles introduced for the migrated page
+/* PHP:ps_920_quick_access_tab(); */;
+
 
 -- New B2B feature
 
