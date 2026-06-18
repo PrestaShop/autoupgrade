@@ -218,3 +218,8 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
   ('quick_access', 'env,dotenv,db', 'Quick access', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated quick access page.', 'Admin.Advparameters.Help', 0, 'stable');
 /* PHP:ps_920_quick_access_tab(); */;
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41433
+-- https://github.com/PrestaShop/PrestaShop/pull/41627
+INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
+  ('email_body_translation', 'env,dotenv,db', 'Email body translations', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated email body translations page.', 'Admin.Advparameters.Help', 1, 'stable');
