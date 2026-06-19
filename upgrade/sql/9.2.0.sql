@@ -154,3 +154,6 @@ CREATE TABLE IF NOT EXISTS `PREFIX_b2b_role_authorization_role` (
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'actionCheckoutBuildProcess', 'Build checkout process', 'This hook is triggered before the checkout is rendered. Modules may return a checkout process provider. The provider is used only when exactly one enabled and valid provider is available.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41775
+/* PHP:ps_920_extra_property_definitions_tab(); */;
