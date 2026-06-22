@@ -193,3 +193,25 @@ CREATE TABLE IF NOT EXISTS `PREFIX_extra_property_definition` (
 /* PHP:add_column('order_return_detail', 'cancelled', 'tinyint(1) unsigned NOT NULL DEFAULT \'0\''); */;
 -- Add column is_cancelling_return field to define if it cancels returns
 /* PHP:add_column('order_return_state', 'is_cancelling_return', 'tinyint(1) unsigned NOT NULL DEFAULT \'0\''); */;
+
+-- https://github.com/PrestaShop/PrestaShop/pull/40031
+/* Extend the product condition enum with new values */
+ALTER TABLE `PREFIX_product` MODIFY COLUMN `condition`
+  ENUM('new', 'used', 'refurbished', 'open_box', 'damaged', 'new_with_defects') NOT NULL DEFAULT 'new';
+ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `condition`
+  ENUM('new', 'used', 'refurbished', 'open_box', 'damaged', 'new_with_defects') NOT NULL DEFAULT 'new';
+
+-- https://github.com/PrestaShop/PrestaShop/pull/40238
+/* Mark the "tag" feature flag as stable */
+UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'tag';
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41032
+/* New pricing feature flag (beta) */
+INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
+  ('new_pricing', 'env,query,dotenv,db', 'New pricing', 'Admin.Advparameters.Feature', 'Enable / Disable the new pricing system. This feature introduces an improved pricing engine.', 'Admin.Advparameters.Help', 0, 'beta');
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41508 + https://github.com/PrestaShop/PrestaShop/pull/41630
+/* Quick Access migrated to Symfony: add the (already stable) feature flag, then move the existing AdminQuickAccesses tab under Advanced Parameters and create its missing permissions */
+INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
+  ('quick_access', 'env,dotenv,db', 'Quick access', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated quick access page.', 'Admin.Advparameters.Help', 0, 'stable');
+/* PHP:ps_920_quick_access_tab(); */;
