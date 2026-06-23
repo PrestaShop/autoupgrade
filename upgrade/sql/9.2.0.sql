@@ -184,3 +184,6 @@ CREATE TABLE IF NOT EXISTS `PREFIX_extra_property_definition` (
   KEY `entity_name` (`entity_name`, `scope`),
   KEY `module_name` (`module_name`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41775
+/* PHP:ps_920_extra_property_definitions_tab(); */;
