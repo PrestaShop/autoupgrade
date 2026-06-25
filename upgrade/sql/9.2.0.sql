@@ -154,3 +154,9 @@ CREATE TABLE IF NOT EXISTS `PREFIX_b2b_role_authorization_role` (
 INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
   (NULL, 'actionCheckoutBuildProcess', 'Build checkout process', 'This hook is triggered before the checkout is rendered. Modules may return a checkout process provider. The provider is used only when exactly one enabled and valid provider is available.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41825
+-- Per-combination virtual flag and downloadable files (one file per combination)
+ALTER TABLE `PREFIX_product_attribute` ADD COLUMN `is_virtual` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `PREFIX_product_download` ADD COLUMN `id_product_attribute` INT(10) UNSIGNED NOT NULL DEFAULT 0 AFTER `id_product`;
+ALTER TABLE `PREFIX_product_download` DROP INDEX `id_product`, ADD UNIQUE KEY `id_product` (`id_product`, `id_product_attribute`);
