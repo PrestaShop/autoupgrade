@@ -5,6 +5,8 @@ includes:
 parameters:
 	excludePaths:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
+		# Exclude the stubs as Symfony is not heavily used yet
+		- ./../../classes/UpgradeTools/CoreUpgrader/CoreServiceStub/Stubs
 	ignoreErrors:
 		- '#Call to method getContainer\(\) on an unknown class AppKernel.#'
 		- '#Call to method getMessage\(\) on an unknown class PrestaShop\\PrestaShop\\Core\\Exception\\CoreException.#'
