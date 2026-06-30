@@ -145,6 +145,9 @@ CREATE TABLE IF NOT EXISTS `PREFIX_b2b_role_authorization_role` (
   KEY `b2b_role_authorization_role_auth_role_idx` (`id_authorization_role`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- https://github.com/PrestaShop/PrestaShop/pull/40685
+/* PHP:add_configuration_if_not_exists('PS_SHOP_MODE', 'b2c_only'); */;
+
 -- https://github.com/PrestaShop/PrestaShop/pull/41028
 /* PHP:ps_920_business_entities_tabs(); */;
 
