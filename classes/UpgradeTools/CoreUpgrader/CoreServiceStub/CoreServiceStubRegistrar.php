@@ -69,7 +69,7 @@ class CoreServiceStubRegistrar
 
             try {
                 $decorated = $container->get($requiredCoreSymbol);
-                $stub = new $stubClass($decorated);
+                $stub = new $stubClass($decorated, $this->logger);
 
                 try {
                     $container->set($requiredCoreSymbol, $stub);

@@ -21,7 +21,9 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreServiceStub\Stubs;
 
-use Doctrine\DBAL\Exception\DriverException;
+use Doctrine\DBAL\Exception\TableNotFoundException;
+use Exception;
+use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\PrestaShop\Core\ExtraProperty\Definition\ExtraPropertyDefinition;
 use PrestaShop\PrestaShop\Core\ExtraProperty\Definition\ExtraPropertyDefinitionCollection;
 use PrestaShop\PrestaShop\Core\ExtraProperty\Definition\ExtraPropertyDefinitionRepositoryInterface;
@@ -51,17 +53,22 @@ class FaultTolerantExtraPropertyDefinitionRepository implements ExtraPropertyDef
      */
     private $decorated;
 
-    public function __construct(ExtraPropertyDefinitionRepositoryInterface $decorated)
+    /** @var LoggerInterface */
+    private $logger;
+
+    public function __construct(ExtraPropertyDefinitionRepositoryInterface $decorated, LoggerInterface $logger)
     {
         $this->decorated = $decorated;
+        $this->logger = $logger;
     }
 
     public function getAllDefinitions(): ExtraPropertyDefinitionCollection
     {
         try {
             return $this->decorated->getAllDefinitions();
-        } catch (DriverException $e) {
-            if (strpos($e->getMessage(), 'TableNotFoundException') !== false) {
+        } catch (Exception $e) {
+            $this->logger->debug('FaultTolerantExtraPropertyDefinitionRepository: caught exception while fetching all definitions: ' . $e->getMessage());
+            if ($this->isExceptionAboutTableNotFound($e)) {
                 return ExtraPropertyDefinitionCollection::empty();
             }
             throw $e;
@@ -72,8 +79,9 @@ class FaultTolerantExtraPropertyDefinitionRepository implements ExtraPropertyDef
     {
         try {
             return $this->decorated->findDefinitionByModuleAndField($entityName, $moduleName, $fieldName);
-        } catch (DriverException $e) {
-            if (strpos($e->getMessage(), 'TableNotFoundException') !== false) {
+        } catch (Exception $e) {
+            $this->logger->debug('FaultTolerantExtraPropertyDefinitionRepository: caught exception while finding definition by module and field: ' . $e->getMessage());
+            if ($this->isExceptionAboutTableNotFound($e)) {
                 return null;
             }
             throw $e;
@@ -84,8 +92,9 @@ class FaultTolerantExtraPropertyDefinitionRepository implements ExtraPropertyDef
     {
         try {
             return $this->decorated->getDefinitionById($id);
-        } catch (DriverException $e) {
-            if (strpos($e->getMessage(), 'TableNotFoundException') !== false) {
+        } catch (Exception $e) {
+            $this->logger->debug('FaultTolerantExtraPropertyDefinitionRepository: caught exception while fetching definition by ID: ' . $e->getMessage());
+            if ($this->isExceptionAboutTableNotFound($e)) {
                 return null;
             }
             throw $e;
@@ -97,5 +106,18 @@ class FaultTolerantExtraPropertyDefinitionRepository implements ExtraPropertyDef
         // This method must return a definition and has no safe empty fallback. It is not
         // called during the update, so we simply delegate to the real repository.
         return $this->decorated->getUnprotectedDefinitionById($id);
+    }
+
+    private function isExceptionAboutTableNotFound(Exception $e): bool
+    {
+        $currentException = $e;
+        while ($currentException) {
+            if ($currentException instanceof TableNotFoundException) {
+                return true;
+            }
+            $currentException = $currentException->getPrevious();
+        }
+
+        return false;
     }
 }
