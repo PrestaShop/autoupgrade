@@ -24,7 +24,6 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader;
 
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreServiceStub\CoreServiceStubRegistrar;
 use PrestaShop\PrestaShop\Adapter\Module\Repository\ModuleRepository;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
 use PrestaShop\PrestaShop\Core\Domain\MailTemplate\Command\GenerateThemeMailTemplatesCommand;
@@ -37,10 +36,7 @@ class CoreUpgrader80 extends CoreUpgrader
         $this->forceRemovingFiles();
         parent::initConstants();
         // Container may be needed to run upgrade scripts
-        $kernel = $this->container->getSymfonyAdapter()->initKernel();
-        // The destination core files run against a database that is not fully migrated yet:
-        // replace the core services that would fail on the incomplete schema with stubs.
-        (new CoreServiceStubRegistrar($this->logger, $this->container->getTranslator()))->register($kernel->getContainer());
+        $this->container->getSymfonyAdapter()->initKernel();
     }
 
     /**

@@ -25,7 +25,6 @@ use Doctrine\DBAL\Exception\DriverException;
 use PrestaShop\PrestaShop\Core\ExtraProperty\Definition\ExtraPropertyDefinition;
 use PrestaShop\PrestaShop\Core\ExtraProperty\Definition\ExtraPropertyDefinitionCollection;
 use PrestaShop\PrestaShop\Core\ExtraProperty\Definition\ExtraPropertyDefinitionRepositoryInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Decorates the core extra property definition repository so it tolerates a missing
@@ -48,11 +47,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FaultTolerantExtraPropertyDefinitionRepository implements ExtraPropertyDefinitionRepositoryInterface
 {
     /**
-     * Service id used by ObjectModel to resolve the repository from the container.
-     */
-    const SERVICE_ID = ExtraPropertyDefinitionRepositoryInterface::class;
-
-    /**
      * @var ExtraPropertyDefinitionRepositoryInterface
      */
     private $decorated;
@@ -60,26 +54,6 @@ class FaultTolerantExtraPropertyDefinitionRepository implements ExtraPropertyDef
     public function __construct(ExtraPropertyDefinitionRepositoryInterface $decorated)
     {
         $this->decorated = $decorated;
-    }
-
-    /**
-     * Wraps the core repository service registered in the given container so it no longer
-     * fails when the extra_property_definition table does not exist yet.
-     */
-    public static function register(ContainerInterface $container): void
-    {
-        if (!$container->has(self::SERVICE_ID)) {
-            return;
-        }
-
-        $current = $container->get(self::SERVICE_ID);
-
-        // Avoid wrapping our own decorator again on subsequent update batches.
-        if ($current instanceof self) {
-            return;
-        }
-
-        $container->set(self::SERVICE_ID, new self($current));
     }
 
     public function getAllDefinitions(): ExtraPropertyDefinitionCollection

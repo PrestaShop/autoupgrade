@@ -24,6 +24,8 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreServiceStu
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreServiceStub\Stubs\FaultTolerantExtraPropertyDefinitionRepository;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
+use ReflectionObject;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Throwable;
 
@@ -35,16 +37,6 @@ use Throwable;
  * an early upgrade step can therefore fail on a schema that is not complete yet. For each
  * such case we register a stub that tolerates the incomplete schema until the migration
  * catches up.
- *
- * To add a new stub:
- *  - create the stub class in the Stubs/ subfolder (a decorator implementing the core
- *    contract is the usual shape), exposing a static register(ContainerInterface) method;
- *  - add an entry below mapping the core symbol that must exist for the stub to be relevant
- *    to the callable installing it.
- *
- * The map is keyed by a core class/interface name kept as a literal string: the existence
- * check runs before the stub class is referenced, so stub classes that implement a core
- * contract are never autoloaded against a core version that does not ship it.
  */
 class CoreServiceStubRegistrar
 {
@@ -66,13 +58,29 @@ class CoreServiceStubRegistrar
 
     public function register(ContainerInterface $container): void
     {
-        foreach ($this->getStubs() as $requiredCoreSymbol => $register) {
+        foreach ($this->getStubs() as $requiredCoreSymbol => $stubClass) {
             if (!interface_exists($requiredCoreSymbol) && !class_exists($requiredCoreSymbol)) {
                 continue;
             }
 
+            if (!$container->has($requiredCoreSymbol)) {
+                continue;
+            }
+
             try {
-                $register($container);
+                $decorated = $container->get($requiredCoreSymbol);
+                $stub = new $stubClass($decorated);
+
+                try {
+                    $container->set($requiredCoreSymbol, $stub);
+                } catch (Throwable $e) {
+                    // Fetching $decorated just above already resolved and cached the service,
+                    // so the container now considers it initialized and refuses a plain set() on
+                    // it ("already initialized"). Force the swap directly on the container's
+                    // internal service cache instead, so later callers in this same request
+                    // (ObjectModel in particular) get our stub rather than the raw service.
+                    $this->forceReplace($container, $requiredCoreSymbol, $stub);
+                }
             } catch (Throwable $e) {
                 $this->logger->warning($this->translator->trans('Unable to register the core service stub for %s during the update: %s', [$requiredCoreSymbol, $e->getMessage()]));
             }
@@ -80,14 +88,35 @@ class CoreServiceStubRegistrar
     }
 
     /**
-     * @return array<string, callable(ContainerInterface):void> core symbol => stub installer
+     * @return array<string, class-string> core symbol => decorating stub class
      */
     private function getStubs(): array
     {
         return [
             // PrestaShop 9.2+: the extra_property_definition table is created late in the
             // migration, after PHP scripts that already make ObjectModel query it.
-            'PrestaShop\PrestaShop\Core\ExtraProperty\Definition\ExtraPropertyDefinitionRepositoryInterface' => [FaultTolerantExtraPropertyDefinitionRepository::class, 'register'],
+            'PrestaShop\PrestaShop\Core\ExtraProperty\Definition\ExtraPropertyDefinitionRepositoryInterface' => FaultTolerantExtraPropertyDefinitionRepository::class,
         ];
+    }
+
+    /**
+     * @param mixed $service
+     */
+    private function forceReplace(ContainerInterface $container, string $id, $service): void
+    {
+        $reflectionClass = new ReflectionObject($container);
+        while ($reflectionClass && !$reflectionClass->hasProperty('services')) {
+            $reflectionClass = $reflectionClass->getParentClass();
+        }
+
+        if (!$reflectionClass) {
+            throw new RuntimeException(sprintf('Cannot override the "%s" service: cound\'t reach the container "%s".', $id, get_class($container)));
+        }
+
+        $servicesProperty = $reflectionClass->getProperty('services');
+        $servicesProperty->setAccessible(true);
+        $services = $servicesProperty->getValue($container);
+        $services[$id] = $service;
+        $servicesProperty->setValue($container, $services);
     }
 }
