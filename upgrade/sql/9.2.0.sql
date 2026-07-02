@@ -34,7 +34,7 @@ WHERE cr.`quantity` IS NOT NULL;
 -- https://github.com/PrestaShop/PrestaShop/pull/41407
 -- Insert new feature flag introduced for the migration of the Hook a module page
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
-  ('hook_module_v2', 'env,dotenv,db', 'Hook a module', 'Admin.Design.Feature', 'Enable / Disable the migrated Hook a module form page.', 'Admin.Design.Help', 1, 'stable');
+  ('hook_module_v2', 'env,dotenv,db', 'Hook a module', 'Admin.Design.Feature', 'Enable / Disable the migrated Hook a module form page.', 'Admin.Design.Help', 0, 'stable');
 
 
 -- New B2B feature
