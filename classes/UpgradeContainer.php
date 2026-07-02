@@ -57,6 +57,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\AssetsEnvironment;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreServiceStub\CoreServiceStubRegistrar;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
@@ -211,6 +212,9 @@ class UpgradeContainer
 
     /** @var ConfigurationValidator */
     private $configurationValidator;
+
+    /** @var CoreServiceStubRegistrar */
+    private $coreServiceStubRegistrar;
 
     /** @var LocalChannelConfigurationValidator */
     private $localChannelConfigurationValidator;
@@ -787,7 +791,7 @@ class UpgradeContainer
     public function getSymfonyAdapter(): SymfonyAdapter
     {
         if (null === $this->symfonyAdapter) {
-            $this->symfonyAdapter = new SymfonyAdapter();
+            $this->symfonyAdapter = new SymfonyAdapter($this->getCoreServiceStubRegistrar());
         }
 
         return $this->symfonyAdapter;
@@ -988,6 +992,18 @@ class UpgradeContainer
         }
 
         return $this->configurationValidator;
+    }
+
+    public function getCoreServiceStubRegistrar(): CoreServiceStubRegistrar
+    {
+        if (null === $this->coreServiceStubRegistrar) {
+            $this->coreServiceStubRegistrar = new CoreServiceStubRegistrar(
+                $this->getLogger(),
+                $this->getTranslator()
+            );
+        }
+
+        return $this->coreServiceStubRegistrar;
     }
 
     /**
