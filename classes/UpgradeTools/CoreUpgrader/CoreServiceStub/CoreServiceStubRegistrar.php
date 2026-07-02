@@ -71,16 +71,9 @@ class CoreServiceStubRegistrar
                 $decorated = $container->get($requiredCoreSymbol);
                 $stub = new $stubClass($decorated, $this->logger);
 
-                try {
-                    $container->set($requiredCoreSymbol, $stub);
-                } catch (Throwable $e) {
-                    // Fetching $decorated just above already resolved and cached the service,
-                    // so the container now considers it initialized and refuses a plain set() on
-                    // it ("already initialized"). Force the swap directly on the container's
-                    // internal service cache instead, so later callers in this same request
-                    // (ObjectModel in particular) get our stub rather than the raw service.
-                    $this->forceReplace($container, $requiredCoreSymbol, $stub);
-                }
+                // Overriding the service with $container->set() will always fail because we just called it.
+                // We must force it.
+                $this->forceReplace($container, $requiredCoreSymbol, $stub);
             } catch (Throwable $e) {
                 $this->logger->warning($this->translator->trans('Unable to register the core service stub for %s during the update: %s', [$requiredCoreSymbol, $e->getMessage()]));
             }
