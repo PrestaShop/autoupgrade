@@ -224,3 +224,5 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
   ('email_body_translation', 'env,dotenv,db', 'Email body translations', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated email body translations page.', 'Admin.Advparameters.Help', 0, 'stable');
   
+-- https://github.com/PrestaShop/PrestaShop/pull/41662
+UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'merchandise_return';
