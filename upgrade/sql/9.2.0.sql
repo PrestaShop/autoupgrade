@@ -146,4 +146,4 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionCheckoutBuildProcess', 'Build checkout process', 'This hook is triggered before the checkout is rendered. Modules may return a checkout process provider. The provider is used only when exactly one enabled and valid provider is available.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
-ALTER TABLE `PREFIX_shipment` ADD COLUMN `deleted` TINYINT(1) NOT NULL DEFAULT 0;
+/* PHP:add_column('shipment`, 'deleted', 'TINYINT(1) NOT NULL DEFAULT 0'); */;
