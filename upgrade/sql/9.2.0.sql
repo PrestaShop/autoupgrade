@@ -187,3 +187,9 @@ CREATE TABLE IF NOT EXISTS `PREFIX_extra_property_definition` (
 
 -- https://github.com/PrestaShop/PrestaShop/pull/41775
 /* PHP:ps_920_extra_property_definitions_tab(); */;
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41546
+-- Add column cancelled field to define an order return detail as cancelled
+/* PHP:add_column('order_return_detail', 'cancelled', 'tinyint(1) unsigned NOT NULL DEFAULT \'0\''); */;
+-- Add column is_cancelling_return field to define if it cancels returns
+/* PHP:add_column('order_return_state', 'is_cancelling_return', 'tinyint(1) unsigned NOT NULL DEFAULT \'0\''); */;
