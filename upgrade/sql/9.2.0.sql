@@ -228,4 +228,4 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'merchandise_return';
 
 -- https://github.com/PrestaShop/PrestaShop/pull/40852
-/* PHP:add_column('shipment`, 'deleted', 'TINYINT(1) NOT NULL DEFAULT 0'); */;
+/* PHP:add_column('shipment', 'deleted', 'TINYINT(1) NOT NULL DEFAULT 0'); */;
