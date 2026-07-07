@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `PREFIX_extra_property_definition` (
   `associated_apis` text DEFAULT NULL,
   `associated_grids` text DEFAULT NULL,
   `associated_forms` text DEFAULT NULL,
-  `form_field_type` varchar(255) DEFAULT NULL,
+  `form_type` varchar(255) DEFAULT NULL,
   `form_options` text DEFAULT NULL,
   `label_wording` varchar(191) DEFAULT NULL,
   `label_domain` varchar(255) DEFAULT NULL,
@@ -223,7 +223,7 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 -- https://github.com/PrestaShop/PrestaShop/pull/41627
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
   ('email_body_translation', 'env,dotenv,db', 'Email body translations', 'Admin.Advparameters.Feature', 'Enable / Disable the migrated email body translations page.', 'Admin.Advparameters.Help', 0, 'stable');
-  
+
 -- https://github.com/PrestaShop/PrestaShop/pull/41662
 UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'merchandise_return';
 
