@@ -158,6 +158,54 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionCheckoutBuildProcess', 'Build checkout process', 'This hook is triggered before the checkout is rendered. Modules may return a checkout process provider. The provider is used only when exactly one enabled and valid provider is available.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
 
+-- https://github.com/PrestaShop/PrestaShop/pull/42007
+INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
+  (NULL, 'displaySubcategories', 'Display content in subcategory list', 'This hooks allows you to display additional items in a list of subcategories in front office. Related blog posts, links to other categories, landing pages etc.', '1'),
+  (NULL, 'displayCartBelowSummary', 'Display content below summary on cart page', 'Allows you to display content on front office cart page, below the totals summary.', '1'),
+  (NULL, 'actionExtraPropertyDefinitionFormBuilderModifier', 'Modify extra property definition identifiable object form', 'This hook allows to modify extra property definition identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionTaxRuleFormBuilderModifier', 'Modify tax rule identifiable object form', 'This hook allows to modify tax rule identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionFulfillShipmentFormBuilderModifier', 'Modify fulfill shipment identifiable object form', 'This hook allows to modify fulfill shipment identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionQuickAccessFormBuilderModifier', 'Modify quick access identifiable object form', 'This hook allows to modify quick access identifiable object forms content by modifying form builder data or FormBuilder itself', '1'),
+  (NULL, 'actionExtraPropertyDefinitionFormDataProviderData', 'Provide extra property definition identifiable object form data for update', 'This hook allows to provide extra property definition identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionTaxRuleFormDataProviderData', 'Provide tax rule identifiable object form data for update', 'This hook allows to provide tax rule identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionFulfillShipmentFormDataProviderData', 'Provide fulfill shipment identifiable object form data for update', 'This hook allows to provide fulfill shipment identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionQuickAccessFormDataProviderData', 'Provide quick access identifiable object form data for update', 'This hook allows to provide quick access identifiable object form data which will prefill the form in update/edition page', '1'),
+  (NULL, 'actionExtraPropertyDefinitionFormDataProviderDefaultData', 'Provide extra property definition identifiable object default form data for creation', 'This hook allows to provide extra property definition identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionTaxRuleFormDataProviderDefaultData', 'Provide tax rule identifiable object default form data for creation', 'This hook allows to provide tax rule identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionFulfillShipmentFormDataProviderDefaultData', 'Provide fulfill shipment identifiable object default form data for creation', 'This hook allows to provide fulfill shipment identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionQuickAccessFormDataProviderDefaultData', 'Provide quick access identifiable object default form data for creation', 'This hook allows to provide quick access identifiable object form data which will prefill the form in creation page', '1'),
+  (NULL, 'actionBeforeUpdateExtraPropertyDefinitionFormHandler', 'Modify extra property definition identifiable object data before updating it', 'This hook allows to modify extra property definition identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionBeforeUpdateTaxRuleFormHandler', 'Modify tax rule identifiable object data before updating it', 'This hook allows to modify tax rule identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionBeforeUpdateFulfillShipmentFormHandler', 'Modify fulfill shipment identifiable object data before updating it', 'This hook allows to modify fulfill shipment identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionBeforeUpdateQuickAccessFormHandler', 'Modify quick access identifiable object data before updating it', 'This hook allows to modify quick access identifiable object forms data before it was updated', '1'),
+  (NULL, 'actionAfterUpdateExtraPropertyDefinitionFormHandler', 'Modify extra property definition identifiable object data after updating it', 'This hook allows to modify extra property definition identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionAfterUpdateTaxRuleFormHandler', 'Modify tax rule identifiable object data after updating it', 'This hook allows to modify tax rule identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionAfterUpdateFulfillShipmentFormHandler', 'Modify fulfill shipment identifiable object data after updating it', 'This hook allows to modify fulfill shipment identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionAfterUpdateQuickAccessFormHandler', 'Modify quick access identifiable object data after updating it', 'This hook allows to modify quick access identifiable object forms data after it was updated', '1'),
+  (NULL, 'actionBeforeCreateExtraPropertyDefinitionFormHandler', 'Modify extra property definition identifiable object data before creating it', 'This hook allows to modify extra property definition identifiable object forms data before it was created', '1'),
+  (NULL, 'actionBeforeCreateTaxRuleFormHandler', 'Modify tax rule identifiable object data before creating it', 'This hook allows to modify tax rule identifiable object forms data before it was created', '1'),
+  (NULL, 'actionBeforeCreateFulfillShipmentFormHandler', 'Modify fulfill shipment identifiable object data before creating it', 'This hook allows to modify fulfill shipment identifiable object forms data before it was created', '1'),
+  (NULL, 'actionBeforeCreateQuickAccessFormHandler', 'Modify quick access identifiable object data before creating it', 'This hook allows to modify quick access identifiable object forms data before it was created', '1'),
+  (NULL, 'actionAfterCreateExtraPropertyDefinitionFormHandler', 'Modify extra property definition identifiable object data after creating it', 'This hook allows to modify extra property definition identifiable object forms data after it was created', '1'),
+  (NULL, 'actionAfterCreateTaxRuleFormHandler', 'Modify tax rule identifiable object data after creating it', 'This hook allows to modify tax rule identifiable object forms data after it was created', '1'),
+  (NULL, 'actionAfterCreateFulfillShipmentFormHandler', 'Modify fulfill shipment identifiable object data after creating it', 'This hook allows to modify fulfill shipment identifiable object forms data after it was created', '1'),
+  (NULL, 'actionAfterCreateQuickAccessFormHandler', 'Modify quick access identifiable object data after creating it', 'This hook allows to modify quick access identifiable object forms data after it was created', '1'),
+  (NULL, 'actionCountriesPageOptionsForm', 'Modify countries page options options form content', 'This hook allows to modify countries page options options form FormBuilder', '1'),
+  (NULL, 'actionOrderReturnForm', 'Modify order return options form content', 'This hook allows to modify order return options form FormBuilder', '1'),
+  (NULL, 'actionCountriesPageOptionsSave', 'Modify countries page options options form saved data', 'This hook allows to modify data of countries page options options form after it was saved', '1'),
+  (NULL, 'actionOrderReturnSave', 'Modify order return options form saved data', 'This hook allows to modify data of order return options form after it was saved', '1'),
+  (NULL, 'actionEmailBodyTemplateGridDefinitionModifier', 'Modify email body template grid definition', 'This hook allows to alter email body template grid columns, actions and filters', '1'),
+  (NULL, 'actionExtraPropertyDefinitionGridDefinitionModifier', 'Modify extra property definition grid definition', 'This hook allows to alter extra property definition grid columns, actions and filters', '1'),
+  (NULL, 'actionEmailBodyTemplateGridQueryBuilderModifier', 'Modify email body template grid query builder', 'This hook allows to alter Doctrine query builder for email body template grid', '1'),
+  (NULL, 'actionExtraPropertyDefinitionGridQueryBuilderModifier', 'Modify extra property definition grid query builder', 'This hook allows to alter Doctrine query builder for extra property definition grid', '1'),
+  (NULL, 'actionEmailBodyTemplateGridDataModifier', 'Modify email body template grid data', 'This hook allows to modify email body template grid data', '1'),
+  (NULL, 'actionExtraPropertyDefinitionGridDataModifier', 'Modify extra property definition grid data', 'This hook allows to modify extra property definition grid data', '1'),
+  (NULL, 'actionEmailBodyTemplateGridFilterFormModifier', 'Modify email body template grid filters', 'This hook allows to modify filters for email body template grid', '1'),
+  (NULL, 'actionExtraPropertyDefinitionGridFilterFormModifier', 'Modify extra property definition grid filters', 'This hook allows to modify filters for extra property definition grid', '1'),
+  (NULL, 'actionEmailBodyTemplateGridPresenterModifier', 'Modify email body template grid template data', 'This hook allows to modify data which is about to be used in template for email body template grid', '1'),
+  (NULL, 'actionExtraPropertyDefinitionGridPresenterModifier', 'Modify extra property definition grid template data', 'This hook allows to modify data which is about to be used in template for extra property definition grid', '1')
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
 -- https://github.com/PrestaShop/PrestaShop/pull/41092
 -- Create the extra property definition registry table.
 CREATE TABLE IF NOT EXISTS `PREFIX_extra_property_definition` (
