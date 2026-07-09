@@ -229,3 +229,8 @@ UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'merchand
 
 -- https://github.com/PrestaShop/PrestaShop/pull/40852
 /* PHP:add_column('shipment', 'deleted', 'TINYINT(1) NOT NULL DEFAULT 0'); */;
+
+/* Auto generated hooks added for version 9.2.0 */
+INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`) VALUES
+  (NULL, 'actionCheckoutBuildProcess', 'Build checkout process', 'This hook is triggered before the checkout is rendered. Modules may return a checkout process provider. The provider is used only when exactly one enabled and valid provider is available.', '1')
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
