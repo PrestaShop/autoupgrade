@@ -222,6 +222,12 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 -- https://github.com/PrestaShop/PrestaShop/pull/41662
 UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'merchandise_return';
 
+-- https://github.com/PrestaShop/PrestaShop/pull/41594
+UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'country';
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41777
+UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'tax_rules_group';
+
 -- https://github.com/PrestaShop/PrestaShop/pull/40852
 /* PHP:add_column('shipment', 'deleted', 'TINYINT(1) NOT NULL DEFAULT 0'); */;
 
