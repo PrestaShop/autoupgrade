@@ -28,6 +28,10 @@ use PrestaShop\Module\AutoUpgrade\Exceptions\ProcessException;
 use PrestaShop\Module\AutoUpgrade\Log\Logger;
 use PrestaShop\Module\AutoUpgrade\Task\Runner\ChainedTasks;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader80;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader81;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Translator;
 use ReflectionClass;
 
@@ -84,6 +88,9 @@ abstract class AbstractTask
      */
     protected $next;
 
+    /** @var CoreUpgrader */
+    private $coreUpgrader;
+
     /**
      * @throws Exception
      */
@@ -100,6 +107,23 @@ abstract class AbstractTask
                 $this->logger->updateLogsPath($logPath);
             }
         }
+    }
+
+    public function getCoreUpgrader(): CoreUpgrader
+    {
+        if ($this->coreUpgrader !== null) {
+            return $this->coreUpgrader;
+        }
+
+        if (version_compare($this->container->getUpdateState()->getDestinationVersion(), '8', '<')) {
+            $this->coreUpgrader = new CoreUpgrader17($this->container, $this->logger);
+        } elseif (version_compare($this->container->getUpdateState()->getDestinationVersion(), '8.1', '<')) {
+            $this->coreUpgrader = new CoreUpgrader80($this->container, $this->logger);
+        } else {
+            $this->coreUpgrader = new CoreUpgrader81($this->container, $this->logger);
+        }
+
+        return $this->coreUpgrader;
     }
 
     /**

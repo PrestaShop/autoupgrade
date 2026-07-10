@@ -29,18 +29,11 @@ use PrestaShop\Module\AutoUpgrade\Task\AbstractTask;
 use PrestaShop\Module\AutoUpgrade\Task\ExitCode;
 use PrestaShop\Module\AutoUpgrade\Task\TaskName;
 use PrestaShop\Module\AutoUpgrade\Task\TaskType;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader17;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader80;
-use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreUpgrader81;
 use PrestaShop\Module\AutoUpgrade\VersionUtils;
 
 class UpdateDatabase extends AbstractTask
 {
     const TASK_TYPE = TaskType::TASK_TYPE_UPDATE;
-
-    /** @var CoreUpgrader */
-    private $coreUpgrader;
 
     public function run(): int
     {
@@ -87,23 +80,6 @@ class UpdateDatabase extends AbstractTask
         $this->logger->info($this->translator->trans('Database updated. Now updating your Addons modules...'));
 
         return ExitCode::SUCCESS;
-    }
-
-    public function getCoreUpgrader(): CoreUpgrader
-    {
-        if ($this->coreUpgrader !== null) {
-            return $this->coreUpgrader;
-        }
-
-        if (version_compare($this->container->getUpdateState()->getDestinationVersion(), '8', '<')) {
-            $this->coreUpgrader = new CoreUpgrader17($this->container, $this->logger);
-        } elseif (version_compare($this->container->getUpdateState()->getDestinationVersion(), '8.1', '<')) {
-            $this->coreUpgrader = new CoreUpgrader80($this->container, $this->logger);
-        } else {
-            $this->coreUpgrader = new CoreUpgrader81($this->container, $this->logger);
-        }
-
-        return $this->coreUpgrader;
     }
 
     public function init(): void

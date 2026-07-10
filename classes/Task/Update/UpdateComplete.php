@@ -90,6 +90,14 @@ class UpdateComplete extends AbstractTask
 
         $this->container->getCacheCleaner()->cleanFolders();
 
+        // cleanFolders() above wipes the Symfony cache folder, including the core cache warmed up
+        // earlier during the database update. On PrestaShop 9.0+ the back office relies on that
+        // (Symfony) cache; leaving it empty makes the admin entry point fall back to the front
+        // office. Warm it up again so the updated shop boots straight into the back office.
+        if ($this->getCoreUpgrader()->shouldWarmupCoreCache()) {
+            $this->getCoreUpgrader()->warmupCoreCache();
+        }
+
         return ExitCode::SUCCESS;
     }
 
