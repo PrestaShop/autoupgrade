@@ -94,7 +94,13 @@ class UpdateComplete extends AbstractTask
         // earlier during the database update. On PrestaShop 9.0+ the back office relies on that
         // (Symfony) cache; leaving it empty makes the admin entry point fall back to the front
         // office. Warm it up again so the updated shop boots straight into the back office.
-        if ($this->getCoreUpgrader()->shouldWarmupCoreCache()) {
+        //
+        // The warmup only ever runs from the CLI update path (see shouldWarmupCoreCache()). Guard
+        // on the SAPI *before* touching getCoreUpgrader() so the CoreUpgrader is never instantiated
+        // during the web (AJAX) completion request: its constructor calls Db::getInstance(), and the
+        // legacy Db class is not autoloaded at this late stage of the web flow, which fataled the
+        // whole "update complete" step.
+        if (php_sapi_name() === 'cli' && $this->getCoreUpgrader()->shouldWarmupCoreCache()) {
             $this->getCoreUpgrader()->warmupCoreCache();
         }
 
