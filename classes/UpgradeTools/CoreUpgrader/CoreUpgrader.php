@@ -862,17 +862,32 @@ abstract class CoreUpgrader
      */
     public function warmupCoreCache(): void
     {
+        // Rebuild the prod cache the way the core cache clearer (ExecKernelCacheClearer) does: run
+        // "cache:clear --no-warmup" first, so the container is rebuilt in a temporary directory and
+        // swapped in atomically, then warm it up. A bare "cache:warmup" on the folder that
+        // cleanFolders() just emptied warms it in place and can leave the freshly dumped container
+        // requiring a not-yet-written lazy service file (e.g. getExecKernelCacheClearerService),
+        // which raises "Failed to open stream" warnings.
+        $this->runCoreConsoleCommand('cache:clear --no-warmup --no-interaction --env=prod');
+        $this->runCoreConsoleCommand('cache:warmup --no-optional-warmers --no-interaction --env=prod');
+
+        $this->logger->debug($this->container->getTranslator()->trans('Core cache has been generated to avoid dependency conflicts.'));
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function runCoreConsoleCommand(string $command): void
+    {
         $rootPath = $this->container->getProperty(UpgradeContainer::PS_ROOT_PATH);
-        $command = 'php ' . $rootPath . '/bin/console cache:warmup --no-interaction --no-optional-warmers --env=prod';
         $output = [];
         $resultCode = 0;
 
-        exec($command, $output, $resultCode);
+        exec('php ' . $rootPath . '/bin/console ' . $command, $output, $resultCode);
 
         if ($resultCode !== 0) {
             throw new ProcessException($this->container->getTranslator()->trans("An error was raised when warming up the core cache: \n %s", [implode("\n", $output)]));
         }
-        $this->logger->debug($this->container->getTranslator()->trans('Core cache has been generated to avoid dependency conflicts.'));
     }
 
     /**
