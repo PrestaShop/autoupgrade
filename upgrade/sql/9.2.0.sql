@@ -229,3 +229,6 @@ UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'merchand
 
 -- https://github.com/PrestaShop/PrestaShop/pull/40852
 /* PHP:add_column('shipment', 'deleted', 'TINYINT(1) NOT NULL DEFAULT 0'); */;
+
+-- https://github.com/PrestaShop/PrestaShop/pull/42024
+DELETE FROM `PREFIX_feature_flag`  WHERE `name` = 'state';
