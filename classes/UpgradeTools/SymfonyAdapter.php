@@ -7,6 +7,7 @@
 
 namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreServiceStub\CoreServiceStubRegistrar;
 use ReflectionClass;
 
 /**
@@ -14,6 +15,15 @@ use ReflectionClass;
  */
 class SymfonyAdapter
 {
+    /** @var CoreServiceStubRegistrar */
+    private $coreServiceStubRegistrar;
+
+    public function __construct(
+        CoreServiceStubRegistrar $coreServiceStubRegistrar
+    ) {
+        $this->coreServiceStubRegistrar = $coreServiceStubRegistrar;
+    }
+
     public function isKernelReachable(): bool
     {
         return defined('_PS_ROOT_DIR_') && class_exists('AppKernel', true);
@@ -47,6 +57,10 @@ class SymfonyAdapter
             $kernel->boot();
             // Starting from PrestaShop 9, some parts of the new context are defined by event listeners on kernel.request.
             // We may have to trigger it with dummy data in the future.
+
+            // The destination core files run against a database that may be not fully migrated yet:
+            // replace the core services that would fail on the incomplete schema with stubs.
+            $this->coreServiceStubRegistrar->register($kernel->getContainer());
         }
 
         return $kernel;

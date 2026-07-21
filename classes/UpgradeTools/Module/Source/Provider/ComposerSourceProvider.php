@@ -35,8 +35,8 @@ class ComposerSourceProvider extends AbstractModuleSourceProvider
 
     public function warmUp(): void
     {
-        if ($this->fileConfigurationStorage->exists(UpgradeFileNames::MODULE_SOURCE_PROVIDER_CACHE_LOCAL)) {
-            $this->localModuleZips = $this->fileConfigurationStorage->load(UpgradeFileNames::MODULE_SOURCE_PROVIDER_CACHE_LOCAL);
+        if ($this->fileConfigurationStorage->exists(UpgradeFileNames::MODULE_SOURCE_PROVIDER_CACHE_COMPOSER)) {
+            $this->localModuleZips = $this->fileConfigurationStorage->load(UpgradeFileNames::MODULE_SOURCE_PROVIDER_CACHE_COMPOSER);
 
             return;
         }
@@ -54,6 +54,6 @@ class ComposerSourceProvider extends AbstractModuleSourceProvider
             );
         }
 
-        $this->fileConfigurationStorage->save($this->localModuleZips, UpgradeFileNames::MODULE_SOURCE_PROVIDER_CACHE_LOCAL);
+        $this->fileConfigurationStorage->save($this->localModuleZips, UpgradeFileNames::MODULE_SOURCE_PROVIDER_CACHE_COMPOSER);
     }
 }

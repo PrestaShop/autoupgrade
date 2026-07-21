@@ -6,6 +6,8 @@ parameters:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
 		- ./../../classes/Twig/TransFilterExtension.php
 		- ./../../classes/UpgradeContainer.php
+		# Exclude the stub as the related class exists from PrestaShop v9.2
+		- ./../../classes/UpgradeTools/CoreUpgrader/CoreServiceStub/Stubs/FaultTolerantExtraPropertyDefinitionRepository.php
 	ignoreErrors:
 		- "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\)\\: mixed\\)\\|null, 'add_quotes' given\\.$#"
 		- "#^Property .*ModuleAdapter::\\$commandBus .* does not accept Symfony\\\\Component\\\\DependencyInjection\\\\object\\|null.$#"

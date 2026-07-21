@@ -23,7 +23,7 @@ class Upgrader
 
     /** @var Translator */
     protected $translator;
-    /** @var array<string, PrestaShopRelease> */
+    /** @var array<string, PrestashopRelease> */
     private $onlineDestinationReleases;
     /** @var string */
     protected $currentPsVersion;
@@ -91,7 +91,7 @@ class Upgrader
     }
 
     /**
-     * @return array<string, PrestaShopRelease>
+     * @return array<string, PrestashopRelease>
      *
      * @throws DistributionApiException
      */
@@ -109,7 +109,7 @@ class Upgrader
      * @throws DistributionApiException
      * @throws ProcessException
      */
-    public function getOnlineDestinationRelease(): ?PrestaShopRelease
+    public function getOnlineDestinationRelease(): ?PrestashopRelease
     {
         if ($this->updateConfiguration->isChannelOnline()) {
             return !empty($this->getOnlineDestinationReleases()[PhpVersionResolverService::AVAILABLE_RELEASE_MAX])
