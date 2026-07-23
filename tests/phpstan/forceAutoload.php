@@ -38,4 +38,12 @@ if (version_compare(_PS_VERSION_, '9.0.0', '>=')) {
     require_once __DIR__ . '/../../vendor/symfony/http-foundation/JsonResponse.php';
 
     require_once __DIR__ . '/../../vendor/symfony/console/Command/Command.php';
+
+    /*
+     * Fix:
+     *  Parameter #1 $row of method
+     *  Symfony\Component\Console\Helper\Table::addRow() expects
+     *  Symfony\Component\Console\Helper\TableSeparator, array<int, string> given.
+     */
+    require_once __DIR__ . '/../../vendor/symfony/console/Helper/Table.php';
 }

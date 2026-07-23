@@ -48,6 +48,7 @@ use PrestaShop\Module\AutoUpgrade\Twig\AssetsEnvironment;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension;
 use PrestaShop\Module\AutoUpgrade\Twig\TransFilterExtension3;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\CacheCleaner;
+use PrestaShop\Module\AutoUpgrade\UpgradeTools\CoreUpgrader\CoreServiceStub\CoreServiceStubRegistrar;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FileFilter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\FilesystemAdapter;
 use PrestaShop\Module\AutoUpgrade\UpgradeTools\Module\ModuleAdapter;
@@ -205,6 +206,9 @@ class UpgradeContainer
 
     /** @var UpdateConfigurationValidator */
     private $updateConfigurationValidator;
+
+    /** @var CoreServiceStubRegistrar */
+    private $coreServiceStubRegistrar;
 
     /** @var LocalChannelConfigurationValidator */
     private $localChannelConfigurationValidator;
@@ -613,10 +617,10 @@ class UpgradeContainer
         if (null === $this->moduleSourceProviders) {
             $this->moduleSourceProviders = [
                 new LocalSourceProvider($this->getProperty(self::WORKSPACE_PATH) . DIRECTORY_SEPARATOR . 'modules', $this->getFileStorage()),
-                new MarketplaceSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileStorage()),
-                new DistributionApiSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getDistributionApiService(), $this->getFileStorage()),
                 new ComposerSourceProvider($this->getProperty(self::TMP_FILES_PATH), $this->getComposerService(), $this->getFileStorage()),
                 new PrestaShopArchiveSourceProvider($this->getProperty(self::TMP_FILES_PATH), $this->getComposerService(), $this->getFileStorage(), $this->getModuleAdapter()),
+                new MarketplaceSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getProperty(self::PS_ROOT_PATH), $this->getFileLoader(), $this->getFileStorage()),
+                new DistributionApiSourceProvider($this->getUpdateState()->getDestinationVersion(), $this->getDistributionApiService(), $this->getFileStorage()),
             ];
         }
 
@@ -789,7 +793,7 @@ class UpgradeContainer
     public function getSymfonyAdapter(): SymfonyAdapter
     {
         if (null === $this->symfonyAdapter) {
-            $this->symfonyAdapter = new SymfonyAdapter();
+            $this->symfonyAdapter = new SymfonyAdapter($this->getCoreServiceStubRegistrar());
         }
 
         return $this->symfonyAdapter;
@@ -1050,6 +1054,18 @@ class UpgradeContainer
         }
 
         return $this->updateConfigurationValidator;
+    }
+
+    public function getCoreServiceStubRegistrar(): CoreServiceStubRegistrar
+    {
+        if (null === $this->coreServiceStubRegistrar) {
+            $this->coreServiceStubRegistrar = new CoreServiceStubRegistrar(
+                $this->getLogger(),
+                $this->getTranslator()
+            );
+        }
+
+        return $this->coreServiceStubRegistrar;
     }
 
     /**

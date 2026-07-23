@@ -5,6 +5,8 @@ includes:
 parameters:
 	excludePaths:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader80.php
+		# Exclude the stubs as Symfony is not heavily used yet
+		- ./../../classes/UpgradeTools/CoreUpgrader/CoreServiceStub/Stubs
 	ignoreErrors:
 		- '#Instantiated class PrestaShop\\PrestaShop\\Core\\Domain\\Theme\\ValueObject\\ThemeName not found.#'
 		- '#Call to method getContainer\(\) on an unknown class AdminKernel.#'

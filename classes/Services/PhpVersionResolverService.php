@@ -79,7 +79,7 @@ class PhpVersionResolverService
     }
 
     /**
-     * @return array<string, PrestaShopRelease>
+     * @return array<string, PrestashopRelease>
      *
      * @throws DistributionApiException
      * @throws LogicException
