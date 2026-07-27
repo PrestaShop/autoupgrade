@@ -55,7 +55,7 @@
         "vite-plugin-static-copy": "^4.1.1"
     },
     "dependencies": {
-        "@segment/analytics-next": "^1.77.0",
+        "@segment/analytics-next": "^1.84.1",
         "@sentry/browser": "^8.41.0",
         "axios": "^1.18.0"
     }
