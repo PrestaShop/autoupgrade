@@ -285,3 +285,8 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionEmailBodyTemplateGridPresenterModifier', 'Modify email body template grid template data', 'This hook allows to modify data which is about to be used in template for email body template grid', '1'),
   (NULL, 'actionExtraPropertyDefinitionGridPresenterModifier', 'Modify extra property definition grid template data', 'This hook allows to modify data which is about to be used in template for extra property definition grid', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41643
+-- Make category visibility ("Displayed") configurable per shop.
+/* PHP:add_column('category_shop', 'active', 'tinyint(1) unsigned NOT NULL DEFAULT \'1\' AFTER `position`'); */;
+UPDATE `PREFIX_category_shop` cs INNER JOIN `PREFIX_category` c ON cs.id_category = c.id_category SET cs.active = c.active;
