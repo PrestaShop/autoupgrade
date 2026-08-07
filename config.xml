@@ -2,7 +2,7 @@
 <module>
     <name>autoupgrade</name>
     <displayName><![CDATA[Update Assistant]]></displayName>
-    <version><![CDATA[7.6.5]]></version>
+    <version><![CDATA[7.6.6]]></version>
     <description><![CDATA[The Update Assistant module helps you backup, update and restore your PrestaShop store. With just a few clicks, you can move to the latest version of PrestaShop with confidence.]]></description>
     <author><![CDATA[PrestaShop]]></author>
     <tab><![CDATA[administration]]></tab>
