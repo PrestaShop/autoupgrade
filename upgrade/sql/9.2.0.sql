@@ -283,5 +283,8 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionEmailBodyTemplateGridFilterFormModifier', 'Modify email body template grid filters', 'This hook allows to modify filters for email body template grid', '1'),
   (NULL, 'actionExtraPropertyDefinitionGridFilterFormModifier', 'Modify extra property definition grid filters', 'This hook allows to modify filters for extra property definition grid', '1'),
   (NULL, 'actionEmailBodyTemplateGridPresenterModifier', 'Modify email body template grid template data', 'This hook allows to modify data which is about to be used in template for email body template grid', '1'),
-  (NULL, 'actionExtraPropertyDefinitionGridPresenterModifier', 'Modify extra property definition grid template data', 'This hook allows to modify data which is about to be used in template for extra property definition grid', '1')
+  (NULL, 'actionExtraPropertyDefinitionGridPresenterModifier', 'Modify extra property definition grid template data', 'This hook allows to modify data which is about to be used in template for extra property definition grid', '1'),
+  -- shipped in 9.1.5, so no base version makes the hooks-listing command report it
+  -- https://github.com/PrestaShop/PrestaShop/pull/41824
+  (NULL, 'actionNotFound', 'Action when a page is not found', 'Allows modules to react when a page is not found - log it, redirect or perform other actions.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
