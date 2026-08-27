@@ -229,7 +229,7 @@ UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'country'
 UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'tax_rules_group';
 
 -- https://github.com/PrestaShop/PrestaShop/pull/40852
-/* PHP:add_column('shipment', 'deleted', 'TINYINT(1) NOT NULL DEFAULT 0'); */;
+/* PHP:add_column('shipment', 'deleted', 'TINYINT(1) NOT NULL DEFAULT 0 AFTER `tracking_number`'); */;
 
 -- https://github.com/PrestaShop/PrestaShop/pull/42024
 DELETE FROM `PREFIX_feature_flag`  WHERE `name` = 'state';
