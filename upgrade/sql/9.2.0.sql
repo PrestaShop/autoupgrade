@@ -232,3 +232,11 @@ UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'merchand
 
 -- https://github.com/PrestaShop/PrestaShop/pull/42024
 DELETE FROM `PREFIX_feature_flag`  WHERE `name` = 'state';
+
+-- https://github.com/PrestaShop/PrestaShop/pull/42190
+/* Combination image associations become per shop: add the column, widen the primary key, then give every existing association to each shop its image belongs to so current installs keep the selection they have */
+ALTER TABLE `PREFIX_product_attribute_image` ADD COLUMN `id_shop` int(10) unsigned NOT NULL DEFAULT 0;
+ALTER TABLE `PREFIX_product_attribute_image` DROP PRIMARY KEY, ADD PRIMARY KEY (`id_product_attribute`, `id_image`, `id_shop`);
+INSERT IGNORE INTO `PREFIX_product_attribute_image` (`id_product_attribute`, `id_image`, `id_shop`) SELECT pai.`id_product_attribute`, pai.`id_image`, ims.`id_shop` FROM (SELECT `id_product_attribute`, `id_image` FROM `PREFIX_product_attribute_image` WHERE `id_shop` = 0) pai INNER JOIN `PREFIX_image_shop` ims ON ims.`id_image` = pai.`id_image`;
+DELETE FROM `PREFIX_product_attribute_image` WHERE `id_shop` = 0;
+ALTER TABLE `PREFIX_product_attribute_image` ALTER COLUMN `id_shop` DROP DEFAULT;
