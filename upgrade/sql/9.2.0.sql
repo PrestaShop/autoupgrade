@@ -289,3 +289,8 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   -- https://github.com/PrestaShop/PrestaShop/pull/41824
   (NULL, 'actionNotFound', 'Action when a page is not found', 'Allows modules to react when a page is not found - log it, redirect or perform other actions.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41643
+-- Make category visibility ("Displayed") configurable per shop.
+/* PHP:add_column('category_shop', 'active', 'tinyint(1) unsigned NOT NULL DEFAULT \'1\' AFTER `position`'); */;
+UPDATE `PREFIX_category_shop` cs INNER JOIN `PREFIX_category` c ON cs.id_category = c.id_category SET cs.active = c.active;
