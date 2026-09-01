@@ -183,6 +183,14 @@ CREATE TABLE IF NOT EXISTS `PREFIX_extra_property_definition` (
   KEY `module_name` (`module_name`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Shops an extra property definition is restricted to (no row = no explicit restriction).
+CREATE TABLE IF NOT EXISTS `PREFIX_extra_property_definition_shop` (
+  `id_extra_property_definition` int(10) unsigned NOT NULL,
+  `id_shop` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id_extra_property_definition`, `id_shop`),
+  KEY `id_shop` (`id_shop`)
+) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- https://github.com/PrestaShop/PrestaShop/pull/41775
 /* PHP:ps_920_extra_property_definitions_tab(); */;
 
