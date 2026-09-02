@@ -43,7 +43,7 @@
         "@playwright/test": "^1.56.1",
         "@prestashop-core/ui-testing": "https://github.com/PrestaShop/ui-testing-library#main",
         "maildev": "^2.2.1",
-        "mysql2": "^3.10.0",
+        "mysql2": "^3.24.3",
         "semver": "^7.6.2"
     },
     "optionalDependencies": {
