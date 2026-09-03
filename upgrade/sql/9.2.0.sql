@@ -158,6 +158,7 @@ CREATE TABLE IF NOT EXISTS `PREFIX_b2b_role_authorization_role` (
 CREATE TABLE IF NOT EXISTS `PREFIX_extra_property_definition` (
   `id_extra_property_definition` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `entity_name` varchar(64) NOT NULL,
+  `table_name` varchar(64) DEFAULT NULL,
   `module_name` varchar(64) DEFAULT NULL,
   `property_name` varchar(64) NOT NULL,
   `type` ENUM ('int','bool','string','float','date','html','json','choice') NOT NULL DEFAULT 'string',
