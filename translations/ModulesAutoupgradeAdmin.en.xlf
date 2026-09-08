@@ -1516,9 +1516,9 @@
         <target>Uncertain modules</target>
         <note>views/templates/dialogs/dialog-modules-report-content.html.twig:16</note>
       </trans-unit>
-      <trans-unit id="df59317d953d72e1e708a2ef16c1c03f">
-        <source>The compatibility of the following modules with the destination version of PrestaShop cannot be checked. It could be because they are homemade or have been unlisted from the Marketplace. Please review them via the [1]Module Manager[/1].</source>
-        <target>The compatibility of the following modules with the destination version of PrestaShop cannot be checked. It could be because they are homemade or have been unlisted from the Marketplace. Please review them via the [1]Module Manager[/1].</target>
+      <trans-unit id="590618980a6eee9c825440133b7c591f">
+        <source>The compatibility of the following modules with the destination version of PrestaShop could not be verified using data from the PrestaShop Marketplace. Please review them via the [1]Module Manager[/1] and confirm their compatibility with their developers.</source>
+        <target>The compatibility of the following modules with the destination version of PrestaShop could not be verified using data from the PrestaShop Marketplace. Please review them via the [1]Module Manager[/1] and confirm their compatibility with their developers.</target>
         <note>views/templates/dialogs/dialog-modules-report-content.html.twig:17</note>
       </trans-unit>
       <trans-unit id="c3eb5c3b9018d75cb7032deb99fe43e9">
