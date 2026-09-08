@@ -206,7 +206,7 @@ class CheckModulesCommand extends AbstractCommand
 
         if (!empty($checkResults['uncertain_modules'])) {
             $output->writeln("\t<warning>⚠</warning> " . count($checkResults['uncertain_modules']) . ' uncertain modules');
-            $output->writeln("\t  The compatibility of the following modules with the destination version of PrestaShop cannot be checked. It could be because they are homemade or have been unlisted from the Marketplace. Please review them via the Module Manager:");
+            $output->writeln("\t  The compatibility of the following modules with the destination version of PrestaShop could not be verified using data from the PrestaShop Marketplace. Please review them via the Module Manager and confirm their compatibility with their developers:");
             foreach ($checkResults['uncertain_modules'] as $module) {
                 $output->writeln("\t\t" . $module);
             }
