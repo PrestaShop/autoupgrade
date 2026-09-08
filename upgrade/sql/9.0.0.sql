@@ -48,8 +48,8 @@ UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'carrier'
 DELETE FROM `PREFIX_feature_flag` WHERE `name` IN ('product_page_v2', 'title', 'order_state', 'multiple_image_format', 'attribute_group');
 
 /* Category redirect */
-/* PHP:add_column('category', 'redirect_type', 'ENUM(\'404\', \'410\', \'301\', \'302\') NOT NULL DEFAULT \'301\''); */;
-/* PHP:add_column('category', 'id_type_redirected', 'int(10) unsigned NOT NULL DEFAULT \'0\''); */;
+/* PHP:add_column('category', 'redirect_type', 'ENUM(\'404\', \'410\', \'301\', \'302\') NOT NULL DEFAULT \'301\' AFTER `date_upd`'); */;
+/* PHP:add_column('category', 'id_type_redirected', 'int(10) unsigned NOT NULL DEFAULT \'0\' AFTER `redirect_type`'); */;
 UPDATE `PREFIX_category` SET `redirect_type` = '404' WHERE `is_root_category` = 1;
 
 /* Increase size of customized data - https://github.com/PrestaShop/PrestaShop/pull/31109 */
