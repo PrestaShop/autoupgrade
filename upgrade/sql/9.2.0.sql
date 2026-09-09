@@ -41,7 +41,7 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 
 -- https://github.com/PrestaShop/PrestaShop/pull/40224
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
-  ('improved_b2b', 'env,dotenv,db', 'Improved B2B', 'Admin.Advparameters.Feature', 'Enable / Disable the improved B2B mode. To use the feature activate the B2B mode in General Settings', 'Admin.Advparameters.Help', 0, 'beta');
+  ('improved_b2b', 'env,dotenv,db', 'Improved B2B', 'Admin.Advparameters.Feature', 'Enable / Disable the improved B2B mode. To use the feature activate the B2B mode in General Settings.', 'Admin.Advparameters.Help', 0, 'beta');
 
 -- https://github.com/PrestaShop/PrestaShop/pull/40632
 -- Insert B2B foundation
@@ -237,6 +237,9 @@ UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'country'
 
 -- https://github.com/PrestaShop/PrestaShop/pull/41777
 UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'tax_rules_group';
+
+-- Mistake from PS 9.0.0 to be corrected in this file
+UPDATE `PREFIX_feature_flag` SET `type` = 'env,dotenv,db' WHERE `name` = 'admin_api_multistore' AND `type` = 'env,query,dotenv,db';
 
 -- https://github.com/PrestaShop/PrestaShop/pull/40852
 /* PHP:add_column('shipment', 'deleted', 'TINYINT(1) NOT NULL DEFAULT 0 AFTER `tracking_number`'); */;
