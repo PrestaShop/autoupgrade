@@ -110,6 +110,15 @@ class FilesystemAdapterTest extends TestCase
         // TODO: Should try using assertEqualsCanonicalizing after upgrade of PHPUnit
         $this->assertEquals([], array_diff($expected, $actual), "There are more files in the expected array than in the actual list: \n" . implode("\n", array_diff($expected, $actual)));
         $this->assertEquals([], array_diff($actual, $expected), "There are more files in the actual array than in the expected list: \n" . implode("\n", array_diff($actual, $expected)));
+
+        // The option excludes the merchant's images, not the ones the release installs. Leaving
+        // those out of the backup makes a rollback keep them at the version the update brought.
+        $this->assertNotEmpty($actual);
+        $this->assertContains(self::$pathToFakeShop . '/img/prestashop@2x.png', $actual);
+        $this->assertContains(self::$pathToFakeShop . '/img/flags/ad.jpg', $actual);
+        $this->assertNotContains(self::$pathToFakeShop . '/img/p/1/0/10-cart_default.jpg', $actual);
+        $this->assertNotContains(self::$pathToFakeShop . '/img/c/3.jpg', $actual);
+        $this->assertNotContains(self::$pathToFakeShop . '/img/tmp/index.php', $actual);
     }
 
     public function testListFilesInDirForRestore()
