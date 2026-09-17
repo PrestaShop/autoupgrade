@@ -148,6 +148,10 @@ class UpdateModules extends AbstractTask
         $this->stepDone = true;
         $this->status = 'ok';
         $this->next = TaskName::TASK_CLEAN_DATABASE;
-        $this->logger->info($this->translator->trans('All modules have been updated.'));
+        if ($this->container->getUpdateConfiguration()->shouldSkipModulesUpdate()) {
+            $this->logger->info($this->translator->trans('Modules update is disabled, no module has been updated.'));
+        } else {
+            $this->logger->info($this->translator->trans('All modules have been updated.'));
+        }
     }
 }

@@ -31,6 +31,7 @@ class UpdateConfigurationValidator extends AbstractConfigurationValidator
                 case UpdateConfiguration::DISABLE_NON_NATIVE_MODULES:
                 case UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES:
                 case UpdateConfiguration::DISABLE_OVERRIDES:
+                case UpdateConfiguration::SKIP_MODULES_UPDATE:
                     $error = $this->validateBool($value, $key);
                     break;
                 case UpdateConfiguration::MAX_FILES_PER_BATCH:

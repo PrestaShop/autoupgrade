@@ -61,6 +61,7 @@ class UpdateInitialization extends AbstractTask
          * if the target version is known. If it isn't, we skip the uninstallation step (otherwise, it would cause a mass uninstallation of all modules that are not up to date).
          */
         if (!$this->container->getUpdateConfiguration()->shouldUninstallNonCompatibleModules()
+            || $this->container->getUpdateConfiguration()->shouldSkipModulesUpdate()
             || $this->container->getPhpVersionResolverService()->getPhpRequirementsState(PHP_VERSION_ID, $destinationVersion) === PhpVersionResolverService::COMPATIBILITY_UNKNOWN
         ) {
             $updateState->setSkipUninstallModule(true);

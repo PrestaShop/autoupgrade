@@ -97,7 +97,9 @@ class UninstallModules extends AbstractTask
             $this->stepDone = true;
             $this->status = 'ok';
             $this->next = TaskName::TASK_UPDATE_FILES;
-            if (!$this->container->getUpdateConfiguration()->shouldUninstallNonCompatibleModules()) {
+            if ($this->container->getUpdateConfiguration()->shouldSkipModulesUpdate()) {
+                $this->logger->info($this->translator->trans('Modules update is disabled, incompatible modules will not be uninstalled. Skipping to the next step.'));
+            } elseif (!$this->container->getUpdateConfiguration()->shouldUninstallNonCompatibleModules()) {
                 $this->logger->info($this->translator->trans('Uninstalling incompatible modules is disabled. Skipping to the next step.'));
             } else {
                 $this->logger->info($this->translator->trans('Since this version of PrestaShop is not released to the public, the module compatibility check for uninstallation cannot be performed. Skipping to the next step.'));
