@@ -33,7 +33,7 @@ class UpdateConfiguration extends AbstractConfiguration
     const BACKUP_COMPLETED = 'backup_completed';
     const INSTALLED_LANGUAGES = 'installed_languages';
     const MAX_FILES_PER_BATCH = 'max_files_per_batch';
-    const SKIP_MODULES_UPDATE = 'skip_modules_update';
+    const SKIP_MODULES_STEP = 'skip_modules_step';
 
     const CHANNEL_ONLINE = 'online';
     const CHANNEL_ONLINE_RECOMMENDED = 'online_recommended';
@@ -51,7 +51,7 @@ class UpdateConfiguration extends AbstractConfiguration
         self::ARCHIVE_XML,
         self::ARCHIVE_VERSION_NUM,
         self::MAX_FILES_PER_BATCH,
-        self::SKIP_MODULES_UPDATE,
+        self::SKIP_MODULES_STEP,
     ];
 
     const DEFAULT_VALUES = [
@@ -61,7 +61,7 @@ class UpdateConfiguration extends AbstractConfiguration
         self::REGENERATE_EMAIL_TEMPLATES => true,
         self::BACKUP_COMPLETED => null,
         self::MAX_FILES_PER_BATCH => 400,
-        self::SKIP_MODULES_UPDATE => false,
+        self::SKIP_MODULES_STEP => false,
     ];
 
     const CONFIGURATION_KEYS_ABOUT_SHOP = [
@@ -180,11 +180,11 @@ class UpdateConfiguration extends AbstractConfiguration
     }
 
     /**
-     * @return bool True if modules (native and non-native) must be left untouched during the update
+     * @return bool True if all the steps related to modules must be skipped (files, download, uninstall, update, deactivation)
      */
-    public function shouldSkipModulesUpdate(): bool
+    public function shouldSkipModulesStep(): bool
     {
-        return $this->computeBooleanConfiguration(self::SKIP_MODULES_UPDATE);
+        return $this->computeBooleanConfiguration(self::SKIP_MODULES_STEP);
     }
 
     /**

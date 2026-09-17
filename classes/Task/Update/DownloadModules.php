@@ -113,19 +113,6 @@ class DownloadModules extends AbstractTask
             $this->container->getCompletionCalculator()->getBasePercentageOfTask(self::class)
         );
 
-        if ($this->container->getUpdateConfiguration()->shouldSkipModulesUpdate()) {
-            // Empty lists: UninstallModules and UpdateModules will then have nothing to update
-            $this->container->getFileStorage()->save((new Backlog([], 0))->dump(), UpgradeFileNames::MODULES_TO_DOWNLOAD_LIST);
-            $this->container->getFileStorage()->save((new Backlog([], 0))->dump(), UpgradeFileNames::MODULES_TO_UPGRADE_LIST);
-
-            $this->stepDone = true;
-            $this->status = 'ok';
-            $this->next = TaskName::TASK_UNINSTALL_MODULES;
-            $this->logger->info($this->translator->trans('Modules update is disabled. Skipping to the next step.'));
-
-            return ExitCode::SUCCESS;
-        }
-
         try {
             $modulesToDownload = $this->container->getModuleAdapter()->listModulesPresentInFolderAndInstalled();
             $modulesToDownload = array_reverse($modulesToDownload);

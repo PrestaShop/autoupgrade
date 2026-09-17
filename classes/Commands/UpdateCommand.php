@@ -49,7 +49,7 @@ class UpdateCommand extends AbstractCommand
             ->addOption('uninstall-incompatible-modules', null, InputOption::VALUE_REQUIRED, 'Uninstall the modules incompatible with the new version of PrestaShop (1 for yes, 0 for no). Their configuration and data will be lost.')
             ->addOption('regenerate-email-templates', null, InputOption::VALUE_REQUIRED, "Regenerate email templates. If you've customized email templates, your changes will be lost if you activate this option (1 for yes, 0 for no)")
             ->addOption('disable-all-overrides', null, InputOption::VALUE_REQUIRED, 'Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates (1 for yes, 0 for no)')
-            ->addOption('skip-modules-update', null, InputOption::VALUE_REQUIRED, 'Do not update modules during the update (1 for yes, 0 for no). Neither the native modules files from the release archive nor the modules updates from the marketplace will be applied.')
+            ->addOption('skip-modules-step', null, InputOption::VALUE_NONE, 'Leave modules untouched during the update: their files are not replaced, and they are not disabled, checked, uninstalled or updated. Options related to modules are ignored.')
             ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
             ->addOption('action', null, InputOption::VALUE_REQUIRED, 'Advanced users only. Sets the step you want to start from. Only the "' . TaskName::TASK_UPDATE_INITIALIZATION . '" task updates the configuration. (Default: ' . TaskName::TASK_UPDATE_INITIALIZATION . ', see ' . DocumentationLinks::getDevDocUpdateAssistantCliUrl() . ' for other values available)')
             ->addOption('max-files-per-batch', null, InputOption::VALUE_REQUIRED, 'Number of files to handle in a single call to avoid timeouts');
@@ -90,8 +90,11 @@ class UpdateCommand extends AbstractCommand
                     UpdateConfiguration::REGENERATE_EMAIL_TEMPLATES => 'regenerate-email-templates',
                     UpdateConfiguration::DISABLE_OVERRIDES => 'disable-all-overrides',
                     UpdateConfiguration::MAX_FILES_PER_BATCH => 'max-files-per-batch',
-                    UpdateConfiguration::SKIP_MODULES_UPDATE => 'skip-modules-update',
                 ]);
+                // Flag option: only override the configuration file when it is set
+                if ($input->getOption('skip-modules-step')) {
+                    $this->consoleInputConfiguration[UpdateConfiguration::SKIP_MODULES_STEP] = true;
+                }
                 $configPath = $input->getOption('config-file-path');
                 $loader = $this->upgradeContainer->getUpdateConfigurationLoader();
                 $exitCode = $this->loadConfiguration($loader, $configPath);

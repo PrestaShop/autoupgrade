@@ -146,7 +146,7 @@ class FileFilter
         ];
 
         // Leave the whole modules folder untouched, including native modules and new modules shipped with the release
-        if ($this->updateConfiguration->shouldSkipModulesUpdate()) {
+        if ($this->updateConfiguration->shouldSkipModulesStep()) {
             $this->excludeAbsoluteFilesFromUpgrade[] = '/modules';
 
             return $this->excludeAbsoluteFilesFromUpgrade;
