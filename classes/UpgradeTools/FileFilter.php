@@ -145,6 +145,13 @@ class FileFilter
             '/override/modules',
         ];
 
+        // Leave the whole modules folder untouched, including native modules and new modules shipped with the release
+        if ($this->updateConfiguration->shouldSkipModulesStep()) {
+            $this->excludeAbsoluteFilesFromUpgrade[] = '/modules';
+
+            return $this->excludeAbsoluteFilesFromUpgrade;
+        }
+
         // Fetch all existing native modules
         $nativeModules = array_column(
             $this->composerService->getModulesInComposerLock($this->rootDir . '/composer.lock'),
