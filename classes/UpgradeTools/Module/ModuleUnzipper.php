@@ -44,7 +44,24 @@ class ModuleUnzipper
         // Module is already unzipped, we make the actual move in the modules folder.
         if (is_dir($updatedModulePath)) {
             $filesystem = new Filesystem();
-            $filesystem->mirror($updatedModulePath, $this->modulesFolder . DIRECTORY_SEPARATOR . $moduleUnzipperContext->getModuleName());
+            // WHY: 'override' is required, not cosmetic. Without it mirror() copies a file only when
+            // the source is strictly newer, because Filesystem::copy() compares modification times.
+            // An archive that preserves the timestamps of its contents, or a source produced by a
+            // copy that kept them, therefore leaves the installed file untouched - the module is
+            // reported as updated while still running its previous code. Measured on
+            // symfony/filesystem 3.4: with the source one minute older the destination kept the old
+            // contents, and with 'override' it takes the new ones.
+            //
+            // 'delete' is deliberately NOT set. It would remove destination files absent from the
+            // source, which is the stale-file half of issue #1571 - but it also removes anything a
+            // merchant or a module keeps inside its own directory, uploads included. That trade
+            // needs the decision the issue is still open on.
+            $filesystem->mirror(
+                $updatedModulePath,
+                $this->modulesFolder . DIRECTORY_SEPARATOR . $moduleUnzipperContext->getModuleName(),
+                null,
+                ['override' => true]
+            );
         }
     }
 }
