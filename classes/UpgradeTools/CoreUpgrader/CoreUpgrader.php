@@ -885,11 +885,30 @@ abstract class CoreUpgrader
         $application->setAutoExit(false);
 
         $output = new BufferedOutput();
-        $errorCode = $application->run(new ArrayInput([
-            'command' => 'assets:install',
-            'target' => $adminSubDir,
-            '--symlink' => function_exists('symlink'),
-        ]), $output);
+
+        // WHY: Application::run() asks the terminal for its size before it executes anything, and on
+        // a non-Windows host Symfony finds that by probing `stty` through the proc_* family.
+        // Terminal::readFromProcess() guards only proc_open with function_exists() and then calls
+        // proc_close() unguarded, so a host that disables part of that family - a common shared
+        // hosting restriction - dies here with "Attempted to call function proc_close", after the
+        // database has already been migrated. Publishing a size makes Terminal::getWidth() and
+        // getHeight() return before any probe. The values are Symfony's own fallbacks, and there is
+        // no terminal to measure in the first place: this runs through a BufferedOutput.
+        $previousColumns = getenv('COLUMNS');
+        $previousLines = getenv('LINES');
+        putenv('COLUMNS=80');
+        putenv('LINES=50');
+
+        try {
+            $errorCode = $application->run(new ArrayInput([
+                'command' => 'assets:install',
+                'target' => $adminSubDir,
+                '--symlink' => function_exists('symlink'),
+            ]), $output);
+        } finally {
+            putenv(false === $previousColumns ? 'COLUMNS' : 'COLUMNS=' . $previousColumns);
+            putenv(false === $previousLines ? 'LINES' : 'LINES=' . $previousLines);
+        }
 
         if ($errorCode !== 0) {
             throw new ProcessException($this->container->getTranslator()->trans("A code %d was returned while installing assets: \n %s", [$errorCode, $output->fetch()]));
