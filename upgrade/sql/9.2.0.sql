@@ -299,3 +299,11 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   -- https://github.com/PrestaShop/PrestaShop/pull/41824
   (NULL, 'actionNotFound', 'Action when a page is not found', 'Allows modules to react when a page is not found - log it, redirect or perform other actions.', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
+-- Normalize database records that should not be NULL, as 8.1.3.sql already does.
+-- Repeated here for the same reason the actionNotFound hook above is: a shop already past 8.1.3
+-- never runs that script again, so any NULL introduced since - by a module, an import or an
+-- update that stopped partway - survives every later update. update_null_values() only writes
+-- where the value IS NULL and skips absent tables and columns, so re-running it is a no-op on a
+-- shop that is already clean.
+/* PHP:update_null_values(); */;
