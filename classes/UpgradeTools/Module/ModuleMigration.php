@@ -31,7 +31,7 @@ use Throwable;
 
 class ModuleMigration
 {
-    const UPGRADE_FILE_PATTERN = '/^(?:[A-Za-z]+)-(\d+(?:\.\d+){0,2}).php$/';
+    const UPGRADE_FILE_PATTERN = '/^(?:install|upgrade)-(\d+(?:\.\d+){0,2}).php$/i';
 
     /** @var Filesystem */
     private $filesystem;
