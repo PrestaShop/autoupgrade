@@ -24,6 +24,7 @@ namespace PrestaShop\Module\AutoUpgrade\UpgradeTools;
 use Exception;
 use PrestaShop\Module\AutoUpgrade\Log\LoggerInterface;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class CacheCleaner
 {
@@ -71,8 +72,15 @@ class CacheCleaner
                 $this->logger->debug($this->container->getTranslator()->trans('Directory "%s" does not exist and cannot be emptied.', [str_replace($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH), '', $dir)]));
                 continue;
             }
-            $this->container->getFilesystemAdapter()->clearDirectory($dir);
-            $this->logger->debug($this->container->getTranslator()->trans('Directory %s emptied', [$dir]));
+            try {
+                $this->container->getFilesystemAdapter()->clearDirectory($dir);
+                $this->logger->debug($this->container->getTranslator()->trans('Directory %s emptied', [$dir]));
+            } catch (IOException $e) {
+                $this->logger->warning($this->container->getTranslator()->trans(
+                    'Could not fully clear directory %s: %s. Some cache files may be locked by running processes.',
+                    [$dir, $e->getMessage()]
+                ));
+            }
         }
     }
 }
