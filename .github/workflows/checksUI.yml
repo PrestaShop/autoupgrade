@@ -10,7 +10,7 @@ defaults:
     working-directory: ./tests/UI/
 
 env:
-  NODE_VERSION: 24
+  NODE_VERSION: 20
 
 jobs:
   lint:

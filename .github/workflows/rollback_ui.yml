@@ -17,7 +17,7 @@ on:
     - cron: '0 0 * * *'
 env:
   CAMPAIGN: 'autoupgrade'
-  NODE_VERSION: 24
+  NODE_VERSION: 20
 
 jobs:
   ui_test_matrix:
