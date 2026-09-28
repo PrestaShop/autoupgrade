@@ -10,7 +10,7 @@ defaults:
     working-directory: ./tests/UI/
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: 20
 
 jobs:
   lint:
@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-browsers
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
@@ -55,7 +55,7 @@ jobs:
           key: ${{ runner.os }}-browsers
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 

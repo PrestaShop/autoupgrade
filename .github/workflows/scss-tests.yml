@@ -1,6 +1,8 @@
 name: SCSS tests
-
 on: [push, pull_request]
+
+env:
+  NODE_VERSION: 24
 
 jobs:
   code_quality:
@@ -9,17 +11,17 @@ jobs:
     steps:
       # Checkout the repository to access the code
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Set up Node.js environment
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: ${{ env.NODE_VERSION }}
 
       # Install project dependencies
       - name: Install dependencies
-        run: npm install --prefix ./_dev
+        run: npm ci --prefix ./_dev
 
       # Run Prettier check command
       - name: Run Prettier check

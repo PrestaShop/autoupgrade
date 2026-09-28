@@ -37,7 +37,7 @@ jobs:
     needs: create_release_zip
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Download release asset
         run: |
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.release.prerelease == false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Sentry Release PHP
         uses: getsentry/action-release@v1
         env:
