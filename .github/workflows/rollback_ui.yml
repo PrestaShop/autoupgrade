@@ -17,6 +17,8 @@ on:
     - cron: '0 0 * * *'
 env:
   CAMPAIGN: 'autoupgrade'
+  NODE_VERSION: 24
+
 jobs:
   ui_test_matrix:
     if: github.event.pull_request.draft == false
@@ -28,7 +30,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Set matrix
         id: set-matrix
         run: echo "matrix=$(jq -c '. | del(.include[] | select(has("comment")))' .github/workflows/ui-test/${{ env.JSON_FILE }})" >> $GITHUB_OUTPUT
@@ -44,7 +46,7 @@ jobs:
       PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Start containers
         working-directory: tests/UI/
@@ -85,24 +87,15 @@ jobs:
         run: |
           composer install
 
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
       - name: Display new interface
         run: |
-          docker exec -t prestashop bash -c 'apt-get update'
-          docker exec -t prestashop bash -c 'curl -sL https://deb.nodesource.com/setup_20.x | bash -'
-          docker exec -t prestashop bash -c 'apt-get install -y nodejs'
-          docker exec -t prestashop bash -c 'cd /var/www/html/modules/autoupgrade/_dev && npm install && npm run vite:build'
-          docker exec -t prestashop chmod 777 -R /var/www/html/admin-dev/autoupgrade
-
-      - name: Install canvas system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential \
-            libcairo2-dev \
-            libpango1.0-dev \
-            libjpeg-dev \
-            libgif-dev \
-            librsvg2-dev
+          npm ci --prefix ./_dev
+          npm run vite:build --prefix ./_dev
 
       - name: Install dependencies
         working-directory: tests/UI/
@@ -155,7 +148,7 @@ jobs:
       id-token: 'write'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
