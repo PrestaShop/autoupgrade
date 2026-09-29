@@ -57,6 +57,32 @@ class FileFilter
         'autoupgrade',
     ];
 
+    /**
+     * Image directories PrestaShop stores merchant content in.
+     *
+     * Everything else under /img is installed by the release, so it has to stay in the backup even
+     * when images are excluded: a rollback puts the old code back, and any release image the update
+     * had replaced would otherwise be left on disk at the new version.
+     *
+     * The update never replaces what these hold - each of them either ships nothing but its
+     * index.php guard, or is already listed in getFilesToIgnoreOnUpgrade().
+     */
+    const MERCHANT_IMAGE_DIRECTORIES = [
+        '/img/c', // categories
+        '/img/cms',
+        '/img/co', // attribute colors
+        '/img/e', // employees
+        '/img/l', // languages
+        '/img/m', // manufacturers
+        '/img/os', // order statuses
+        '/img/p', // products
+        '/img/s', // carriers
+        '/img/scenes',
+        '/img/st', // stores
+        '/img/su', // suppliers
+        '/img/tmp',
+    ];
+
     public function __construct(
         UpgradeConfiguration $updateConfiguration,
         ComposerService $composerService,
@@ -89,7 +115,7 @@ class FileFilter
         ];
 
         if (!$this->updateConfiguration->shouldBackupImages()) {
-            $backupIgnoreAbsoluteFiles[] = '/img';
+            $backupIgnoreAbsoluteFiles = array_merge($backupIgnoreAbsoluteFiles, self::MERCHANT_IMAGE_DIRECTORIES);
         } else {
             $backupIgnoreAbsoluteFiles[] = '/img/tmp';
         }
