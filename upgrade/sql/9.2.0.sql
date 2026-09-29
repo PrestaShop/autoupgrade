@@ -41,7 +41,7 @@ INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domai
 
 -- https://github.com/PrestaShop/PrestaShop/pull/40224
 INSERT INTO `PREFIX_feature_flag` (`name`, `type`, `label_wording`, `label_domain`, `description_wording`, `description_domain`, `state`, `stability`) VALUES
-  ('improved_b2b', 'env,dotenv,db', 'Improved B2B', 'Admin.Advparameters.Feature', 'Enable / Disable the improved B2B mode. To use the feature activate the B2B mode in General Settings', 'Admin.Advparameters.Help', 0, 'beta');
+  ('improved_b2b', 'env,dotenv,db', 'Improved B2B', 'Admin.Advparameters.Feature', 'Enable / Disable the improved B2B mode. To use the feature activate the B2B mode in General Settings.', 'Admin.Advparameters.Help', 0, 'beta');
 
 -- https://github.com/PrestaShop/PrestaShop/pull/40632
 -- Insert B2B foundation
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `PREFIX_extra_property_definition` (
   `default_value` varchar(255) DEFAULT NULL,
   `required` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `constraints` longtext DEFAULT NULL,
-  `display_front` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `display_front` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `associated_apis` text DEFAULT NULL,
   `associated_grids` text DEFAULT NULL,
   `associated_forms` text DEFAULT NULL,
@@ -238,6 +238,9 @@ UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'country'
 -- https://github.com/PrestaShop/PrestaShop/pull/41777
 UPDATE `PREFIX_feature_flag` SET `stability` = 'stable' WHERE `name` = 'tax_rules_group';
 
+-- Mistake from PS 9.0.0 to be corrected in this file
+UPDATE `PREFIX_feature_flag` SET `type` = 'env,dotenv,db' WHERE `name` = 'admin_api_multistore' AND `type` = 'env,query,dotenv,db';
+
 -- https://github.com/PrestaShop/PrestaShop/pull/40852
 /* PHP:add_column('shipment', 'deleted', 'TINYINT(1) NOT NULL DEFAULT 0 AFTER `tracking_number`'); */;
 
@@ -297,5 +300,6 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   -- also declared in 9.1.5.sql, where it belonged: repeated here for shops already
   -- upgraded to 9.1.5, which no longer run that script
   -- https://github.com/PrestaShop/PrestaShop/pull/41824
-  (NULL, 'actionNotFound', 'Action when a page is not found', 'Allows modules to react when a page is not found - log it, redirect or perform other actions.', '1')
+  (NULL, 'actionNotFound', 'Action when a page is not found', 'Allows modules to react when a page is not found - log it, redirect or perform other actions.', '1'),
+  (NULL, 'displayOrderDetailProductLine', 'Order detail product line', 'This hook is displayed on each product line of the order''s details in Front Office', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);

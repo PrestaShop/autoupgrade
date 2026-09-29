@@ -17,6 +17,8 @@ on:
     - cron: '0 0 * * *'
 env:
   CAMPAIGN: 'autoupgrade'
+  NODE_VERSION: 20
+
 jobs:
   ui_test_matrix:
     if: github.event.pull_request.draft == false
@@ -28,7 +30,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Set matrix
         id: set-matrix
         run: echo "matrix=$(jq -c '. | del(.include[] | select(has("comment")))' .github/workflows/ui-test/${{ env.JSON_FILE }})" >> $GITHUB_OUTPUT
@@ -44,7 +46,7 @@ jobs:
       PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Start containers
         working-directory: tests/UI/
@@ -78,7 +80,7 @@ jobs:
 
       - name: Install and build npm dependencies
         run: |
-          npm install --prefix ./_dev
+          npm ci --prefix ./_dev
           npm run vite:build --prefix ./_dev
           docker exec -t prestashop chmod 777 -R /var/www/html/admin-dev/autoupgrade
           docker exec -t prestashop chmod 777 -R /var/www/html/modules/
@@ -87,7 +89,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: '20.x'
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Install dependencies
         working-directory: tests/UI/
@@ -157,7 +159,7 @@ jobs:
       id-token: 'write'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
