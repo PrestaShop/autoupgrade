@@ -300,5 +300,6 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   -- also declared in 9.1.5.sql, where it belonged: repeated here for shops already
   -- upgraded to 9.1.5, which no longer run that script
   -- https://github.com/PrestaShop/PrestaShop/pull/41824
-  (NULL, 'actionNotFound', 'Action when a page is not found', 'Allows modules to react when a page is not found - log it, redirect or perform other actions.', '1')
+  (NULL, 'actionNotFound', 'Action when a page is not found', 'Allows modules to react when a page is not found - log it, redirect or perform other actions.', '1'),
+  (NULL, 'displayOrderDetailProductLine', 'Order detail product line', 'This hook is displayed on each product line of the order''s details in Front Office', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
