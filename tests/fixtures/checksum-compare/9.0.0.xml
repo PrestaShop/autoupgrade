@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <checksum_list>
 	<ps_root_dir version="9.0.0">
+		<md5file name="init.php">0c7996ca741c35ec24e82e5b116604dc</md5file>
+		<dir name="modules">
+			<dir name="blockreassurance">
+				<md5file name="blockreassurance.php">75111ebd3d058964acc25a0df5f05db4</md5file>
+			</dir>
+		</dir>
+		<dir name="themes">
+			<dir name="classic">
+				<dir name="config">
+					<md5file name="theme.yml">d50e8124b90459a8e92633adcae892ff</md5file>
+				</dir>
+			</dir>
+		</dir>
 		<dir name="admin">
 			<md5file name="index.php">283b4dff1c55cbcfb624ca5a10cb808f</md5file>
 		</dir>
