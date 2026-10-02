@@ -683,7 +683,7 @@
       </trans-unit>
       <trans-unit id="13c5f7e7473980468149551b4df7da8c" approved="yes">
         <source>%s files left to update.</source>
-        <target state="final">Rimasti da aggiornare %s moduli.</target>
+        <target state="final">Rimasti da aggiornare %s file.</target>
         <note>classes/Task/Update/UpdateFiles.php:88</note>
       </trans-unit>
       <trans-unit id="9a2f2cf276ea9f79b31a815897c0e3e6" approved="yes">
