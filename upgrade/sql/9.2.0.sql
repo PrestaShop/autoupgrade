@@ -303,3 +303,6 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionNotFound', 'Action when a page is not found', 'Allows modules to react when a page is not found - log it, redirect or perform other actions.', '1'),
   (NULL, 'displayOrderDetailProductLine', 'Order detail product line', 'This hook is displayed on each product line of the order''s details in Front Office', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
+-- https://github.com/PrestaShop/PrestaShop/issues/43048
+/* PHP:install_ps_onepagecheckout(); */;
