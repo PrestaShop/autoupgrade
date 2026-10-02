@@ -153,6 +153,14 @@ class FileFilter
             '/override/modules',
         ];
 
+        // The shop's .env is kept for the same reason as parameters.php: a merchant edits it in place
+        // (PS_TRUSTED_PROXIES behind a reverse proxy, for instance). A shop updated from 8.x has none
+        // yet, and the release's has to be installed then: Symfony's Dotenv refuses to boot the 9.x
+        // kernel without the file.
+        if (file_exists($this->rootDir . '/.env')) {
+            $this->excludeAbsoluteFilesFromUpgrade[] = '/.env';
+        }
+
         // Fetch all existing native modules
         $nativeModules = array_column(
             $this->composerService->getModulesInComposerLock($this->rootDir . '/composer.lock'),
