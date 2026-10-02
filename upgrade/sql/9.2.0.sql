@@ -303,3 +303,9 @@ INSERT INTO `PREFIX_hook` (`id_hook`, `name`, `title`, `description`, `position`
   (NULL, 'actionNotFound', 'Action when a page is not found', 'Allows modules to react when a page is not found - log it, redirect or perform other actions.', '1'),
   (NULL, 'displayOrderDetailProductLine', 'Order detail product line', 'This hook is displayed on each product line of the order''s details in Front Office', '1')
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `description` = VALUES(`description`);
+
+-- https://github.com/PrestaShop/PrestaShop/pull/41825
+-- Per-combination virtual flag and downloadable files (one file per combination)
+ALTER TABLE `PREFIX_product_attribute` ADD COLUMN `is_virtual` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `PREFIX_product_download` ADD COLUMN `id_product_attribute` INT(10) UNSIGNED NOT NULL DEFAULT 0 AFTER `id_product`;
+ALTER TABLE `PREFIX_product_download` DROP INDEX `id_product`, ADD UNIQUE KEY `id_product` (`id_product`, `id_product_attribute`);
