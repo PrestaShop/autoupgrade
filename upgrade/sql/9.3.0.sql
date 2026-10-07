@@ -15,3 +15,6 @@ CREATE TABLE IF NOT EXISTS `PREFIX_product_attribute_content` (
   `meta_title` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id_product_attribute`, `id_shop`, `id_lang`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- https://github.com/PrestaShop/PrestaShop/pull/43136
+/* PHP:add_column('product_attribute_content', 'link_rewrite', 'varchar(128) DEFAULT NULL AFTER `description_short`'); */;
