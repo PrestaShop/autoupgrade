@@ -2,6 +2,13 @@ includes:
 	- %currentWorkingDirectory%/tests/phpstan/phpstan.neon
 
 parameters:
+	# PrestaShop 9 runs on PHP 8.1 and above, while our composer.json pins the platform to PHP 7.1.
+	# Without this, PHPStan reads the core sources with a PHP 7.1 grammar and silently drops the
+	# classes using a more recent syntax (AppKernel and its Symfony parents, for instance).
+	phpVersion:
+		min: 80100
+		max: 80400
+
 	excludePaths:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreUpgrader17.php
 		- ./../../classes/Twig/TransFilterExtension.php
@@ -10,7 +17,6 @@ parameters:
 		- ./../../classes/UpgradeTools/CoreUpgrader/CoreServiceStub/Stubs
 	ignoreErrors:
 		- "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\)\\: mixed\\)\\|null, 'add_quotes' given\\.$#"
-		- "#^Property .*ModuleAdapter::\\$commandBus .* does not accept Symfony\\\\Component\\\\DependencyInjection\\\\object\\|null.$#"
 		-
 			identifier: booleanAnd.rightAlwaysTrue
 			path: ./../../classes/UpgradeSelfCheck.php
