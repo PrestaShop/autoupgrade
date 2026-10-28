@@ -349,16 +349,11 @@ abstract class CoreUpgrader
         $this->runSqlQuery($upgrade_file, $query);
     }
 
-    /**
-     * @param string $query
-     *
-     * @return false|string
-     */
-    private function extractPhpStringFromQuery(string $query)
+    private function extractPhpStringFromQuery(string $query): string
     {
         $pos = strpos($query, '/* PHP:') + strlen('/* PHP:');
 
-        return substr($query, $pos, strlen($query) - $pos - strlen(' */;'));
+        return substr($query, $pos, strlen($query) - $pos - strlen(' */;')) ?: '';
     }
 
     /**
