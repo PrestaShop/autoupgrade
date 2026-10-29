@@ -29,6 +29,17 @@ use SplFileInfo;
 class FileFilter
 {
     /**
+     * Files the release ships as a starting point that the merchant then owns: copied when the shop has none,
+     * kept as they are otherwise.
+     *
+     * - .env: edited in place (PS_TRUSTED_PROXIES behind a reverse proxy, for instance), and a shop updated from
+     *   8.x has none yet, while Symfony's Dotenv refuses to boot the 9.x kernel without it.
+     */
+    private const FILES_COPIED_ONLY_WHEN_MISSING = [
+        '/.env',
+    ];
+
+    /**
      * @var UpgradeConfiguration
      */
     protected $updateConfiguration;
@@ -152,6 +163,12 @@ class FileFilter
             '/override/controllers',
             '/override/modules',
         ];
+
+        foreach (self::FILES_COPIED_ONLY_WHEN_MISSING as $file) {
+            if (file_exists($this->rootDir . $file)) {
+                $this->excludeAbsoluteFilesFromUpgrade[] = $file;
+            }
+        }
 
         // Fetch all existing native modules
         $nativeModules = array_column(
