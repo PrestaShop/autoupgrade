@@ -37,6 +37,7 @@ import {
 } from '@playwright/test';
 import semver from 'semver';
 import {exec} from 'child_process';
+import failOnProcessError from '../utils/failOnProcessError';
 
 const psVersion = utilsTest.getPSVersion();
 
@@ -247,7 +248,7 @@ test.describe('Upgrade using the local channel', () => {
   test('should wait until the end of the update ', async () => {
     test.setTimeout(5000_000);
 
-    const successMessage = await modAutoupgradeBoMain.checkUpdateSuccess(page);
+    const successMessage = await failOnProcessError(page, modAutoupgradeBoMain.checkUpdateSuccess(page));
     expect(successMessage).toContain(modAutoupgradeBoMain.updateSuccessMessage);
     expect(successMessage).toContain(process.env.PS_VERSION_END);
   });
