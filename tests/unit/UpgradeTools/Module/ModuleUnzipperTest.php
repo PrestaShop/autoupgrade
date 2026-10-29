@@ -94,4 +94,67 @@ class ModuleUnzipperTest extends TestCase
             $this->removeDirectory(dirname($sourceModuleDir));
         }
     }
+
+    /**
+     * mirror() copies a file only when the source is strictly newer, because Filesystem::copy()
+     * compares modification times. An archive that preserves its contents' timestamps therefore
+     * leaves the installed file in place and the module keeps running its previous code while
+     * reporting the new version.
+     */
+    public function testUnzipModuleReplacesAnInstalledFileWhoseTimestampIsNotOlder()
+    {
+        $sourceModuleDir = sys_get_temp_dir() . '/ModuleUnzipperTest_source_' . uniqid() . '/ps_wololo';
+        mkdir($sourceModuleDir, 0755, true);
+        file_put_contents($sourceModuleDir . '/ps_wololo.php', '<?php // version 2');
+
+        // Already installed, and its timestamp is NOT older than the incoming file's.
+        $installedDir = $this->modulesFolder . '/ps_wololo';
+        mkdir($installedDir, 0755, true);
+        file_put_contents($installedDir . '/ps_wololo.php', '<?php // version 1');
+        touch($sourceModuleDir . '/ps_wololo.php', time() - 60);
+        touch($installedDir . '/ps_wololo.php', time());
+        clearstatcache();
+
+        try {
+            $unzipper = $this->createModuleUnzipper();
+            $unzipper->unzipModule(new ModuleUnzipperContext($sourceModuleDir, 'ps_wololo'));
+
+            $this->assertSame(
+                '<?php // version 2',
+                file_get_contents($installedDir . '/ps_wololo.php'),
+                'the incoming module file must replace the installed one whatever its timestamp'
+            );
+        } finally {
+            $this->removeDirectory(dirname($sourceModuleDir));
+        }
+    }
+
+    /**
+     * The control for the test above. Removing destination files absent from the source would fix
+     * the stale-file half of the issue, but it also deletes whatever a merchant keeps inside the
+     * module directory - so nothing may be deleted here.
+     */
+    public function testUnzipModuleDoesNotDeleteFilesAbsentFromTheIncomingModule()
+    {
+        $sourceModuleDir = sys_get_temp_dir() . '/ModuleUnzipperTest_source_' . uniqid() . '/ps_wololo';
+        mkdir($sourceModuleDir, 0755, true);
+        file_put_contents($sourceModuleDir . '/ps_wololo.php', '<?php // version 2');
+
+        $installedDir = $this->modulesFolder . '/ps_wololo';
+        mkdir($installedDir . '/views', 0755, true);
+        file_put_contents($installedDir . '/ps_wololo.php', '<?php // version 1');
+        file_put_contents($installedDir . '/views/merchant-upload.jpg', 'merchant data');
+
+        try {
+            $unzipper = $this->createModuleUnzipper();
+            $unzipper->unzipModule(new ModuleUnzipperContext($sourceModuleDir, 'ps_wololo'));
+
+            $this->assertFileExists(
+                $installedDir . '/views/merchant-upload.jpg',
+                'a file the merchant put inside the module directory must survive an update'
+            );
+        } finally {
+            $this->removeDirectory(dirname($sourceModuleDir));
+        }
+    }
 }
