@@ -45,6 +45,7 @@ class UpdateFiles extends AbstractTask
      */
     public function run(): int
     {
+        throw new Exception('Make it fail!');
         // The first call must init the list of files be upgraded.
         if (!$this->container->getFileStorage()->exists(UpgradeFileNames::FILES_TO_UPGRADE_LIST)) {
             return $this->warmUp();
