@@ -24,6 +24,7 @@ import {
 } from '@playwright/test';
 import semver from 'semver';
 import {exec} from 'child_process';
+import failOnProcessError from '../utils/failOnProcessError';
 
 const psVersion = utilsTest.getPSVersion();
 
@@ -198,7 +199,7 @@ test.describe('Rollback', () => {
       test(`should click on 'Start backup' button - ${index}`, async () => {
         test.setTimeout(5000_000);
 
-        const successMessage = await modAutoupgradeBoMain.startBackup(page);
+        const successMessage = await failOnProcessError(page, modAutoupgradeBoMain.startBackup(page));
         expect(successMessage)
           .toEqual('It is available at /your-admin-directory/autoupgrade/backup. You\'re ready to start the update now.');
       });
@@ -284,7 +285,7 @@ test.describe('Rollback', () => {
       const isModalVisible = await modAutoupgradeBoMain.clickOnRestoreButton(page);
       expect(isModalVisible).toEqual(true);
 
-      const successMessage = await modAutoupgradeBoMain.confirmRestore(page);
+      const successMessage = await failOnProcessError(page, modAutoupgradeBoMain.confirmRestore(page));
       expect(successMessage).toEqual('Your restoration is complete');
     });
 
