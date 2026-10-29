@@ -125,4 +125,67 @@ class ChecksumCompareTest extends TestCase
         $this->assertNotContains('admin-api/index.php', $missingFiles, 'admin-api files should not be reported as missing when admin folder is renamed');
         $this->assertNotContains('admin-api/.htaccess', $missingFiles, 'admin-api files should not be reported as missing when admin folder is renamed');
     }
+
+    /**
+     * A native module that has been uninstalled, or a theme that has been replaced, is a merchant
+     * decision and not a tampered file (issue #1591). Every file of one used to be listed as
+     * missing, which buried anything actionable.
+     */
+    public function testFilesOfARemovedModuleOrThemeAreNotReportedAsMissing()
+    {
+        $tamperedFiles = $this->getTamperedFilesForFixture();
+
+        $this->assertNotContains(
+            'modules/blockreassurance/blockreassurance.php',
+            $tamperedFiles[ChecksumCompare::CATEGORY_CORE][ChecksumCompare::FILE_MISSING],
+            'files of an uninstalled module must not be reported as missing'
+        );
+        $this->assertNotContains(
+            'themes/classic/config/theme.yml',
+            $tamperedFiles[ChecksumCompare::CATEGORY_THEME][ChecksumCompare::FILE_MISSING],
+            'files of a theme the shop does not carry must not be reported as missing'
+        );
+    }
+
+    /**
+     * The control for the test above: a core file that is genuinely absent is still reported, so the
+     * change narrows the report instead of emptying it.
+     */
+    public function testAGenuinelyMissingCoreFileIsStillReported()
+    {
+        $tamperedFiles = $this->getTamperedFilesForFixture();
+
+        $this->assertContains(
+            'init.php',
+            $tamperedFiles[ChecksumCompare::CATEGORY_CORE][ChecksumCompare::FILE_MISSING],
+            'a missing core file must still be reported'
+        );
+    }
+
+    /**
+     * @return array<string, array<string, string[]>>
+     */
+    private function getTamperedFilesForFixture()
+    {
+        $fileSystemAdapter = $this->getMockBuilder(FilesystemAdapter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $fileLoader = $this->getMockBuilder(FileLoader::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getXmlMd5File'])
+            ->getMock();
+
+        $fileLoader->method('getXmlMd5File')
+            ->willReturn(@simplexml_load_file(__DIR__ . '/../../fixtures/checksum-compare/9.0.0.xml'));
+
+        $checksumCompare = new ChecksumCompare(
+            $fileLoader,
+            $fileSystemAdapter,
+            __DIR__ . '/../../fixtures/checksum-compare/9.0.0',
+            __DIR__ . '/../../fixtures/checksum-compare/9.0.0/admin120df7jyx6dk20p2ehq'
+        );
+
+        return $checksumCompare->getTamperedFilesOnShop('9.0.0');
+    }
 }
