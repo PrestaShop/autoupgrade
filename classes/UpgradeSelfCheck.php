@@ -355,6 +355,18 @@ class UpgradeSelfCheck
             case self::SHOP_VERSION_NOT_MATCHING_VERSION_IN_DATABASE:
                 return [
                     'message' => $this->translator->trans('The version of PrestaShop does not match the one stored in database. Your database structure may not be up-to-date and/or the value of PS_VERSION_DB needs to be updated in the configuration table.'),
+                    // WHY: the two values are the whole of what the merchant has to act on, and the
+                    // sentence names neither - it says a mismatch exists without saying between what,
+                    // so recovering means going and reading both by hand. They are reported through
+                    // the existing 'list' key rather than folded into the sentence on purpose: that
+                    // string is already translated in a dozen catalogues, and editing it would drop
+                    // every target back to English until Crowdin catches up. Both surfaces render
+                    // this key already - the CLI prints one item per line, the Twig view joins them.
+                    // The items are identifiers rather than prose, so they need no translation.
+                    'list' => [
+                        'PS_VERSION_DB = ' . Configuration::get('PS_VERSION_DB'),
+                        '_PS_VERSION_ = ' . $this->prestashopConfiguration->getPrestaShopVersion(),
+                    ],
                 ];
 
             case self::DESTINATION_VERSION_IS_NOT_SUPPORTED:
