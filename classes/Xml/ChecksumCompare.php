@@ -221,13 +221,47 @@ class ChecksumCompare
                 );
 
                 if (!file_exists($fullPath) && !str_contains($fullPath, 'install' . DIRECTORY_SEPARATOR)) {
-                    $this->addFileDifferences($relative_path, true);
+                    if (!$this->belongsToRemovedExtension($relative_path)) {
+                        $this->addFileDifferences($relative_path, true);
+                    }
                 } elseif (!$this->compareChecksum($fullPath, (string) $child) && substr(str_replace(DIRECTORY_SEPARATOR, '-', $relative_path), 0, 7) != 'modules') {
                     $this->addFileDifferences($relative_path);
                 }
                 // else, file is original (and ok)
             }
         }
+    }
+
+    /**
+     * Whether a path belongs to a module or a theme the shop does not carry at all.
+     *
+     * A native module that has been uninstalled, or a theme that has been replaced, is a merchant
+     * decision rather than a tampered file, and neither is restored by the core file update - modules
+     * are handled by their own update step. Listing every file of one drowns the report: the shop in
+     * issue #1591 produced 1239 core entries and 265 theme entries this way, with nothing actionable
+     * among them. The altered branch already skips modules for the same reason; only the missing
+     * branch did not.
+     *
+     * The test is deliberately the whole extension directory, not the path prefix. A module or theme
+     * that IS installed and has files missing from inside it is still reported, because that is the
+     * case this report exists for.
+     */
+    protected function belongsToRemovedExtension(string $relativePath): bool
+    {
+        foreach (['modules', 'themes'] as $directory) {
+            if (strpos($relativePath, $directory . '/') !== 0) {
+                continue;
+            }
+
+            $segments = explode('/', $relativePath);
+            if (empty($segments[1])) {
+                return false;
+            }
+
+            return !is_dir($this->prodPath . DIRECTORY_SEPARATOR . $directory . DIRECTORY_SEPARATOR . $segments[1]);
+        }
+
+        return false;
     }
 
     /**
