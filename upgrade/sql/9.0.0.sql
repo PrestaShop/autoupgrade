@@ -155,6 +155,8 @@ CREATE TABLE IF NOT EXISTS `PREFIX_api_client`
      UNIQUE KEY `api_client_client_name_idx` (`client_name`,`external_issuer`)
 ) ENGINE=ENGINE_TYPE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+/* PHP:drop_index_if_exists('image_type', 'image_type_name'); */;
+
 ALTER TABLE `PREFIX_image_type`
     CHANGE `id_image_type` `id_image_type` int(10) unsigned NOT NULL AUTO_INCREMENT,
     CHANGE `width` `width` int(10) unsigned NOT NULL,
@@ -162,7 +164,6 @@ ALTER TABLE `PREFIX_image_type`
     CHANGE `products` `products`  tinyint(1) NOT NULL DEFAULT '1',
     CHANGE `manufacturers` `manufacturers`  tinyint(1) NOT NULL DEFAULT '1',
     CHANGE `stores` `stores` tinyint(1) NOT NULL DEFAULT '1',
-    DROP key `image_type_name`,
     ADD UNIQUE KEY `UNIQ_907C95215E237E06` (`name`);
 
 CREATE TABLE IF NOT EXISTS `PREFIX_mutation` (
