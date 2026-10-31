@@ -41,7 +41,7 @@ export const Default = {
         },
         {
           message:
-            'Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in <a class="link">Shop parameters > General > Maintenance</a>.',
+            'Maintenance mode needs to be enabled. Enable maintenance mode in <a class="link">Shop parameters > General > Maintenance</a>, and keep a way to reach your store while it is closed: either allow admins to bypass maintenance mode, or add your maintenance IP.',
         },
         {
           message:
