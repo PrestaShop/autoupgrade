@@ -191,6 +191,13 @@ ALTER TABLE `PREFIX_shop_url` ADD UNIQUE KEY `full_shop_url` (`domain`,`physical
 ALTER TABLE `PREFIX_shop_url` ADD UNIQUE KEY `full_shop_url_ssl` (`domain_ssl`,`physical_uri`,`virtual_uri`);
 ALTER TABLE `PREFIX_shop_url` ADD KEY `id_shop` (`id_shop`,`main`);
 
+/* The columns widened below are indexed, and a utf8mb4 VARCHAR(255) needs 1020 bytes where
+   InnoDB's legacy row formats allow 767. A shop created by an older PrestaShop still carries
+   COMPACT, so widen the row format first or the ALTER is refused. */
+/* PHP:upgrade_row_format_if_legacy('orders'); */;
+/* PHP:upgrade_row_format_if_legacy('order_payment'); */;
+/* PHP:upgrade_row_format_if_legacy('shop_url'); */;
+
 /* Unify varchar limits */
 /* https://github.com/PrestaShop/PrestaShop/pull/35882 */
 ALTER TABLE `PREFIX_meta_lang` CHANGE `url_rewrite` `url_rewrite` varchar(255) NOT NULL;

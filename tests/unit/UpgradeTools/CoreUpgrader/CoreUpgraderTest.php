@@ -74,6 +74,53 @@ class CoreUpgraderTest extends TestCase
     }
 
     /**
+     * Every `/* PHP: *\/` directive shipped in the upgrade scripts has to name a function that
+     * exists, because a missing one is only a warning at update time - the migration carries on
+     * as if the step had run.
+     *
+     * @throws ReflectionException
+     */
+    public function testEveryPhpDirectiveInTheUpgradeScriptsResolvesToAFile()
+    {
+        $extractPhpString = self::getMethod('extractPhpStringFromQuery');
+        $extractParameters = self::getMethod('extractParametersAsString');
+
+        $directories = __DIR__ . '/../../../..';
+        $files = glob($directories . '/upgrade/sql/*.sql');
+        $this->assertNotEmpty($files);
+
+        $checked = 0;
+        foreach ($files as $file) {
+            // Same splitting as CoreUpgrader::applySqlParams(), so a directive is read exactly as
+            // the update reads it rather than as a hand-written string.
+            $queries = array_filter(preg_split("/;\s*[\r\n]+/", file_get_contents($file) . "\n"));
+
+            foreach ($queries as $query) {
+                $query = trim($query);
+                if (strpos($query, '/* PHP:') === false) {
+                    continue;
+                }
+
+                $phpString = $extractPhpString->invokeArgs($this->coreUpgrader, [$query]);
+                if (strpos($phpString, '::') !== false) {
+                    continue; // an object method call, which the update refuses on purpose
+                }
+
+                $stringParameters = $extractParameters->invokeArgs($this->coreUpgrader, [$phpString]);
+                $functionName = str_replace($stringParameters, '', explode('::', $phpString)[0]);
+
+                $this->assertFileExists(
+                    $directories . '/upgrade/php/' . strtolower($functionName) . '.php',
+                    sprintf('%s calls %s, which has no file', basename($file), var_export($functionName, true))
+                );
+                ++$checked;
+            }
+        }
+
+        $this->assertGreaterThan(0, $checked);
+    }
+
+    /**
      * @throws ReflectionException
      */
     public function testExtractParametersAsString()
