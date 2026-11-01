@@ -27,6 +27,14 @@ jest.mock('../../src/ts/appUI/routing/ScriptHandler', () => {
   }));
 });
 
+// avoid sending real requests when the logs summary requests the download button
+jest.mock('../../src/ts/appUI/api/RequestHandler', () => ({
+  __esModule: true,
+  default: {
+    post: jest.fn()
+  }
+}));
+
 describe('LogsViewer', () => {
   let logsViewer: LogsViewer;
   let container: HTMLElement;

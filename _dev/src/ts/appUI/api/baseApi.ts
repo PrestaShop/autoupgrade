@@ -23,8 +23,7 @@ import { addResponseInterceptor } from './responseInterceptor';
 const baseApi = axios.create({
   baseURL: `${window.AutoUpgradeVariables.admin_url}/autoupgrade/ajax-upgradetab.php`,
   headers: {
-    'X-Requested-With': 'XMLHttpRequest',
-    Authorization: `Bearer ${() => window.AutoUpgradeVariables.token}`
+    'X-Requested-With': 'XMLHttpRequest'
   },
   transitional: {
     clarifyTimeoutError: true
