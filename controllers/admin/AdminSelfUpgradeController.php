@@ -228,6 +228,24 @@ class AdminSelfUpgradeController extends ModuleAdminController
     }
 
     /**
+     * The back office notifications script requests the shop as soon as the page is loaded,
+     * then every two minutes. It is not loaded on this page, so that request does not boot
+     * the shop in the middle of an update or a restore.
+     *
+     * @param bool $isNewTheme
+     *
+     * @return void
+     */
+    public function setMedia($isNewTheme = false)
+    {
+        parent::setMedia($isNewTheme);
+
+        $this->js_files = array_filter($this->js_files, function ($jsFile) {
+            return strpos($jsFile, _PS_JS_DIR_ . 'admin/notifications.js') !== 0;
+        });
+    }
+
+    /**
      * @return string
      */
     public function initContent()
