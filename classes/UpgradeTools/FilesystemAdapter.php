@@ -131,6 +131,51 @@ class FilesystemAdapter
     }
 
     /**
+     * Removes the directories that deleting the given files left empty, deepest first. Directories the
+     * backup archive has files in are kept, the extraction fills them again.
+     *
+     * @param string[] $removedFiles paths relative to the shop root, starting with a separator
+     * @param string[] $archivedFiles paths relative to the shop root, starting with a separator
+     */
+    public function removeEmptiedDirectories(array $removedFiles, array $archivedFiles): void
+    {
+        $directories = array_keys(array_diff_key(
+            $this->listParentDirectories($removedFiles),
+            $this->listParentDirectories($archivedFiles)
+        ));
+        // Deepest first, so a directory is checked once its subdirectories are gone
+        usort($directories, function ($a, $b) {
+            return strlen($b) - strlen($a);
+        });
+
+        foreach ($directories as $directory) {
+            $path = $this->prodRootDir . $directory;
+            // WHY: only an empty directory is removed, so a file the restore keeps (skipped by the backup,
+            // or too big to be archived) keeps its folder.
+            if (is_dir($path) && !is_link($path) && count(scandir($path)) === 2) {
+                rmdir($path);
+            }
+        }
+    }
+
+    /**
+     * @param string[] $files
+     *
+     * @return array<string, bool> every parent directory of the files, keyed by path
+     */
+    private function listParentDirectories(array $files): array
+    {
+        $directories = [];
+        foreach ($files as $file) {
+            for ($directory = dirname($file); strlen($directory) > 1; $directory = dirname($directory)) {
+                $directories[$directory] = true;
+            }
+        }
+
+        return $directories;
+    }
+
+    /**
      * listSampleFiles will make a recursive call to scandir() function
      * and list all file which match to the $fileext suffixe (this can be an extension or whole filename).
      *
