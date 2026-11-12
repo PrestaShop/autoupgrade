@@ -3,13 +3,16 @@ on:
   workflow_dispatch:
   workflow_call:
 
+env:
+  NODE_VERSION: 24
+
 jobs:
   build:
     name: Build dependencies & create artifact
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -23,11 +26,11 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: '20.x'
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Install and build npm dependencies
         run: |
-          npm install --prefix ./_dev
+          npm ci --prefix ./_dev
           npm run vite:build --prefix ./_dev
 
       - name: Install composer dev dependencies for tests

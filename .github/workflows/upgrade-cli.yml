@@ -1,4 +1,4 @@
-name: Upgrade CLI tests
+sname: Upgrade CLI tests
 on:
   ## Check each PR
   push:
@@ -28,7 +28,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Set matrix
         id: set-matrix
         run: echo "matrix=$(jq -c '. | del(.include[] | select(has("comment")))' .github/workflows/ui-test/${{ env.JSON_FILE }})" >> $GITHUB_OUTPUT
@@ -44,7 +44,7 @@ jobs:
       PS_DOCKER: ${{ matrix.PS_VERSION_START }}-${{ matrix.PHP_VERSION }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Start containers
         working-directory: tests/UI/
@@ -205,7 +205,7 @@ jobs:
       id-token: 'write'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
