@@ -33,19 +33,13 @@ INSERT IGNORE INTO `PREFIX_hook` (`name`, `title`, `description`, `position`) VA
   ('actionWithdrawalRequestGridDefinitionModifier', 'Modify withdrawal request grid definition', 'This hook allows to alter withdrawal request grid columns, actions and filters', '1'),
   ('actionWithdrawalRequestGridQueryBuilderModifier', 'Modify withdrawal request grid query builder', 'This hook allows to alter Doctrine query builder for withdrawal request grid', '1');
 
-INSERT INTO `PREFIX_meta` (`page`, `configurable`)
-SELECT 'withdrawal', 1
-WHERE NOT EXISTS (SELECT 1 FROM `PREFIX_meta` WHERE `page` = 'withdrawal');
+INSERT IGNORE INTO `PREFIX_meta` (`page`, `configurable`) VALUES ('withdrawal', 1);
 
-INSERT INTO `PREFIX_meta_lang` (`id_meta`, `id_shop`, `id_lang`, `title`, `description`, `url_rewrite`)
-SELECT m.`id_meta`, s.`id_shop`, l.`id_lang`, 'Withdraw from a contract', '', 'withdrawal'
+INSERT IGNORE INTO `PREFIX_meta_lang` (`id_meta`, `id_shop`, `id_lang`, `title`, `description`, `url_rewrite`)
+SELECT m.`id_meta`, s.`id_shop`, l.`id_lang`, 'Withdraw from a contract', '', m.`page`
 FROM `PREFIX_meta` m
 CROSS JOIN `PREFIX_shop` s
 CROSS JOIN `PREFIX_lang` l
-WHERE m.`page` = 'withdrawal'
-AND NOT EXISTS (
-  SELECT 1 FROM `PREFIX_meta_lang` ml
-  WHERE ml.`id_meta` = m.`id_meta` AND ml.`id_shop` = s.`id_shop` AND ml.`id_lang` = l.`id_lang`
-);
+WHERE m.`page` = 'withdrawal';
 
 /* PHP:ps_930_withdrawal_requests_tab(); */;
