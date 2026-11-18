@@ -285,7 +285,7 @@ class UpgradeSelfCheck
                 }
 
                 return [
-                    'message' => $this->translator->trans('Maintenance mode needs to be enabled. Enable maintenance mode and add your maintenance IP in [1]Shop parameters > General > Maintenance[/1].', $params),
+                    'message' => $this->translator->trans('Maintenance mode needs to be enabled. Enable maintenance mode in [1]Shop parameters > General > Maintenance[/1], and keep a way to reach your store while it is closed: either allow admins to bypass maintenance mode, or add your maintenance IP.', $params),
                 ];
 
             case self::CACHE_ENABLED:
@@ -840,24 +840,43 @@ class UpgradeSelfCheck
 
     private function checkShopIsDeactivated(): bool
     {
-        // if multistore is not active, just check if shop is enabled and has a maintenance IP
+        // if multistore is not active, just check if shop is enabled and stays reachable by the merchant
         if (!Shop::isFeatureActive()) {
-            return !Configuration::get('PS_SHOP_ENABLE') && Configuration::get('PS_MAINTENANCE_IP');
+            return !Configuration::get('PS_SHOP_ENABLE') && $this->hasMaintenanceAccess();
         }
 
-        // multistore is active: all shops must be deactivated and have a maintenance IP, otherwise return false
+        // multistore is active: all shops must be deactivated and stay reachable, otherwise return false
         foreach (Shop::getCompleteListOfShopsID() as $shopId) {
             $shop = new Shop((int) $shopId);
             $groupId = (int) $shop->getGroup()->id;
             $isEnabled = Configuration::get('PS_SHOP_ENABLE', null, $groupId, (int) $shopId);
-            $maintenanceIp = Configuration::get('PS_MAINTENANCE_IP', null, $groupId, (int) $shopId);
 
-            if ($isEnabled || !$maintenanceIp) {
+            if ($isEnabled || !$this->hasMaintenanceAccess($groupId, (int) $shopId)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    /**
+     * A closed shop must still be reachable by the merchant, otherwise they cannot check the result
+     * of the update before reopening. Core grants that access in two ways, and honours both in
+     * Tools::isAllowedToBypassMaintenance(): a whitelisted maintenance IP, or -- since PrestaShop
+     * 8.1 -- an employee with an open back office session, when PS_MAINTENANCE_ALLOW_ADMINS is set.
+     *
+     * Requiring the IP alone predates that second way (the requirement comes from
+     * PrestaShop/PrestaShop#25642, filed 18 months before the option existed), so it blocks shops
+     * that are correctly closed and perfectly reachable. Shops older than 8.1 have no such option
+     * and simply fall back to requiring the IP, as before.
+     *
+     * @param int|null $groupId Shop group to read the configuration for, null for the current context
+     * @param int|null $shopId Shop to read the configuration for, null for the current context
+     */
+    private function hasMaintenanceAccess(?int $groupId = null, ?int $shopId = null): bool
+    {
+        return (bool) Configuration::get('PS_MAINTENANCE_IP', null, $groupId, $shopId)
+            || (bool) Configuration::get('PS_MAINTENANCE_ALLOW_ADMINS', null, $groupId, $shopId);
     }
 
     private function checkAdminDirectoryWritable(string $prodRootPath, string $adminPath, string $adminAutoUpgradePath): bool
