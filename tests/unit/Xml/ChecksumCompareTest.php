@@ -89,6 +89,28 @@ class ChecksumCompareTest extends TestCase
         $this->assertEquals($expected, $tamperedFiles);
     }
 
+    public function testGetTamperedFilesOnShopComparesAnIntactShopOnce()
+    {
+        $fileSystemAdapter = $this->getMockBuilder(FilesystemAdapter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $fileLoader = $this->getMockBuilder(FileLoader::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getXmlMd5File'])
+            ->getMock();
+
+        $fileLoader->expects($this->once())
+            ->method('getXmlMd5File')
+            ->willReturn(new SimpleXMLElement('<checksum_list><ps_root_dir/></checksum_list>'));
+
+        $checksumCompare = new ChecksumCompare($fileLoader, $fileSystemAdapter, '/html', '/html/admin');
+        $tamperedFiles = $checksumCompare->getTamperedFilesOnShop('9.0.0');
+
+        $this->assertSame($tamperedFiles, $checksumCompare->getTamperedFilesOnShop('9.0.0'));
+        $this->assertEmpty($tamperedFiles[ChecksumCompare::CATEGORY_CORE][ChecksumCompare::FILE_ALTERED]);
+    }
+
     /**
      * Test that admin-api files are not incorrectly reported as missing
      * when admin folder has been renamed (bug from issue #40035)

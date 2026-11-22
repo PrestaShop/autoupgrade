@@ -63,6 +63,9 @@ class ChecksumCompare
         ],
     ];
 
+    /** @var bool */
+    private $shopFilesCompared = false;
+
     public function __construct(FileLoader $fileLoader, FilesystemAdapter $filesystemAdapter, string $prodPath, string $adminPath)
     {
         $this->fileLoader = $fileLoader;
@@ -104,20 +107,8 @@ class ChecksumCompare
      */
     public function getTamperedFilesOnShop(string $version)
     {
-        if (is_array($this->fileDifferences)) {
-            $useCache = false;
-
-            foreach ($this->fileDifferences as $section) {
-                foreach ([self::FILE_MISSING, self::FILE_ALTERED] as $key) {
-                    if (!empty($section[$key])) {
-                        $useCache = true;
-                    }
-                }
-            }
-
-            if ($useCache) {
-                return $this->fileDifferences;
-            }
+        if (is_array($this->fileDifferences) && !$this->shopFilesCompared) {
+            $this->shopFilesCompared = true;
 
             $checksum = $this->fileLoader->getXmlMd5File($version);
             if (!$checksum) {
