@@ -100,6 +100,7 @@ class RestoreFiles extends AbstractTask
                 foreach ($toRemoveOnly as $fileToRemove) {
                     $this->container->getFileSystem()->remove($this->container->getProperty(UpgradeContainer::PS_ROOT_PATH) . $fileToRemove);
                 }
+                $this->container->getFilesystemAdapter()->removeEmptiedDirectories($toRemoveOnly, $fromArchive);
             }
 
             $res = $this->container->getZipAction()->extract($filepath, $destExtract);
