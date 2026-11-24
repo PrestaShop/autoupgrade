@@ -445,7 +445,7 @@ class UpgradeSelfCheck
                     ];
                     $message = $this->translator->trans('Some installed modules are incompatible or have uncertain compatibility with the target version. Incompatible ones will be uninstalled. [1]See the details[/1].', $params);
                 } else {
-                    $message = $this->translator->trans('Some installed modules are incompatible or have uncertain compatibility with the target version. By default, incompatible ones will be uninstalled (see the --uninstall-incompatible-modules option of the update command). Run bin/console %command%', ['%command%' => CheckModulesCommand::getDefaultName()]);
+                    $message = $this->translator->trans('Some installed modules are incompatible or have uncertain compatibility with the target version. Unless otherwise stated, incompatible ones will be uninstalled. Run bin/console %command%', ['%command%' => CheckModulesCommand::getDefaultName()]);
                 }
 
                 return [
