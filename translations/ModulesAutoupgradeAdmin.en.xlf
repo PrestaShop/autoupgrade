@@ -2051,9 +2051,9 @@
         <target>Incompatible modules</target>
         <note>views/templates/dialogs/dialog-modules-report-content.html.twig:21</note>
       </trans-unit>
-      <trans-unit id="a2f2ae6fb116cc882e42e086867126cb">
-        <source>These modules are known to be incompatible with PrestaShop %version%. They will be uninstalled before updating the store.</source>
-        <target>These modules are known to be incompatible with PrestaShop %version%. They will be uninstalled before updating the store.</target>
+      <trans-unit id="f3853ee8774b31f719095d64b9d91a6a">
+        <source>These modules are known to be incompatible with PrestaShop %version%. Unless otherwise stated, they will be uninstalled before updating the store.</source>
+        <target>These modules are known to be incompatible with PrestaShop %version%. Unless otherwise stated, they will be uninstalled before updating the store.</target>
         <note>views/templates/dialogs/dialog-modules-report-content.html.twig:22</note>
       </trans-unit>
       <trans-unit id="5f3c4e259b57e20abaadfd71605aaf78">

@@ -198,7 +198,7 @@ class CheckModulesCommand extends AbstractCommand
     {
         if (!empty($checkResults['incompatible_modules'])) {
             $output->writeln("\t<error>✘</error> " . count($checkResults['incompatible_modules']) . ' incompatible modules');
-            $output->writeln("\t  These modules are known to be incompatible with PrestaShop $targetPsVersion. They will be uninstalled before updating the store:");
+            $output->writeln("\t  These modules are known to be incompatible with PrestaShop $targetPsVersion. Unless otherwise stated, they will be uninstalled before updating the store:");
             foreach ($checkResults['incompatible_modules'] as $module) {
                 $output->writeln("\t\t" . $module);
             }
