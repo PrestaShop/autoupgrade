@@ -19,7 +19,7 @@
 {% if incompatible_modules is defined and incompatible_modules|length > 0 %}
   {% include "@ModuleAutoUpgrade/components/scrollable-list.html.twig" with {
     'title': 'Incompatible modules'|trans({}),
-    'description': 'These modules are known to be incompatible with PrestaShop %version%. They will be uninstalled before updating the store.'|trans({'%version%': prestashop_version}),
+    'description': 'These modules are known to be incompatible with PrestaShop %version%. Unless otherwise stated, they will be uninstalled before updating the store.'|trans({'%version%': prestashop_version}),
     'items': incompatible_modules,
     'status': 'error',
   } %}
