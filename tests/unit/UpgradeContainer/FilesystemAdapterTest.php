@@ -21,6 +21,7 @@
 
 use PHPUnit\Framework\TestCase;
 use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeConfiguration;
+use PrestaShop\Module\AutoUpgrade\Parameters\UpgradeFileNames;
 use PrestaShop\Module\AutoUpgrade\UpgradeContainer;
 
 class FilesystemAdapterTest extends TestCase
@@ -52,10 +53,38 @@ class FilesystemAdapterTest extends TestCase
         $this->filesystemAdapter = $this->container->getFilesystemAdapter();
     }
 
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->container->getFileStorage()->clean(UpgradeFileNames::UPDATE_CONFIG_FILENAME);
+    }
+
     public function testListFilesInDirForUpgrade()
     {
         $expected = $this->loadFixtureAndAddPrefixToFilePaths(
             __DIR__ . '/../../fixtures/listOfFiles-upgrade.json',
+            self::$pathToFakeRelease
+        );
+
+        $actual = $this->filesystemAdapter->listFilesInDir(
+            self::$pathToFakeRelease,
+            'upgrade',
+            true
+        );
+        // TODO: Should try using assertEqualsCanonicalizing after upgrade of PHPUnit
+        $this->assertEquals([], array_diff($expected, $actual), "There are more files in the expected array than in the actual list: \n" . implode("\n", array_diff($expected, $actual)));
+        $this->assertEquals([], array_diff($actual, $expected), "There are more files in the actual array than in the expected list: \n" . implode("\n", array_diff($actual, $expected)));
+    }
+
+    public function testListFilesInDirForUpgradeWithoutModules()
+    {
+        $configurationStorage = $this->container->getConfigurationStorage();
+        $configuration = $this->container->getUpdateConfiguration();
+        $configuration->merge([UpgradeConfiguration::SKIP_MODULES_STEPS => true]);
+        $configurationStorage->save($configuration);
+
+        $expected = $this->loadFixtureAndAddPrefixToFilePaths(
+            __DIR__ . '/../../fixtures/listOfFiles-upgrade-no-modules.json',
             self::$pathToFakeRelease
         );
 

@@ -136,6 +136,7 @@ class Analytics
                     'disable_non_native_modules' => $this->updateConfiguration->shouldDeactivateCustomModules(),
                     'uninstall_incompatible_modules' => $this->updateConfiguration->shouldUninstallNonCompatibleModules(),
                     'regenerate_customized_email_templates' => $this->updateConfiguration->shouldRegenerateMailTemplates(),
+                    'skip_modules_steps' => $this->updateConfiguration->shouldSkipModulesSteps(),
                 ];
                 $upgradeProperties = $this->properties[self::WITH_UPDATE_PROPERTIES] ?? [];
                 $additionalProperties = array_merge($upgradeProperties, $additionalProperties);

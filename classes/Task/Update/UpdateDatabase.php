@@ -82,9 +82,17 @@ class UpdateDatabase extends AbstractTask
 
             return ExitCode::FAIL;
         }
-        $this->next = TaskName::TASK_UPDATE_MODULES;
         $this->stepDone = true;
-        $this->logger->info($this->translator->trans('Database updated. Now updating your Addons modules...'));
+
+        if ($this->container->getUpdateConfiguration()->shouldSkipModulesSteps()) {
+            // UpdateModules is skipped, so the modules must be released from the quarantine here
+            $this->container->getQuarantineZone()->removeAll();
+            $this->next = TaskName::TASK_CLEAN_DATABASE;
+            $this->logger->info($this->translator->trans('Database updated. Now cleaning it...'));
+        } else {
+            $this->next = TaskName::TASK_UPDATE_MODULES;
+            $this->logger->info($this->translator->trans('Database updated. Now updating modules...'));
+        }
 
         return ExitCode::SUCCESS;
     }
@@ -131,7 +139,7 @@ class UpdateDatabase extends AbstractTask
 
         /* @see https://github.com/PrestaShop/PrestaShop/pull/35313 */
         if (version_compare('9.0.0', $this->container->getUpdateState()->getDestinationVersion(), '>')) {
-            if ($this->container->getUpdateConfiguration()->shouldDeactivateCustomModules()) {
+            if ($this->container->getUpdateConfiguration()->shouldDeactivateCustomModules() && !$this->container->getUpdateConfiguration()->shouldSkipModulesSteps()) {
                 $this->logger->info($this->container->getTranslator()->trans('Disabling all non native modules'));
                 $this->getCoreUpgrader()->disableCustomModules();
             } else {

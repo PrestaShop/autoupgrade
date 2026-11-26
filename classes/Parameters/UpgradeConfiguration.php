@@ -46,6 +46,7 @@ class UpgradeConfiguration extends ArrayCollection
     const ARCHIVE_VERSION_NUM = 'archive_version_num';
     const BACKUP_COMPLETED = 'backup_completed';
     const INSTALLED_LANGUAGES = 'installed_languages';
+    const SKIP_MODULES_STEPS = 'skip_modules_steps';
 
     const CHANNEL_ONLINE = 'online';
     const CHANNEL_ONLINE_RECOMMENDED = 'online_recommended';
@@ -63,6 +64,7 @@ class UpgradeConfiguration extends ArrayCollection
         self::ARCHIVE_ZIP,
         self::ARCHIVE_XML,
         self::ARCHIVE_VERSION_NUM,
+        self::SKIP_MODULES_STEPS,
     ];
 
     const PS_CONST_DEFAULT_VALUE = [
@@ -72,6 +74,7 @@ class UpgradeConfiguration extends ArrayCollection
         self::PS_AUTOUP_REGEN_EMAIL => true,
         self::PS_AUTOUP_KEEP_IMAGES => true,
         self::BACKUP_COMPLETED => null,
+        self::SKIP_MODULES_STEPS => false,
     ];
 
     const CONFIGURATION_KEYS_ABOUT_SHOP = [
@@ -228,6 +231,14 @@ class UpgradeConfiguration extends ArrayCollection
     public function shouldUninstallNonCompatibleModules(): bool
     {
         return $this->computeBooleanConfiguration(self::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS);
+    }
+
+    /**
+     * @return bool True if all the steps related to modules must be skipped (files, download, uninstall, update, deactivation)
+     */
+    public function shouldSkipModulesSteps(): bool
+    {
+        return $this->computeBooleanConfiguration(self::SKIP_MODULES_STEPS);
     }
 
     /**

@@ -112,6 +112,7 @@ class AnalyticsTest extends TestCase
                     'disable_non_native_modules' => false,
                     'uninstall_incompatible_modules' => true,
                     'regenerate_customized_email_templates' => true,
+                    'skip_modules_steps' => false,
                     'regenerate_rtl_stylesheet' => false,
                     'update_type' => 'patch',
                 ],

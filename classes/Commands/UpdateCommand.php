@@ -63,6 +63,7 @@ class UpdateCommand extends AbstractCommand
             ->addOption('uninstall-incompatible-modules', null, InputOption::VALUE_REQUIRED, 'Uninstall the modules incompatible with the new version of PrestaShop (1 for yes, 0 for no). Their configuration and data will be lost.')
             ->addOption('regenerate-email-templates', null, InputOption::VALUE_REQUIRED, "Regenerate email templates. If you've customized email templates, your changes will be lost if you activate this option (1 for yes, 0 for no)")
             ->addOption('disable-all-overrides', null, InputOption::VALUE_REQUIRED, 'Overriding is a way to replace business behaviors (class files and controller files) to target only one method or as many as you need. This option disables all classes & controllers overrides, allowing you to avoid conflicts during and after updates (1 for yes, 0 for no)')
+            ->addOption('skip-modules-steps', null, InputOption::VALUE_REQUIRED, 'Leave modules untouched during the update: their files are not replaced, and they are not disabled, checked, uninstalled or updated. Options related to modules are ignored (1 for yes, 0 for no)')
             ->addOption('config-file-path', null, InputOption::VALUE_REQUIRED, 'Configuration file location for update.')
             ->addOption('action', null, InputOption::VALUE_REQUIRED, 'Advanced users only. Sets the step you want to start from. Only the "' . TaskName::TASK_UPDATE_INITIALIZATION . '" task updates the configuration. (Default: ' . TaskName::TASK_UPDATE_INITIALIZATION . ', see ' . DocumentationLinks::getDevDocUpdateAssistantCliUrl() . ' for other values available)');
     }
@@ -186,6 +187,7 @@ class UpdateCommand extends AbstractCommand
             UpgradeConfiguration::PS_AUTOUP_UNINSTALL_NON_COMPAT_MODS => 'uninstall-incompatible-modules',
             UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL => 'regenerate-email-templates',
             UpgradeConfiguration::PS_DISABLE_OVERRIDES => 'disable-all-overrides',
+            UpgradeConfiguration::SKIP_MODULES_STEPS => 'skip-modules-steps',
         ];
         foreach ($options as $configKey => $optionName) {
             $optionValue = $input->getOption($optionName);
