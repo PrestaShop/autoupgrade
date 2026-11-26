@@ -123,6 +123,15 @@ class Unzip extends AbstractTask
             }
         }
 
+        $this->setNextStep();
+
+        $this->container->getFileSystem()->remove($newZip);
+
+        return ExitCode::SUCCESS;
+    }
+
+    private function setNextStep(): void
+    {
         if ($this->container->getUpdateConfiguration()->shouldSkipModulesSteps()) {
             $this->next = TaskName::TASK_UPDATE_FILES;
             $this->logger->warning($this->translator->trans('Modules step is skipped: modules will not be checked, uninstalled nor updated.'));
@@ -131,9 +140,5 @@ class Unzip extends AbstractTask
             $this->next = TaskName::TASK_DOWNLOAD_MODULES;
             $this->logger->info($this->translator->trans('File extraction complete. Now checking modules for updates...'));
         }
-
-        $this->container->getFileSystem()->remove($newZip);
-
-        return ExitCode::SUCCESS;
     }
 }

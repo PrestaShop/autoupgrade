@@ -64,6 +64,8 @@ class ConfigurationValidator
                 case UpgradeConfiguration::SKIP_MODULES_STEPS:
                     $error = $this->validateBool($value, $key);
                     break;
+                default:
+                    break;
             }
 
             if (isset($error)) {
