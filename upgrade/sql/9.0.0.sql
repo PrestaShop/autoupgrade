@@ -128,12 +128,12 @@ ALTER TABLE `PREFIX_product_shop` MODIFY COLUMN `redirect_type` ENUM(
     '404','410','301-product','302-product','301-category','302-category','200-displayed','404-displayed','410-displayed','default'
     ) NOT NULL DEFAULT 'default';
 
-/* Fixing duplicates for table "accessory" where can be duplicate records from older version of PrestaShop, because of missing PRIMARY index */
+/* Remove duplicate accessory pairs allowed by the missing primary key */
 /* https://github.com/PrestaShop/PrestaShop/pull/34530 */
-CREATE TABLE `PREFIX_accessory_tmp` SELECT DISTINCT `id_product_1`, `id_product_2` FROM `PREFIX_accessory`;
-ALTER TABLE `PREFIX_accessory_tmp` ADD CONSTRAINT accessory_product PRIMARY KEY (`id_product_1`, `id_product_2`);
-DROP TABLE `PREFIX_accessory`;
-RENAME TABLE `PREFIX_accessory_tmp` TO `PREFIX_accessory`;
+/* PHP:ps_900_remove_duplicate_accessories(); */;
+
+/* Enforce uniqueness of accessory pairs */
+ALTER TABLE `PREFIX_accessory` ADD CONSTRAINT accessory_product PRIMARY KEY (`id_product_1`, `id_product_2`);
 
 ALTER TABLE `PREFIX_stock_mvt` MODIFY `id_supply_order` INT(11) DEFAULT '0';
 
