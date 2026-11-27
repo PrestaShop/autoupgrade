@@ -208,7 +208,7 @@ class ChecksumCompare
                 }
                 $relative_path .= $child['name'];
 
-                $fullPath = $this->prodPath . DIRECTORY_SEPARATOR . $relative_path;
+                $fullPath = $this->prodPath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relative_path);
                 $fullPath = str_replace('ps_root_dir', $this->prodPath, $fullPath);
 
                 // replace default admin dir by current one
