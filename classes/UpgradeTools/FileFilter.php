@@ -153,24 +153,33 @@ class FileFilter
             '/override/modules',
         ];
 
+        $modulesFolder = '/modules';
+
+        // Leave the whole modules folder untouched, including native modules and new modules shipped with the release
+        if ($this->updateConfiguration->shouldSkipModulesSteps()) {
+            $this->excludeAbsoluteFilesFromUpgrade[] = $modulesFolder;
+
+            return $this->excludeAbsoluteFilesFromUpgrade;
+        }
+
         // Fetch all existing native modules
         $nativeModules = array_column(
             $this->composerService->getModulesInComposerLock($this->rootDir . '/composer.lock'),
             'name'
         );
 
-        if (is_dir($this->rootDir . '/modules')) {
-            $dir = new DirectoryIterator($this->rootDir . '/modules');
+        if (is_dir($this->rootDir . $modulesFolder)) {
+            $dir = new DirectoryIterator($this->rootDir . $modulesFolder);
             foreach ($dir as $fileinfo) {
                 if (!$fileinfo->isDir() || $fileinfo->isDot()) {
                     continue;
                 }
-                if (in_array($fileinfo->getFilename(), $nativeModules) && !(new SplFileInfo($this->rootDir . '/modules/' . $fileinfo->getFilename() . '/vendor'))->isDir()) {
+                if (in_array($fileinfo->getFilename(), $nativeModules) && !(new SplFileInfo($this->rootDir . $modulesFolder . '/' . $fileinfo->getFilename() . '/vendor'))->isDir()) {
                     // If a vendor folder is found in the module, this means it has been upgraded or manually installed
                     // and can be ignored during the upgrade process
                     continue;
                 }
-                $this->excludeAbsoluteFilesFromUpgrade[] = '/modules/' . $fileinfo->getFilename();
+                $this->excludeAbsoluteFilesFromUpgrade[] = $modulesFolder . '/' . $fileinfo->getFilename();
             }
         }
 

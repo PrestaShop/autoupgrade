@@ -61,7 +61,10 @@ class ConfigurationValidator
                 case UpgradeConfiguration::PS_AUTOUP_REGEN_EMAIL:
                 case UpgradeConfiguration::PS_AUTOUP_KEEP_IMAGES:
                 case UpgradeConfiguration::PS_DISABLE_OVERRIDES:
+                case UpgradeConfiguration::SKIP_MODULES_STEPS:
                     $error = $this->validateBool($value, $key);
+                    break;
+                default:
                     break;
             }
 
